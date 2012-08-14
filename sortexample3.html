@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><title>jQuery UI Touch Punch - Mobile Device Touch Event Support for jQuery UI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+
+	<link rel="stylesheet" type="text/css" href="css/dragdrop3.css" />
+	<link rel="stylesheet" type="text/css" href="stopwatch3.css" media="all" />
+	
+	<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+	<script src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script>
+	</head>
+	
+	<body>
+	<div class="container">
+
+	
+	
+	<style>
+        #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+        #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+        #sortable li span { position: absolute; margin-left: -1.3em; }
+	
+	#bluebox {background-color: lightblue;}
+	#sortable2 li{ cursor: move; margin: 5px; padding: 5px; font-size: 1.2em; width: 250px;  background: none; background-color: white;}
+        </style> 
+	
+	<script>
+	
+	$(function() {
+		$("ul.droptrue").sortable({
+			connectWith: 'ul',
+			opacity: 0.6,
+			update : updatePostOrder
+		});
+
+		$("#sortable1, #sortable2").disableSelection();
+		$("#sortable1, #sortable2").css('minHeight',$("#sortable1").height()+"px");
+		updatePostOrder();
+	});
+	
+	function updatePostOrder() { 
+		var arr = [];
+	  $("#sortable2 li").each(function(){
+	    arr.push($(this).attr('id'));
+	  });
+	  $('#postOrder').val(arr.join(','));
+  }
+  
+        </script>
+<ul id="controlsstart">
+<h2 id="timer">00:00:00.00</h2>
+<small id="labels">HOUR<span>MIN</span><span>SEC</span><span>1/100</span></small>
+				<li><a href="#" id="start" alternate="Stop">Start</a></li>
+				<li><a href="#" id="reset">Reset</a></li>
+</ul>
+<br />
+<br />
+	<div class="demo">
+	<ul id="sortable1" class='droptrue'>
+	<li class="ui-state-default"  id="article_1">
+		<ul id="controls">
+				<li><a href="#" id="stop" name="1" >Stop</a></li>
+				<li><a href="#" id="split" name="1" >Split</a></li>
+				
+			</ul>
+			<ul id="splits1">
+				<li></li>
+			</ul>Item 1 </li>
+	<li class="ui-state-default" id="article_2" >
+	<ul id="controls">
+				<li><a href="#" id="stop" name="2" >Stop</a></li>
+				<li><a href="#" id="split" name="2">Split</a></li>
+			</ul>
+
+			<ul id="splits2">
+				<li></li>
+			</ul>Item 2</li>
+	<li class="ui-state-default" id="article_3">
+		<ul id="controls">
+				<li><a href="#" id="stop" name="3" >Stop</a></li>
+				<li><a href="#" id="split" name="3">Split</a></li>
+			</ul>
+
+			<ul id="splits3">
+				<li></li>
+			</ul>Item 3</li>
+	<li class="ui-state-default" id="article_4">Item 4</li>
+	<li class="ui-state-default" id="article_5">Item 5</li>
+	<li class="ui-state-default" id="article_6">Item 6</li>
+	<li class="ui-state-default" id="article_7">Item 7</li>
+	</ul>
+	
+
+	<div id="bluebox">
+	<h2>Lane Order of Swimmers</h2>
+	<ul id="sortable2" class='droptrue'>
+	</ul>
+	</div>
+	</div>
+	
+	
+<input type="text" id="postOrder" name="postOrder" value="" size="30"><br /></div>
+
+<div id="hmtt"></div>
+
+
+</div>
+
+
+		<script type="text/javascript" src="jquery.scrollTo-min.js"></script>
+		<script type="text/javascript" src="stopwatch3.js"></script>
+
+  </body>
+  </html>
+  
