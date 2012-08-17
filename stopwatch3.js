@@ -120,12 +120,23 @@ var MasterWatch = function() {
 		this.display();
 		
 		this.$start.text(this.startText);
+		
 //	needs moving to per swimmer splits function
-		this.$splits.slideUp('fast', function() {
-		this.$splits.empty();
+		//liverestids = [1,2,3];
+			//activeswimmers
+console.log('how much is viewable in masterstop watch from outside classes');		
+console.log(starttiming.activetimeclock.activesplitter);		
+		starttiming.activetimeclock.activesplitter.forEach(function(restswimid)
+			{
+console.log(restswimid);				
+			$splivereset = $('#splits'+restswimid);
+			//$splivereset.slideUp('fast', function() {
+				$splivereset.empty();
+//			});	
 		});
 		// and this needs move to per swimmer basis
 		this.t[7] = 0;
+		starttiming.activetimeclock.spid = 0;
 		
 		return false;
 	},
@@ -217,6 +228,22 @@ var PerSwimmer = function() {
 console.log('what id is present ??');
 console.log(this.splitidlive);			
   	
+// keep track of the live split swimmers that are active
+			if(!this.activesplitter)
+			{
+			this.activesplitter = [];
+			}
+// keep track of how many times the stop button has been click
+			if(!this.stoppedlist)
+			{
+			this.stoppedlist = [];
+			}
+			
+			if(!this.activesplitter[this.splitidlive]){
+				this.activesplitter.push(this.splitidlive);
+			}
+			
+			
 // need to defin array for all local split stop times array
 			if(!this.spid)
 			{
@@ -282,9 +309,15 @@ console.log(this.t);
 			$($splitslive).find('li:first').addClass('first').end().find('li:last').addClass('last');
 			
 			this.t[1] = 0;
-				
+			this.stoppedlist.push(stoploc);
 			this.startclock.display();
 		}
+// lastly if all the stop buttons have been pressed stop the mainstopwatch.
+	if(this.stoppedlist == this.activesplitter){
+	// stop the main stopwatch
+		clearInterval(this.t[4]);
+		
+	}	
 		
 	},
 
@@ -335,7 +368,7 @@ console.log('start new timer object');
 
 // need to identify active swimmer from UI
 activeswimmers = [];
-activeswimmers = [2,5,9];
+activeswimmers = [1,2,3];
 
 starttiming = new SwimtimeController(activeswimmers);
 	
