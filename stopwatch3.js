@@ -313,10 +313,30 @@ console.log(this.t);
 			this.startclock.display();
 		}
 // lastly if all the stop buttons have been pressed stop the mainstopwatch.
-	if(this.stoppedlist == this.activesplitter){
+		this.lookup = {};
+		this.ll = 0;
+		this.list3 = [];
+		 for (var j in this.activesplitter) {
+      this.lookup[this.activesplitter[j]] = this.activesplitter[j];
+		}
+		  for (var i in this.stoppedlist) {
+      if (typeof this.lookup[this.stoppedlist[i]] != 'undefined') {
+          console.log('found ' + this.stoppedlist[i] + ' in both lists');
+
+console.log(this.ll);				
+				this.list3[this.ll] = this.stoppedlist[i]
+			this.ll++	
+ } 		
+ }
+console.log('array to compare');
+console.log(this.list3);
+console.log(this.activesplitter);
+ 
+ 
+	if(this.list3.length == (this.activesplitter.length-1)){
 	// stop the main stopwatch
+console.log('all watches have been stopped');		
 		clearInterval(this.t[4]);
-		
 	}	
 		
 	},
