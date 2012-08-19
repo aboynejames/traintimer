@@ -270,108 +270,125 @@ console.log('should be only first time set of this');
 	
 	this.stop = function(stoploc) {
 
-// form stop location div
-		$splitslive = '#splits'+stoploc;
-//console.log($splitslive);
-		$stoplive = '#stop'+stoploc;
-//console.log($stoplive);
-		this.t =  this.startclock.t;
-console.log('reform t from master clock');
-console.log(this.t);
+// contorl logic, has the main timer been started? If you proceed if not do nothing.		
+	if(this.startclock.t[1] == 0) {
+		// nothing start do nothing.
+	}
+	else
+	{
 		
-		this.t[this.t[2]] = (+new Date()).valueOf();
-console.log(this.t[this.t[2]]);
-console.log('stop function called');		
-console.log(this.t);
-// need to make this stop logic local to this swimmer
-		this.spid[this.splitidlive][0] = 1 - this.spid[this.splitidlive][0];
-
-console.log(this.t);
 		
-			if (this.spid[this.splitidlive][0] == 0) {
+	// form stop location div
+			$splitslive = '#splits'+stoploc;
+	//console.log($splitslive);
+			$stoplive = '#stop'+stoploc;
+	//console.log($stoplive);
+			this.t =  this.startclock.t;
+	console.log('reform t from master clock');
+	console.log(this.t);
 			
-// the master clock should not be cleared unless this is the last swimmerid to be stopped.				
-				//clearInterval(this.t[4]);
+			this.t[this.t[2]] = (+new Date()).valueOf();
+	console.log(this.t[this.t[2]]);
+	console.log('stop function called');		
+	console.log(this.t);
+	// need to make this stop logic local to this swimmer
+			this.spid[this.splitidlive][0] = 1 - this.spid[this.splitidlive][0];
+
+	console.log(this.t);
+			
+				if (this.spid[this.splitidlive][0] == 0) {
 				
-// make the total time elasped in ms local to this swimerid				
-			this.spid[this.splitidlive][1]+= this.t[1] - this.t[0];
-console.log('is $start being formed???');				
-console.log(this.startclock.$start);			
-			(this.startclock.$start).text(this.startclock.startText);
-			
-// make this stop/split id local to this swimmer				
-			this.spid[this.splitidlive][2]++;
-console.log('t2 not equal to zero in stop');
-console.log(this.t);
-			$($splitslive).show();
-			$('<li><span>' + this.startclock.zero(this.spid[this.splitidlive][2]) + '</span> ' + this.startclock.format(this.spid[this.splitidlive][1]) + '</li>').appendTo($($splitslive)).slideDown('fast');
-			$($splitslive).find('li').removeClass('first last');
-			$($splitslive).find('li:first').addClass('first').end().find('li:last').addClass('last');
-			
-			this.t[1] = 0;
-			this.stoppedlist.push(stoploc);
-			this.startclock.display();
-		}
-// lastly if all the stop buttons have been pressed stop the mainstopwatch.
-		this.lookup = {};
-		this.ll = 0;
-		this.list3 = [];
-		 for (var j in this.activesplitter) {
-      this.lookup[this.activesplitter[j]] = this.activesplitter[j];
-		}
-		  for (var i in this.stoppedlist) {
-      if (typeof this.lookup[this.stoppedlist[i]] != 'undefined') {
-          console.log('found ' + this.stoppedlist[i] + ' in both lists');
+	// the master clock should not be cleared unless this is the last swimmerid to be stopped.				
+					//clearInterval(this.t[4]);
+					
+	// make the total time elasped in ms local to this swimerid				
+				this.spid[this.splitidlive][1]+= this.t[1] - this.t[0];
+	console.log('is $start being formed???');				
+	console.log(this.startclock.$start);			
+				(this.startclock.$start).text(this.startclock.startText);
+				
+	// make this stop/split id local to this swimmer				
+				this.spid[this.splitidlive][2]++;
+	console.log('t2 not equal to zero in stop');
+	console.log(this.t);
+				$($splitslive).show();
+				$('<li><span>' + this.startclock.zero(this.spid[this.splitidlive][2]) + '</span> ' + this.startclock.format(this.spid[this.splitidlive][1]) + '</li>').appendTo($($splitslive)).slideDown('fast');
+				$($splitslive).find('li').removeClass('first last');
+				$($splitslive).find('li:first').addClass('first').end().find('li:last').addClass('last');
+				
+				this.t[1] = 0;
+				this.stoppedlist.push(stoploc);
+				this.startclock.display();
+			}
+	// lastly if all the stop buttons have been pressed stop the mainstopwatch.
+			this.lookup = {};
+			this.ll = 0;
+			this.list3 = [];
+			 for (var j in this.activesplitter) {
+				this.lookup[this.activesplitter[j]] = this.activesplitter[j];
+			}
+				for (var i in this.stoppedlist) {
+				if (typeof this.lookup[this.stoppedlist[i]] != 'undefined') {
+						console.log('found ' + this.stoppedlist[i] + ' in both lists');
 
-console.log(this.ll);				
-				this.list3[this.ll] = this.stoppedlist[i]
-			this.ll++	
- } 		
- }
-console.log('array to compare');
-console.log(this.list3);
-console.log(this.activesplitter);
- 
- 
-	if(this.list3.length == (this.activesplitter.length-1)){
-	// stop the main stopwatch
-console.log('all watches have been stopped');		
-		clearInterval(this.t[4]);
+	console.log(this.ll);				
+					this.list3[this.ll] = this.stoppedlist[i]
+				this.ll++	
+	 } 		
+	 }
+	console.log('array to compare');
+	console.log(this.list3);
+	console.log(this.activesplitter);
+	 
+	 
+		if(this.list3.length == (this.activesplitter.length-1)){
+		// stop the main stopwatch
+	console.log('all watches have been stopped');		
+			clearInterval(this.t[4]);
+		}	
 	}	
-		
 	},
 
 	
 	this.split = function(spidin) {
 console.log('split clicked');	
 
-	this.t =  this.startclock.t;	
+	// contorl logic, has the main timer been started? If you proceed if not do nothing.		
+	if(this.startclock.t[1] == 0) {
+		// nothing start do nothing.
+	}
+	else
+	{	
 		
-console.log(this.t);
-	//form div id
-	$splive = '#splits'+spidin;
-console.log($splive);		
 		
-// need array to hold each swimmer id along with their times/splits info.
-console.log('the local split/time array data');	
-console.log(this.spid);
-console.log(this.spid[1]);	
-this.t[2] = 1;		
-		if (this.t[2] !== 0) {
-			this.spid[spidin][2]++;
+		this.t =  this.startclock.t;	
 			
-console.log('from within if in split');	
-console.log(this.spid);
-console.log(this.spid[1]);				
+	console.log(this.t);
+		//form div id
+		$splive = '#splits'+spidin;
+	console.log($splive);		
 			
+	// need array to hold each swimmer id along with their times/splits info.
+	console.log('the local split/time array data');	
+	console.log(this.spid);
+	console.log(this.spid[1]);	
+	this.t[2] = 1;		
+			if (this.t[2] !== 0) {
+				this.spid[spidin][2]++;
+				
+	console.log('from within if in split');	
+	console.log(this.spid);
+	console.log(this.spid[1]);				
+				
+				
+				$($splive).show();
+				$('<li><span>' + this.startclock.zero(this.spid[spidin][2]) + '</span> ' + this.startclock.format(this.t[3] + this.t[1] - this.t[0]) + '</li>').appendTo($($splive)).slideDown('fast');
+				$($splive).find('li').removeClass('first last');
+				$($splive).find('li:first').addClass('first').end().find('li:last').addClass('last');
+			}
 			
-			$($splive).show();
-			$('<li><span>' + this.startclock.zero(this.spid[spidin][2]) + '</span> ' + this.startclock.format(this.t[3] + this.t[1] - this.t[0]) + '</li>').appendTo($($splive)).slideDown('fast');
-			$($splive).find('li').removeClass('first last');
-			$($splive).find('li:first').addClass('first').end().find('li:last').addClass('last');
-		}
-		
-		return false;
+			return false;
+		}	
 	}
 
 	
