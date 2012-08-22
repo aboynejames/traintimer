@@ -22,6 +22,7 @@ handle["/css"] = requestHandlers.dragdrop3;
 handle["/jquery.scrollTo-min.js"] = requestHandlers.scrollmin;
 handle["/stopwatch3.css"] = requestHandlers.stopwatchcss;
 handle["/stopwatch3.js"] = requestHandlers.stopwatch3;
+handle["/save"] = requestHandlers.saveswimtimes;
 
 //console.log(util.inspect(router));	
 

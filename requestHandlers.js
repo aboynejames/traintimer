@@ -1,6 +1,7 @@
 var querystring = require("querystring");
 var fs = require("fs");
 var util = require('util');
+var http = require('http');
 
 function start(fullpath, response) {
   console.log("Request handler 'start' was called.");
@@ -78,8 +79,69 @@ function stopwatchcss(fullpath, response) {
       
 }
 
+function saveswimtimes(fullpath, response, request) {
+  console.log("Request handler 'saveswimtimes' was called");
+ if(request.method == 'POST'){
+			 
+		var datain = '';
+		var cleandata = '';
+		request.on('data', function(chunk) {
+			datain += chunk;
+			cleandata = querystring.parse(datain);
+console.log('we have save next stage is to save to couch');
+console.log(datain);
+console.log(cleandata);		
+					
+// now pass on that data to couch via a PUT API call					
+		var opts = {
+    host: 'localhost',
+    port: 5984,
+    method: 'PUT',
+    path: '/traintimer/cd69f4aa9ba14b39b96e2519787798yb',
+    headers: {}
+		};
+	
+	// JSON encoding
+		opts.headers['Content-Type'] = 'application/json';
+		data = JSON.stringify(cleandata);//JSON.stringify(req.data);
+		opts.headers['Content-Length'] = data.length;
+		rec_data = '';
+	
+				var reqc = http.request(opts, function(responsec) {
+		
+				responsec.on('data', function(chunk) {
+				rec_data += chunk;
+				});
+					
+				responsec.on('end', function() {
+	console.log('any response data from couch??');	
+	console.log(rec_data);
+				});
+				
+			});
+			
+			reqc.on('error', function(e) {
+console.log(e);
+console.log("Got error: " + e.message);
+			});
+
+		// write the data
+		if (opts.method == 'PUT') {
+		console.log('post has been sent');	
+			reqc.write(data);
+		}
+		reqc.end();					
+
+		response.end();					
+					
+		});
+	}
+      
+}
+
 exports.start = start;
 exports.stopwatch3 = stopwatch3;
 exports.dragdrop3 = dragdrop3;
 exports.scrollmin = scrollmin;
 exports.stopwatchcss = stopwatchcss;
+exports.saveswimtimes = saveswimtimes;
