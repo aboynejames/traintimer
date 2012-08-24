@@ -13,15 +13,30 @@ function start(fullpath, response) {
 	//response.write(data);
 	  response.end(data);
       });	
+     
+}
 
-  //fs.readFile('./stopwatch3.js', 'utf8', function(err, data) {
-	//response.writeHead(200, {"Content-Type": "text/html"});
+function buildswimmers(fullpath, response) {
+  console.log("build the swimmer for this lane");
 
-	//response.write(data);
-     // });
-      
-//response.writeHead(200, {"Content-Type": "text/html"});
-//response.end(data);
+// query couch for list of swimmer, then make HTML
+	var swimstarters = '<li class="ui-state-default"  id="swimmer_1">Swimmer 1 HR<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
+	swimstarters +=	'<ul id="controls">';
+	swimstarters +=	'<li><a href="#" id="stop" name="1" >Stop</a></li>';
+	swimstarters +=	'<li><a href="#" id="split" name="1" >Split</a></li>';
+	swimstarters +=	'</ul>';
+	swimstarters +=	'<ul id="splits1">';
+	swimstarters +=	'<li></li>';
+	swimstarters +=	'</ul></li>';
+swimstarters += '<li class="ui-state-default"  id="swimmer_2">Swimmer 2 HR<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
+	swimstarters +=	'<ul id="controls">';
+	swimstarters +=	'<li><a href="#" id="stop" name="2" >Stop</a></li>';
+	swimstarters +=	'<li><a href="#" id="split" name="2" >Split</a></li>';
+	swimstarters +=	'</ul>';
+	swimstarters +=	'<ul id="splits2">';
+	swimstarters +=	'<li></li>';
+	swimstarters +=	'</ul></li>';	
+	response.end(swimstarters);
       
 }
 
@@ -145,3 +160,4 @@ exports.dragdrop3 = dragdrop3;
 exports.scrollmin = scrollmin;
 exports.stopwatchcss = stopwatchcss;
 exports.saveswimtimes = saveswimtimes;
+exports.buildswimmers = buildswimmers;

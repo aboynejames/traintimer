@@ -51,11 +51,28 @@
 			break;
 				
 			case "save":	
+					swimdate = $("#swimdate").text();
+console.log(swimdate);	
+									swimstyle = $("#swimstyle").val();
+console.log(swimstyle);	
+									swimstroke = $("#swimstroke").val();
+console.log(swimstroke);	
+									swimtechnique = $("#swimtechnique").val();
+console.log(swimtechnique);	
+									swimdistance = $("#swimdistance").val();
+console.log(swimdistance);
+									swimsplit = $("#swimsplit").val();
+console.log(swimsplit);	
 				// how about just routing to /save url for node to pick up the request?
 				//txt={"swimmerid": "swimmer99"};
 				txt = {};
-				txt['splittimes'] =  this.activetimeclock.sparray;
-			$.post("/save", txt ,function(result){
+				txtstring =  JSON.stringify(this.activetimeclock.sparray);
+		//			txt = { '1': [ '1207', '3781', '6272', '8961' ],
+  //'2': [ '1910', '4648', '7116', '9620' ],
+  //'3': [ '2677', '5467', '8024', '10537' ] };
+	//txtstring = JSON.stringify(txt);
+console.log(txtstring);
+			$.post("/save", txtstring ,function(result){
 				// put a message back to UI to tell of a successful save TODO
 			});
 			break;
@@ -438,26 +455,91 @@ console.log(this.t);
 $(document).ready(function(){
 
 console.log('start new timer object');	
+	var today = new Date();
+	
+		$("ul.droptrue").sortable({
+			connectWith: 'ul',
+			opacity: 0.6,
+			update : updatePostOrder
+		});
 
+		$("#sortable1, #sortable2").disableSelection();
+		$("#sortable1, #sortable2").css('minHeight',$("#sortable1").height()+"px");
+		updatePostOrder();
+		
+		$("#swimdate").text(today);
+		$("#sortable1").load("/buildswimmers");
+		
+		$("#addswimmer").click(function () {
+ 			addswimform = '<form method="post" action="#" id="newmasteradd" >Name<input type="text" name="swimmername"  size="12" />MID<input type="number" name="mastersid"  size="6" />	<input type="submit" value="Add Swimmer" id="newmasteradd" /></form>';
+			$("#newmaster").html(addswimform);
+				$("#newmaster").show();
+    });
+
+// add swimmer form produced after default layout therefore need to delegate to existing DOM element		
+			$("#newmaster").click(function (e) {
+				//$("#newmasteradd").click(function (e) {
+console.log('save new swimmer clicked');					
+console.log(e);					
+				e.preventDefault(e);
+				
+				 var $tgt = $(e.target);
+
+        if ($tgt.is("#newmasteradd")) {
+				$("#newmaster").hide();
+				$("#saveconfirmswimmer").text('new master added');
+							$("#saveconfirmswimmer").show();
+					$("#saveconfirmswimmer").fadeOut("slow");
+
+				}
+				});
+		
+	function updatePostOrder() { 
+		var arr = [];
+	  $("#sortable2 .ui-state-default").each(function(){
+	    arr.push($(this).attr('id'));
+	  });
+	  $('#postOrder').val(arr.join(','));
+  }
+	
+	
 // need to identify active swimmer from UI
 activeswimmers = [];
 activeswimmers = [1,2,3];
 
+	
 starttiming = new SwimtimeController(activeswimmers);
 	
 // need to identify which swimmers css markup has been click
 	$("a").click(function(e){
-console.log(this);        
-	e.preventDefault(e);
-	idclick = $(this).attr("id");
-  idname = $(this).attr("name");
-$("#hmtt").text(idname);
+	   e.preventDefault(e);
 
+		// dgatea = $swtgt.is("a");
+		 idclick = $(this).attr("id");
+     idname = $(this).attr("name");	
+	
 console.log(idclick);
 console.log(idname);
-// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
-	starttiming.identifyswimmer(idname, idclick);
-
+   // pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
+	  starttiming.identifyswimmer(idname, idclick);
+		
+	});	
+	
+	$("#sortable1").click(function (e) {
+		//$("a").click(function(e){
+	   e.preventDefault(e);
+		 var $swtgt = $(e.target);
+console.log('find value of delegate');			
+console.log($swtgt);	
+		 if ($swtgt.is("a")) {
+			idclick = $swtgt.attr("id");
+			idname =$swtgt.attr("name");	
+	
+console.log(idclick);
+console.log(idname);
+   // pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
+			starttiming.identifyswimmer(idname, idclick);
+		 }
 	});
 	
 console.log('start whole app');		
