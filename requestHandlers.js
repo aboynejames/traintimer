@@ -19,21 +19,23 @@ function start(fullpath, response) {
 function buildswimmers(fullpath, response) {
   console.log("build the swimmer for this lane");
 
+// query couch to get existing save swimmers (could be in groups e.g. lane swimmers)	
+	
 // query couch for list of swimmer, then make HTML
-	var swimstarters = '<li class="ui-state-default"  id="swimmer_1">Swimmer 1 HR<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
+	var swimstarters = '<li class="ui-state-default"  id="500101">Swimmer 1 HR<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
 	swimstarters +=	'<ul id="controls">';
-	swimstarters +=	'<li><a href="#" id="stop" name="1" >Stop</a></li>';
-	swimstarters +=	'<li><a href="#" id="split" name="1" >Split</a></li>';
+	swimstarters +=	'<li><a href="#" id="stop" name="500101" >Stop</a></li>';
+	swimstarters +=	'<li><a href="#" id="split" name="500101" >Split</a></li>';
 	swimstarters +=	'</ul>';
-	swimstarters +=	'<ul id="splits1">';
+	swimstarters +=	'<ul id="splits500101">';
 	swimstarters +=	'<li></li>';
 	swimstarters +=	'</ul></li>';
-swimstarters += '<li class="ui-state-default"  id="swimmer_2">Swimmer 2 HR<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
+swimstarters += '<li class="ui-state-default"  id="500102">Swimmer 2 HR<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
 	swimstarters +=	'<ul id="controls">';
-	swimstarters +=	'<li><a href="#" id="stop" name="2" >Stop</a></li>';
-	swimstarters +=	'<li><a href="#" id="split" name="2" >Split</a></li>';
+	swimstarters +=	'<li><a href="#" id="stop" name="500102" >Stop</a></li>';
+	swimstarters +=	'<li><a href="#" id="split" name="500102" >Split</a></li>';
 	swimstarters +=	'</ul>';
-	swimstarters +=	'<ul id="splits2">';
+	swimstarters +=	'<ul id="splits500102">';
 	swimstarters +=	'<li></li>';
 	swimstarters +=	'</ul></li>';	
 	response.end(swimstarters);
@@ -106,6 +108,12 @@ function saveswimtimes(fullpath, response, request) {
 console.log('we have save next stage is to save to couch');
 console.log(datain);
 console.log(cleandata);		
+			
+// before saving need split into individaul swimmer data chunks and then save
+//cleandata.forEach(function(swimsplitsdata){
+//console.log('for each swimmer data');
+//console.log(swimsplitsdata);	
+//});			
 					
 // now pass on that data to couch via a PUT API call					
 		var opts = {

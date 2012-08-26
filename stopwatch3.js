@@ -15,10 +15,9 @@
 * Record swimmer controller class
 *
 */
- function SwimtimeController (theswimmers) {
+ function SwimtimeController () {
 //console.log('the swimmer controller');	 
-	this.activeswimmers = theswimmers;
-//console.log(this.activeswimmers);	 
+
 	 	  this.activetimeclock = new PerSwimmer();
 	 
 // need to set id of the swimmer thats split or stop has been click on the UI
@@ -63,17 +62,28 @@ console.log(swimtechnique);
 console.log(swimdistance);
 									swimsplit = $("#swimsplit").val();
 console.log(swimsplit);	
+// form swim data
+swimdatastatus = {};
+swimdatastatus['swimdate'] = swimdate;
+swimdatastatus['swimstroke'] = swimstroke;
+swimdatastatus['swimtechnique'] = swimtechnique;
+swimdatastatus['swimdistance'] = swimdistance;
+swimdatastatus['swimsplit'] = swimsplit;
+console.log(swimdatastatus);
 				// how about just routing to /save url for node to pick up the request?
 				//txt={"swimmerid": "swimmer99"};
-				txt = {};
-				txtstring =  JSON.stringify(this.activetimeclock.sparray);
+				stxt = {};
+				stxt['swimstatus'] = swimdatastatus;
+				stxt['splitdata'] = this.activetimeclock.sparray;		
+				stxtstring =  JSON.stringify(stxt);
 		//			txt = { '1': [ '1207', '3781', '6272', '8961' ],
   //'2': [ '1910', '4648', '7116', '9620' ],
   //'3': [ '2677', '5467', '8024', '10537' ] };
 	//txtstring = JSON.stringify(txt);
-console.log(txtstring);
-			$.post("/save", txtstring ,function(result){
+console.log(stxtstring);
+			$.post("/save", stxtstring ,function(result){
 				// put a message back to UI to tell of a successful save TODO
+				
 			});
 			break;
 				
@@ -214,6 +224,23 @@ var MasterWatch = function() {
 	},
 	
 	this.startStop = function() {
+// need to identify active swimmers from UI
+this.activeswimmers = [];
+var noswimmerlive = $("a#stop").length;
+console.log('the number of #stop ids in live');		
+console.log(noswimmerlive);
+console.log('the number of #stop ids in live');		
+
+		var listactives = [];
+	  $("#sortable1 .ui-state-default").each(function(){
+	    listactives.push($(this).attr('id'));
+	  });
+console.log(listactives);
+countswimmers = listactives.length;
+console.log(countswimmers);		
+this.activeswimmers = listactives;
+
+		
 //console.log('start of start');		
 //console.log(this.t);	
 		this.t[this.t[2]] = (+new Date()).valueOf();
@@ -393,7 +420,7 @@ console.log(this.activesplitter);
 console.log(this.lookup);
 	*/
 	 
-		if(this.stoppedlist.length == (activeswimmers.length)){
+		if(this.stoppedlist.length == (this.startclock.activeswimmers.length)){
 		// stop the main stopwatch
 console.log('all watches have been stopped');		
 			clearInterval(this.t[4]);
@@ -471,7 +498,7 @@ console.log('start new timer object');
 		$("#sortable1").load("/buildswimmers");
 		
 		$("#addswimmer").click(function () {
- 			addswimform = '<form method="post" action="#" id="newmasteradd" >Name<input type="text" name="swimmername"  size="12" />MID<input type="number" name="mastersid"  size="6" />	<input type="submit" value="Add Swimmer" id="newmasteradd" /></form>';
+ 			addswimform = '<form method="post" action="#" id="newmasteradd" >Name<input type="text" id="newmastid" name="swimmername"  size="12" />MID<input type="number" id="newmidid" name="mastersid"  size="6" />	<input type="submit" value="Add Swimmer" id="newmasteradd" /></form>';
 			$("#newmaster").html(addswimform);
 				$("#newmaster").show();
     });
@@ -484,12 +511,26 @@ console.log(e);
 				e.preventDefault(e);
 				
 				 var $tgt = $(e.target);
-
+console.log('what tgt look like?');
+console.log($tgt.attr("name"));				
         if ($tgt.is("#newmasteradd")) {
+newmastnameis = $("#newmasteradd input#newmastid ").val();
+newmastidis = $("#newmasteradd input#newmidid ").val();					
 				$("#newmaster").hide();
+// add html code for new swimmer added
+var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">'+ newmastnameis +' HR<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
+	newswimcode +=	'<ul id="controls">';
+	newswimcode +=	'<li><a href="#" id="stop" name="'+ newmastidis +'" >Stop</a></li>';
+	newswimcode +=	'<li><a href="#" id="split" name="'+ newmastidis +'" >Split</a></li>';
+	newswimcode +=	'</ul>';
+	newswimcode +=	'<ul id="splits'+ newmastidis +'">';
+	newswimcode +=	'<li></li>';
+	newswimcode +=	'</ul></li>';
+					
+				$("#sortable1").append(newswimcode);
 				$("#saveconfirmswimmer").text('new master added');
-							$("#saveconfirmswimmer").show();
-					$("#saveconfirmswimmer").fadeOut("slow");
+				$("#saveconfirmswimmer").show();
+				$("#saveconfirmswimmer").fadeOut("slow");
 
 				}
 				});
@@ -501,14 +542,10 @@ console.log(e);
 	  });
 	  $('#postOrder').val(arr.join(','));
   }
-	
-	
-// need to identify active swimmer from UI
-activeswimmers = [];
-activeswimmers = [1,2,3];
+
 
 	
-starttiming = new SwimtimeController(activeswimmers);
+starttiming = new SwimtimeController();
 	
 // need to identify which swimmers css markup has been click
 	$("a").click(function(e){
