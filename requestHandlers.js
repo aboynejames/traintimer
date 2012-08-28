@@ -22,7 +22,8 @@ function buildswimmers(fullpath, response) {
 // query couch to get existing save swimmers (could be in groups e.g. lane swimmers)	
 	
 // query couch for list of swimmer, then make HTML
-	var swimstarters = '<li class="ui-state-default"  id="500101">Swimmer 1 HR<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
+	var swimstarters = '<li class="ui-state-default"  id="500101">Swimmer 1 HR';
+	swimstarters += '<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
 	swimstarters +=	'<ul id="controls">';
 	swimstarters +=	'<li><a href="#" id="stop" name="500101" >Stop</a></li>';
 	swimstarters +=	'<li><a href="#" id="split" name="500101" >Split</a></li>';

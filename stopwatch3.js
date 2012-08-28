@@ -175,6 +175,8 @@ var MasterWatch = function() {
 			$splivereset = $('#splits'+restswimid);
 			//$splivereset.slideUp('fast', function() {
 				$splivereset.empty();
+				  $splivereset.append("<li></li>");
+
 //			});	
 				// reset the local splitter array holder for each swimmer
 
@@ -518,10 +520,11 @@ newmastnameis = $("#newmasteradd input#newmastid ").val();
 newmastidis = $("#newmasteradd input#newmidid ").val();					
 				$("#newmaster").hide();
 // add html code for new swimmer added
-var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">'+ newmastnameis +' HR<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
+var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">';
+					newswimcode += newmastnameis + ' HR<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
 	newswimcode +=	'<ul id="controls">';
-	newswimcode +=	'<li><a href="#" id="stop" name="'+ newmastidis +'" >Stop</a></li>';
-	newswimcode +=	'<li><a href="#" id="split" name="'+ newmastidis +'" >Split</a></li>';
+	newswimcode +=	'<li> <br /><a href="#" id="stop" name="'+ newmastidis +'" >Stop</a></li>';
+	newswimcode +=	'<li> <br /><a href="#" id="split" name="'+ newmastidis +'" >Split</a></li>';
 	newswimcode +=	'</ul>';
 	newswimcode +=	'<ul id="splits'+ newmastidis +'">';
 	newswimcode +=	'<li></li>';

@@ -1,9 +1,15 @@
 html {overflow:-moz-scrollbars-vertical !important;}
 body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
+
+.clear {clear:both;}
+
 #container {position:relative; z-index:100; width:265px; padding:20px; margin:20px auto 0; border:8px solid rgba(0, 0, 0, 0.5); border-radius:8px; -moz-border-radius:8px; -webkit-border-radius:8px; background:#EEE;}
+#masterclock {display:block; height: 100px;  text-align:left; color:#999; text-decoration:none; outline:1;}	
+#swimsettings {display:block; text-align:left; color:#999; text-decoration:none; outline:2;}	
+
 #timer {margin:0; font-size:48px; line-height:48px; color:#C00; text-shadow:#FFF 0 1px 0;}
 #controls {height:25px; margin:0 0 20px; padding:0; list-style:none;}
-#controls li {display:inline; float:left; margin-right:5px;}
+#controls li {display:inline; float:left; margin:5px;}
 #controls li:last-child, #controls li.last {margin-right:0;}
 #controls li a {display:block; width:85px; text-align:center; line-height:24px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none;}
 			 #start {background:#090;}
