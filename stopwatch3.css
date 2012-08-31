@@ -5,6 +5,7 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 
 #container {position:relative; z-index:100; width:265px; padding:20px; margin:20px auto 0; border:8px solid rgba(0, 0, 0, 0.5); border-radius:8px; -moz-border-radius:8px; -webkit-border-radius:8px; background:#EEE;}
 #masterclock {display:block; height: 100px;  text-align:left; color:#999; text-decoration:none; outline:1;}	
+#swimadmin {display:block; clear: both; text-align:left; color:#999; text-decoration:none; outline:0;}	
 #swimsettings {display:block; text-align:left; color:#999; text-decoration:none; outline:2;}	
 
 #timer {margin:0; font-size:48px; line-height:48px; color:#C00; text-shadow:#FFF 0 1px 0;}

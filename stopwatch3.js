@@ -76,10 +76,6 @@ console.log(swimdatastatus);
 				stxt['swimstatus'] = swimdatastatus;
 				stxt['splitdata'] = this.activetimeclock.sparray;		
 				stxtstring =  JSON.stringify(stxt);
-		//			txt = { '1': [ '1207', '3781', '6272', '8961' ],
-  //'2': [ '1910', '4648', '7116', '9620' ],
-  //'3': [ '2677', '5467', '8024', '10537' ] };
-	//txtstring = JSON.stringify(txt);
 console.log(stxtstring);
 			$.post("/save", stxtstring ,function(result){
 				// put a message back to UI to tell of a successful save TODO
@@ -147,6 +143,11 @@ var MasterWatch = function() {
 	
 
 	this.reset = function() {
+		// re enable the drag and drop sorting
+		//$("#sortable1").removeClass("droptrue ui-sortable ui-sortable-disabled");
+		//$("#sortable1").sortable("enable");
+$("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disabled", false );	
+		
 		// this needs updated to clear all splits for multiple active swimmers
 		
 		if (this.t[2]) {
@@ -226,6 +227,10 @@ var MasterWatch = function() {
 	},
 	
 	this.startStop = function() {
+// disable drag and drop when start press, then reset when stopped.
+//$("#sortable1").sortable("disable");
+$("#sortable1").sortable( "option", "disabled", true );			
+		
 // need to identify active swimmers from UI
 this.activeswimmers = [];
 var noswimmerlive = $("a#stop").length;
@@ -516,8 +521,23 @@ console.log(e);
 console.log('what tgt look like?');
 console.log($tgt.attr("name"));				
         if ($tgt.is("#newmasteradd")) {
-newmastnameis = $("#newmasteradd input#newmastid ").val();
-newmastidis = $("#newmasteradd input#newmidid ").val();					
+					
+					newmastnameis = $("#newmasteradd input#newmastid ").val();
+					newmastidis = $("#newmasteradd input#newmidid ").val();	
+					
+// need to save new master to couch, name and masters id,  validate unique ID number
+					firstsavenewmaster = {};
+					firstsavenewmaster['name'] = newmastnameis;
+					firstsavenewmaster['swimmerid'] = newmastidis;
+					jsonfirstsavenewmaster =  JSON.stringify(firstsavenewmaster);
+console.log('new member jsson');
+console.log(jsonfirstsavenewmaster);					
+					$.post("/save", jsonfirstsavenewmaster ,function(result){
+				// put a message back to UI to tell of a successful save TODO
+				
+					});					
+					
+				
 				$("#newmaster").hide();
 // add html code for new swimmer added
 var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">';
@@ -546,7 +566,11 @@ var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">';
 	  $('#postOrder').val(arr.join(','));
   }
 
+$("#startsort").click(function (e) {
+console.log('stop sort called');
+$("#sortable1").sortable( "option", "disabled", false );	
 
+});
 	
 starttiming = new SwimtimeController();
 	
@@ -565,8 +589,15 @@ console.log(idname);
 		
 	});	
 	
-	$("#sortable1").click(function (e) {
-		//$("a").click(function(e){
+	//$("#sortable1").on("myCustomEvent", function(e, myName, myValue){
+  //$(this).append(myName + ", hi there!");
+     // pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
+	//		starttiming.identifyswimmer(idname, idclick);
+//});
+	
+	
+	$("#sortable1").on("click", function (e) {
+  //  $("a").click(function(e){
 	   e.preventDefault(e);
 		 var $swtgt = $(e.target);
 console.log('find value of delegate');			
@@ -577,6 +608,9 @@ console.log($swtgt);
 	
 console.log(idclick);
 console.log(idname);
+			   //$("#sortable1").trigger("myCustomEvent", [ idclick ]);
+//});
+			 
    // pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
 			starttiming.identifyswimmer(idname, idclick);
 		 }

@@ -8,7 +8,7 @@ function start(fullpath, response) {
 
 	var data  = '';
 	
-  fs.readFile('./sortexample3.html', function(err, data) {
+  fs.readFile('./sortexample5.html', function(err, data) {
 	//response.writeHead(200, {"Content-Type": "text/html"});
 	//response.write(data);
 	  response.end(data);
@@ -99,69 +99,161 @@ function stopwatchcss(fullpath, response) {
 
 function saveswimtimes(fullpath, response, request) {
   console.log("Request handler 'saveswimtimes' was called");
+	
  if(request.method == 'POST'){
 			 
 		var datain = '';
 		var cleandata = '';
 		request.on('data', function(chunk) {
 			datain += chunk;
-			cleandata = querystring.parse(datain);
+			cleandata =  JSON.parse(datain);
 console.log('we have save next stage is to save to couch');
 console.log(datain);
 console.log(cleandata);		
+// what sort of save, setup of new swimmer or saving of times data?			
+			if(cleandata['name'] ) {
+				// new swimmer add
+console.log('this will be to save new master swimmer');				
+				getUIDfromcouch (JSON.stringify(cleandata));
+					response.end();	
+				
+			}
+			else
+			{
 			
 // before saving need split into individaul swimmer data chunks and then save
-//cleandata.forEach(function(swimsplitsdata){
-//console.log('for each swimmer data');
-//console.log(swimsplitsdata);	
-//});			
+			cleandatasw = cleandata["splitdata"];
+//console.log('clean data splits');
+//console.log(cleandatasw);			
+			var cleandatakey= Object.keys(cleandatasw);
+		
+		
+			cleandatakey.forEach(function(swimsplitsdata){
+			
+// identify the swimmer  get their doc id and then update their data				
+				//swimsplitsdata
+
+// need for reform JSON for couch and call on the PUT api call. (hive out to seperate function probably)
+				// form data as string
+			datesplitnumber =  Date.parse(cleandata["swimstatus"]['swimdate']);
+			newjsonswim = {};
+			newjsonswim["swimmerid"] = '';
+			newjsonswim["session"] = {};
+			newjsonswim["swimmerid"] = 	swimsplitsdata;
+			newjsonswim["session"][datesplitnumber] = cleandata["swimstatus"];	
+			newjsonswim["session"][datesplitnumber]["splittimes"]	= cleandatasw[swimsplitsdata];
+console.log('new json swim');
+console.log(newjsonswim);				
+					stnewjsonswim = JSON.stringify(newjsonswim);
+// call save function/class eventually
+				swimpath = '';
+				swimpath = getUIDfromcouch (stnewjsonswim);
+console.log('getUUIDDDD');
 					
-// now pass on that data to couch via a PUT API call					
-		var opts = {
-    host: 'localhost',
-    port: 5984,
-    method: 'PUT',
-    path: '/traintimer/cd69f4aa9ba14b39b96e2519787798yb',
-    headers: {}
-		};
+			});	// closes forEach to form data for couchdb
+									
+		
+
+		response.end();					
+								}  // closes else	
+		}); // initial requst of data from UI
+		
+
+	}  // opening if
+
+			
+			function getUIDfromcouch (newjsonswimin) {
+
+				reudata = '';
+					
+				var opts = {
+				host: 'localhost',
+				port: 5984,
+				path: '/_uuids',
+			};
+
+   		var requu = http.get(opts, function(resuu) {
+ // console.log(res);
+					//return testreturn;	
+				resuu.setEncoding('utf8');
+				resuu.on('data', function(data) {
+	
+					var  uuidnew = data;	
+					jsonuud =  JSON.parse(uuidnew)
+
+						jsonuud["uuids"].forEach(function(udata){
+						
+						reudata = udata;	
+						});						
+	
+					resuu.on('end', function() {
+//console.log(' after end function what I am trying to return');			
+//console.log(reudata);
+						saveswimcouch(newjsonswimin, reudata)					
+       		
+					});
+				
+				});
+			});
+			
+			}  // getuuid close
+			
+			
+	// form function and call it internally for now
+		function saveswimcouch(datatosaveswim, swimpathin) {
+			
+	console.log('start of couch save');		
+			// need to ask couchdb for unique doc id.
+			swimpathlive = swimpathin;
+console.log('what is return from UUDS');
+console.log(swimpathlive );			
+		// need to call the couchdb function / class  pass on data and PUT				
+			var opts = {
+			host: 'localhost',
+			port: 5984,
+			method: 'PUT',
+			path: '/traintimer/' + swimpathlive,
+			headers: {}
+			};
 	
 	// JSON encoding
 		opts.headers['Content-Type'] = 'application/json';
-		data = JSON.stringify(cleandata);//JSON.stringify(req.data);
+		data = datatosaveswim;//JSON.stringify(req.data);
+console.log('json object after stringify');
+console.log(data);			
 		opts.headers['Content-Length'] = data.length;
 		rec_data = '';
 	
 				var reqc = http.request(opts, function(responsec) {
 		
-				responsec.on('data', function(chunk) {
-				rec_data += chunk;
-				});
-					
-				responsec.on('end', function() {
-	console.log('any response data from couch??');	
-	console.log(rec_data);
-				});
+					responsec.on('data', function(chunk) {
+					rec_data += chunk;
+					});
+						
+					responsec.on('end', function() {
+		console.log('any response data from couch??');	
+		console.log(rec_data);
+					});
 				
-			});
+				});
 			
-			reqc.on('error', function(e) {
+				reqc.on('error', function(e) {
 console.log(e);
 console.log("Got error: " + e.message);
-			});
+				});
 
-		// write the data
-		if (opts.method == 'PUT') {
-		console.log('post has been sent');	
-			reqc.write(data);
-		}
-		reqc.end();					
+				// write the data
+				if (opts.method == 'PUT') {
+console.log('post has been sent');	
+					reqc.write(data);
+				}
+				reqc.end();		
+				
+			}	
+			
 
-		response.end();					
-					
-		});
-	}
       
-}
+} // closes function
 
 exports.start = start;
 exports.stopwatch3 = stopwatch3;
