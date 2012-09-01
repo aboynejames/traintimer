@@ -16,13 +16,75 @@ function start(fullpath, response) {
      
 }
 
+/**
+* get call on a couchdb view for list of swimmids and keys (make this function part of couchdb class with refactoring)
+*
+*/
 function buildswimmers(fullpath, response) {
   console.log("build the swimmer for this lane");
 
 // query couch to get existing save swimmers (could be in groups e.g. lane swimmers)	
+	getSwimmerscouchdb ();
 	
+	
+		function getSwimmerscouchdb () {
+			
+				formstartingswimmers = '';
+			
+  			var opts = {
+				host: 'localhost',
+				port: 5984,
+				path: '/traintimer/_design/swimmers/_view/by_swimmer',
+			};
+
+   		var requu = http.get(opts, function(resw) {
+				var swlivenew = '';
+					//return testreturn;	
+				resw.setEncoding('utf8');
+				resw.on('data', function(data) {
+	        //var swlivenew = {};
+					swlivenew += data;	
+//console.log(swlivenew);								
+				});
+					resw.on('end', function() {
+console.log(' after end function what I am trying to return');			
+console.log(swlivenew);					
+					resultjs = JSON.parse(swlivenew);
+console.log(resultjs["rows"]);
+						
+		
+						resultjs["rows"].forEach(function(rowswimrs){
+console.log(rowswimrs['value']);	
+						formstartingswimmers += formswimmers(rowswimrs['value'], rowswimrs['key']);
+console.log(formstartingswimmers);							
+							
+						});
+       		response.end(formstartingswimmers);
+					});
+				
+	
+			});
+			
+			}  // getSwimmer view from couchdb close
+	 	
+			
+			function formswimmers(swname, swid) {
+				
+				var swimstarters = '<li class="ui-state-default"  id="' + swid + '">' + swname + ' HR';
+				swimstarters += '<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
+				swimstarters +=	'<ul id="controls">';
+				swimstarters +=	'<li><a href="#" id="stop" name="' + swid + '" >Stop</a></li>';
+				swimstarters +=	'<li><a href="#" id="split" name="' + swid + '" >Split</a></li>';
+				swimstarters +=	'</ul>';
+				swimstarters +=	'<ul id="splits' + swid + '">';
+				swimstarters +=	'<li></li>';
+				swimstarters +=	'</ul></li>';
+				
+				return swimstarters;
+			}
+			
 // query couch for list of swimmer, then make HTML
-	var swimstarters = '<li class="ui-state-default"  id="500101">Swimmer 1 HR';
+/*	var swimstarters = '<li class="ui-state-default"  id="500101">Swimmer 1 HR';
 	swimstarters += '<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
 	swimstarters +=	'<ul id="controls">';
 	swimstarters +=	'<li><a href="#" id="stop" name="500101" >Stop</a></li>';
@@ -40,7 +102,8 @@ swimstarters += '<li class="ui-state-default"  id="500102">Swimmer 2 HR<input ty
 	swimstarters +=	'<li></li>';
 	swimstarters +=	'</ul></li>';	
 	response.end(swimstarters);
-      
+ */     
+
 }
 
 
@@ -135,7 +198,8 @@ console.log('this will be to save new master swimmer');
 
 // need for reform JSON for couch and call on the PUT api call. (hive out to seperate function probably)
 				// form data as string
-			datesplitnumber =  Date.parse(cleandata["swimstatus"]['swimdate']);
+				var sptoday = new Date();
+			datesplitnumber = Date.parse(sptoday);//Date.parse(cleandata["swimstatus"]['swimdate']);
 			newjsonswim = {};
 			newjsonswim["swimmerid"] = '';
 			newjsonswim["session"] = {};
