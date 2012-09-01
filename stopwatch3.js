@@ -227,21 +227,27 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 	},
 	
 	this.startStop = function() {
+				
 // disable drag and drop when start press, then reset when stopped.
-//$("#sortable1").sortable("disable");
-$("#sortable1").sortable( "option", "disabled", true );			
+		$("#sortable1").sortable( "option", "disabled", true );			
+		this.swiminterval = '';
+		this.swiminterval = $("#swiminterval").val();
+console.log('time interval set');
+console.log(this.swiminterval)
 		
 // need to identify active swimmers from UI
-this.activeswimmers = [];
-var noswimmerlive = $("a#stop").length;
+			// what order did the swimmers go off 
+		this.activeswimmers = [];
+		var noswimmerlive = $("a#stop").length;
 console.log('the number of #stop ids in live');		
 console.log(noswimmerlive);
 console.log('the number of #stop ids in live');		
 
 		var listactives = [];
-	  $("#sortable1 .ui-state-default").each(function(){
-	    listactives.push($(this).attr('id'));
-	  });
+	  //$("#sortable1 .ui-state-default").each(function(){
+	    //listactives.push($(this).attr('id'));
+	 // });
+		var listactives = $('#sortable1').sortable('toArray');
 console.log(listactives);
 countswimmers = listactives.length;
 console.log(countswimmers);		
@@ -383,8 +389,18 @@ console.log(this.t);
 				if (this.spid[this.splitidlive][0] == 0) {
 	
 					
-	// make the total time elasped in ms local to this swimerid				
-				this.spid[this.splitidlive][1] = this.t[1] - this.t[0];
+	// make the total time elasped in ms local to this swimerid
+				// what order did this swimmer go off?
+				swimpos = this.startclock.activeswimmers.indexOf(stoploc);
+console.log('swim position');
+console.log(swimpos);				
+				// order position times interval time period
+				stoplag = swimpos * (this.startclock.swiminterval * 1000);
+console.log('split lag to deduct');
+console.log(splitlag);				
+				stoptimelive = this.t[1] - this.t[0] - stoplag;
+					
+				this.spid[this.splitidlive][1] = stoptimelive;
 				this.sparray[this.splitidlive].push(this.spid[this.splitidlive][1]);	
 					
 //console.log('is $start being formed???');				
@@ -465,11 +481,21 @@ console.log('from within if in split');
 console.log(this.spid);
 //console.log(this.spid[1]);				
 console.log(this.t);				
-				this.spid[this.splitidlive][1] = this.t[3] + this.t[1] - this.t[0];
+				// what order did this swimmer go off?
+				swimpos = this.startclock.activeswimmers.indexOf(spidin);
+console.log('swim position');
+console.log(swimpos);				
+				// order position times interval time period
+				splitlag = swimpos * (this.startclock.swiminterval * 1000);
+console.log('split lag to deduct');
+console.log(splitlag);				
+				splittimelive = this.t[3] + this.t[1] - this.t[0] - splitlag;
+				
+				this.spid[this.splitidlive][1] = splittimelive;
 				this.sparray[this.splitidlive].push(this.spid[this.splitidlive][1]);
 				
 				$($splive).show();
-				$('<li><span>' + this.startclock.zero(this.spid[spidin][2]) + '</span> ' + this.startclock.format(this.t[3] + this.t[1] - this.t[0]) + '</li>').appendTo($($splive)).slideDown('fast');
+				$('<li><span>' + this.startclock.zero(this.spid[spidin][2]) + '</span> ' + this.startclock.format(splittimelive) + '</li>').appendTo($($splive)).slideDown('fast');
 				$($splive).find('li').removeClass('first last');
 				$($splive).find('li:first').addClass('first').end().find('li:last').addClass('last');
 			}
@@ -490,16 +516,7 @@ $(document).ready(function(){
 
 console.log('start new timer object');	
 	var today = new Date();
-	
-		$("ul.droptrue").sortable({
-			connectWith: 'ul',
-			opacity: 0.6,
-			update : updatePostOrder
-		});
 
-		$("#sortable1, #sortable2").disableSelection();
-		$("#sortable1, #sortable2").css('minHeight',$("#sortable1").height()+"px");
-		updatePostOrder();
 		
 		$("#swimdate").text(today);
 		$("#sortable1").load("/buildswimmers");
@@ -558,13 +575,26 @@ var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">';
 				}
 				});
 		
-	function updatePostOrder() { 
-		var arr = [];
-	  $("#sortable2 .ui-state-default").each(function(){
-	    arr.push($(this).attr('id'));
-	  });
-	  $('#postOrder').val(arr.join(','));
-  }
+// drag and drop
+console.log('is ul.drop being picked up?');
+console.log($("ul.droptrue"));	
+		$("ul.droptrue").sortable({
+			connectWith: 'ul',
+			opacity: 0.6,
+			update : updatePostOrder
+		});
+
+		$("#sortable1, #sortable2").disableSelection();
+		$("#sortable1, #sortable2").css('minHeight',$("#sortable1").height()+"px");
+	
+			function updatePostOrder() { 
+			var arrorder = [];
+				$("#sortable1 .ui-state-default").each(function(){
+				arrorder.push($(this).attr('id'));
+				});
+				$('#postOrder').val(arrorder.join(','));
+			}
+
 
 $("#startsort").click(function (e) {
 console.log('stop sort called');
@@ -577,7 +607,9 @@ starttiming = new SwimtimeController();
 // need to identify which swimmers css markup has been click
 	$("a").click(function(e){
 	   e.preventDefault(e);
-
+var resultord = $('#sortable1').sortable('toArray');
+console.log('order after start pressed');		
+console.log(resultord);		
 		// dgatea = $swtgt.is("a");
 		 idclick = $(this).attr("id");
      idname = $(this).attr("name");	
