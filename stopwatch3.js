@@ -50,7 +50,8 @@
 			break;
 				
 			case "save":	
-					swimdate = $("#swimdate").text();
+									// prepare the data TODO abstract out to a function
+									swimdate = $("#swimdate").text();
 console.log(swimdate);	
 									swimstyle = $("#swimstyle").val();
 console.log(swimstyle);	
@@ -70,12 +71,15 @@ swimdatastatus['swimtechnique'] = swimtechnique;
 swimdatastatus['swimdistance'] = swimdistance;
 swimdatastatus['swimsplit'] = swimsplit;
 console.log(swimdatastatus);
-				// how about just routing to /save url for node to pick up the request?
-				//txt={"swimmerid": "swimmer99"};
+				// route to server side URL
 				stxt = {};
 				stxt['swimstatus'] = swimdatastatus;
 				stxt['splitdata'] = this.activetimeclock.sparray;		
-				stxtstring =  JSON.stringify(stxt);
+				stxtstring =  JSON.stringify(stxt);							
+				// make socket send to get real time display anywhere
+				var socket = io.connect();
+				socket.emit('splitsdatalive', stxtstring);	
+					
 console.log(stxtstring);
 			$.post("/save", stxtstring ,function(result){
 				// put a message back to UI to tell of a successful save TODO
@@ -517,7 +521,6 @@ $(document).ready(function(){
 console.log('start new timer object');	
 	var today = new Date();
 
-		
 		$("#swimdate").text(today);
 		$("#sortable1").load("/buildswimmers");
 		
@@ -604,7 +607,7 @@ $("#sortable1").sortable( "option", "disabled", false );
 	
 starttiming = new SwimtimeController();
 	
-// need to identify which swimmers css markup has been click
+// need to identify which swimmers css markup has been clicked
 	$("a").click(function(e){
 	   e.preventDefault(e);
 var resultord = $('#sortable1').sortable('toArray');

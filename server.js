@@ -11,26 +11,55 @@
 */
 var http = require("http");
 var url = require("url");
-//var  io = require('socket.io');
+var  sio = require('socket.io');
 var fs = require('fs');
 //var SimpleEE = require("./SimpleEE");
 var util = require('util');
+var EventEmitter = require('events').EventEmitter;
 
 function start(route, handle) {
 
-  function onRequest(request, response) {
-
+    var app = http.createServer(onRequest).listen(8822);
+	
+	  
+	function onRequest(request, response) {
+	
     var pathname = url.parse(request.url).pathname;
 	  
     console.log("Request for " + pathname + " received.");
-    route(handle, pathname, response, request);
+    route(handle, pathname, response, request, emitter);
   }
+	
+			// event listening
+			splitsdata = '';
+      var emitter = new EventEmitter;
+
+			emitter.on('splitscall', function(splitsdata){
+console.log('save data from splits emitter has been evented ');
+console.log(splitsdata);
+console.log('end of save apit data');
+					
+					io.sockets.on('connection', function (socketdata) {
+						
+		      socketdata.on('splitsdatalive', function (splitsdata) {
+						// need to route to logic and present html code via the socket
+console.log('from within message on socket listener');
+console.log(splitsdata);
+						socketdata.broadcast.emit('splitsdatalive', splitsdata);
+							//socketdata.broadcast.emit('splitsdatalive', splitsdata);
+						});
+						
+					socketdata.send("hell new client from james and co.");
+					});
+			});
+	
+			// data for live two way socket data flow for real time display everywhere
+	 eventdataswim = {};
+	 eventdataswim = { hello: 'world of train timer' };
+		var io = sio.listen(app);
 
 
-  
-  var app = http.createServer(onRequest).listen(8822);
-
-  }  
+} // closes start function 
 
 
 exports.start = start;
