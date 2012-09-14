@@ -180,7 +180,7 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 			$splivereset = $('#splits'+restswimid);
 			//$splivereset.slideUp('fast', function() {
 				$splivereset.empty();
-				  $splivereset.append("<li></li>");
+				$splivereset.append("<li></li>");
 
 //			});	
 				// reset the local splitter array holder for each swimmer

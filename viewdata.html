@@ -24,19 +24,51 @@
 			// need to convert object
 console.log('viewdata html real time display');
 console.log(thesplittimes);	
-splitjsondata =  JSON.parse(thesplittimes);
+			splitjsondata =  JSON.parse(thesplittimes);
 console.log(splitjsondata);
+			formatlive = new MasterWatch();
 
 theevent = splitjsondata['swimstatus']['swimdate'] + ' ' + splitjsondata['swimstatus']['swimdistance'] + ' ' + splitjsondata['swimstatus']['swimsplit'] + ' ' + splitjsondata['swimstatus']['swimstroke'] + ' ' + splitjsondata['swimstatus']['swimtechnique'];
 			
-					$('#swimeventlive').append($('<li></li>').text(theevent));
-					
+				$('<li></li>').text(theevent).prependTo($('#swimdatalive'));
+					thesplitdiff = '';
+					lastsplitforcompare = '';
+					lasttimefornextcalc = '';
+					actualsplitdiff = '';
 					// itterate over each live swimmer
 					var swimids = Object.keys(splitjsondata['splitdata']);
 					swimids.forEach(function(perswimmer) {
-					
-        $('#swimdatalive').append($('<li></li>').text(perswimmer + '  ' + splitjsondata['splitdata'][perswimmer]));
-				
+					// reset for new swimmer
+						lastsplitforcompare = '';
+						lasttimefornextcalc = '';
+						shortsplit = '';
+						// add a line of space between swimmers
+						$('<li></li>').prependTo($('#swimdatalive'));
+						
+					// itterate over each array split and format
+						splitjsondata['splitdata'][perswimmer].forEach(function (speratesplit) {
+		
+						// do some maths to get difference, if higher colour red, lower colour green
+						// if not first number
+console.log(speratesplit);	
+console.log(lastsplitforcompare);	
+						thesplitdiff = (speratesplit - lasttimefornextcalc) - lastsplitforcompare;
+console.log(thesplitdiff);			
+						actualsplitdiff = (speratesplit - lasttimefornextcalc);
+						if(thesplitdiff > 0 ) {
+						thecolourdiff = 'red'; }
+						else {
+						thecolourdiff = 'green'; }
+console.log(thecolourdiff);						
+						// last split to keep
+						lastsplitforcompare = thesplitdiff;
+						lasttimefornextcalc = speratesplit;
+						var shortsplit =formatlive.format(actualsplitdiff).slice(4,11);
+						
+						formsplit = '<li>' + perswimmer + '  ' + formatlive.format(speratesplit) + ' ' + 'split ' + shortsplit + '</li>';
+						$(formsplit).css("color", thecolourdiff).prependTo($('#swimdatalive'));
+						thecolourdiff = '';
+						});
 					});
       });
 			
@@ -55,7 +87,7 @@ theevent = splitjsondata['swimstatus']['swimdate'] + ' ' + splitjsondata['swimst
 	<div class="container">
 	<h1>Real time swim display</h1>
 	<div id="messagelive"></div>
-	<div id="swimeventlive"></div>
+  <div class="swimeventlive"></div>
 	<div id="swimdatalive"></div>
 
   </div> <!-- closes container-->
