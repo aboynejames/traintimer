@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><title>jQuery UI Touch Punch - Mobile Device Touch Event Support for jQuery UI</title>
+<meta charset="utf-8">
+<title>Train Timer - an open sport project</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
@@ -18,7 +19,11 @@
 	
 	<body>
 	<div class="container">
-
+	<header>
+		<nav>
+			<li class=""><a class="menu-text" text="Signin" title="signin" href="/signin">Sign-in</a> <a class="menu-text" text="viewsplits" title="viewsplits" href="/viewsplits">View Splits</a></li>
+		</nav>
+	</header>
 	<style>
 			.demo {clear: both;}
         #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
@@ -40,24 +45,14 @@
 	</div>
 	<div id="swimadmin">
 					<a href="/addswimmer" id="addswimmer" >Add new swimmer</a><span id="newmaster"></span><span id="saveconfirmswimmer" ></span>
-<span id="startsort" ><a href="#" >reset lane order</a></span>
+<span id="startsort" ><a href="#" >reset lane order</a></span><span id="loadlane" > <a href="#" >Load Lane</a></span><span id="loadlaneselect" ></span>
 </div>
 	<br />
-	<br />
 		<div class="demo">
-
 			<h2>The Swimmers</h2>
 			<ul id="sortable1" class='droptrue'>
-
 			</ul>
 		</div>
-
-			<div id="bluebox">
-			<h2>Lane Order of Swimmers</h2>
-			<ul id="sortable2" class='droptrue'>
-			</ul>
-		</div>
-
 			<br />
 	
 <input type="text" id="postOrder" name="postOrder" value="" size="30"><br /></div>
@@ -66,13 +61,13 @@
 	<div id="swimsettings">
 		<div id="swimdate"></div>
 		<div>
-		Swim:<select id="swimstyle">
+		<label>Swim:</label><select id="swimstyle" class="rightselect" >
 		<option value="training">training</option>
 		<option value="competition">competition</option>
 		</select>
 		</div>
 		<div>
-		Interval:<select id="swiminterval">
+		<label>Interval:</label><select id="swiminterval" class="rightselect" >
 		<option value="0">Race</option>
 		<option value="5">5 secs</option>
 		<option value="10">10 secs</option>
@@ -80,7 +75,7 @@
 		</select>
 		</div>
 		<div>
-		Stroke:<select id="swimstroke">
+			<label>Stroke:</label><select id="swiminterval" class="rightselect" >
 		<option value="freestyle">freestyle</option>
 		<option value="backcrawl">backcrawl</option>
 		<option value="breaststroke">breaststroke</option>
@@ -89,7 +84,7 @@
 		</select>
 		</div>
 		<div>
-		Technique:<select id="swimtechnique">
+		<label>Technique:</label><select id="swiminterval" class="rightselect" >
 		<option value="swim">swim</option>
 		<option value="kick">kick</option>
 		<option value="drill">drill</option>
@@ -97,10 +92,10 @@
 		</select>
 		</div>
 		<div>
-		Distance:  <select id="swimdistance">
+		<label>Distance:</label><select id="swiminterval" class="rightselect" >
+		<option value="100">100</option>
 		<option value="25">25</option>
 		<option value="50">50</option>
-		<option value="100">100</option>
 		<option value="150">150</option>
 		<option value="200">200</option>
 		<option value="300">300</option>
@@ -117,9 +112,9 @@
 		</select>
 		</div>
 		<div>
-		Split Distance: <select id="swimsplit">
-		<option value="25">25</option>
+			<label>Split:</label><select id="swiminterval" class="rightselect" >
 		<option value="50">50</option>
+		<option value="25">25</option>
 		<option value="100">100</option>
 		<option value="200">200</option>
 		</select>
@@ -129,7 +124,9 @@
 	</div>
 
 </div>
-
+<footer id="contentinfo" class="body">
+      <p>2012- <a href="">Train Timer - open sport project</a></p>
+    </footer><!-- /#contentinfo -->
 
 		<script type="text/javascript" src="jquery.scrollTo-min.js"></script>
 		<script type="text/javascript" src="stopwatch3.js"></script>

@@ -401,7 +401,7 @@ console.log(swimpos);
 				// order position times interval time period
 				stoplag = swimpos * (this.startclock.swiminterval * 1000);
 console.log('split lag to deduct');
-console.log(splitlag);				
+console.log(stoplag);				
 				stoptimelive = this.t[1] - this.t[0] - stoplag;
 					
 				this.spid[this.splitidlive][1] = stoptimelive;
@@ -522,10 +522,21 @@ console.log('start new timer object');
 	var today = new Date();
 
 		$("#swimdate").text(today);
-		$("#sortable1").load("/buildswimmers");
+
 		
 		$("#addswimmer").click(function () {
- 			addswimform = '<form method="post" action="#" id="newmasteradd" >Name<input type="text" id="newmastid" name="swimmername"  size="12" />MID<input type="number" id="newmidid" name="mastersid"  size="6" />	<input type="submit" value="Add Swimmer" id="newmasteradd" /></form>';
+			lanelist = 'Lane: <select id="thelaneoptions">';
+			lanelist +=	'<option value="1">-</option>';
+			lanelist +=	'<option value="1">1</option>';
+			lanelist +=	'<option value="2">2</option>';
+			lanelist +=	'<option value="3">3</option>';
+			lanelist +=	'<option value="4">4</option>';
+			lanelist +=	'<option value="5">5</option>';
+			lanelist +=	'<option value="6">6</option>';
+			lanelist +=	'<option value="7">7</option>';
+			lanelist +=	'</select>';
+			
+ 			addswimform = '<form method="post" action="#" id="newmasteradd" >Name<input type="text" id="newmastid" name="swimmername"  size="12" />MID<input type="number" id="newmidid" name="mastersid"  size="6" />' + lanelist + '<input type="submit" value="Add" id="newmasteradd" /></form>';
 			$("#newmaster").html(addswimform);
 				$("#newmaster").show();
     });
@@ -544,11 +555,13 @@ console.log($tgt.attr("name"));
 					
 					newmastnameis = $("#newmasteradd input#newmastid ").val();
 					newmastidis = $("#newmasteradd input#newmidid ").val();	
+					newlane = $("#thelaneoptions").val();
 					
 // need to save new master to couch, name and masters id,  validate unique ID number
 					firstsavenewmaster = {};
 					firstsavenewmaster['name'] = newmastnameis;
 					firstsavenewmaster['swimmerid'] = newmastidis;
+					firstsavenewmaster['lanetrain'] = newlane;
 					jsonfirstsavenewmaster =  JSON.stringify(firstsavenewmaster);
 console.log('new member jsson');
 console.log(jsonfirstsavenewmaster);					
@@ -566,7 +579,7 @@ var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">';
 	newswimcode +=	'<li> <br /><a href="#" id="stop" name="'+ newmastidis +'" >Stop</a></li>';
 	newswimcode +=	'<li> <br /><a href="#" id="split" name="'+ newmastidis +'" >Split</a></li>';
 	newswimcode +=	'</ul>';
-	newswimcode +=	'<ul id="splits'+ newmastidis +'">';
+	newswimcode +=	'<ul id="splits'+ newmastidis +'" class="splits" >';
 	newswimcode +=	'<li></li>';
 	newswimcode +=	'</ul></li>';
 					
@@ -578,6 +591,32 @@ var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">';
 				}
 				});
 		
+	// load lane of swimmers
+		$("#loadlane").click(function () {
+ 			lanelistlive = 'Lane: <select id="thelaneoptions">';
+			lanelistlive +=	'<option value="1">-</option>';
+			lanelistlive +=	'<option value="1">1</option>';
+			lanelistlive +=	'<option value="2">2</option>';
+			lanelistlive +=	'<option value="3">3</option>';
+			lanelistlive +=	'<option value="4">4</option>';
+			lanelistlive +=	'<option value="5">5</option>';
+			lanelistlive +=	'<option value="6">6</option>';
+			lanelistlive +=	'<option value="7">7</option>';
+			lanelistlive +=	'</select>';
+			$("#loadlaneselect").html(lanelistlive);
+				//$("#loadlane").show();
+	
+    $("#thelaneoptions").change(function () {
+			selectedlanenow = $("#thelaneoptions").val();
+console.log('yes lane' +selectedlanenow );
+			// make post request to get swimmer for this lane and dispaly
+					$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow);
+			
+    });
+
+    });				
+				
+				
 // drag and drop
 console.log('is ul.drop being picked up?');
 console.log($("ul.droptrue"));	

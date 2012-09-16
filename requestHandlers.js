@@ -26,18 +26,30 @@ function start(fullpath, response) {
 function buildswimmers(fullpath, response) {
   console.log("build the swimmer for this lane");
 
+// which lane, view, map for couchdb?
+	laneforcouch = '';
+	laneforcouch = fullpath[3]	;
+	couchdesignview = '';
+	couchdesignview = fullpath[2];
+	
+console.log(laneforcouch, couchdesignview);	
+	
 // query couch to get existing save swimmers (could be in groups e.g. lane swimmers)	
-	getSwimmerscouchdb ();
+	getSwimmerscouchdb (laneforcouch, couchdesignview);
 	
 	
-		function getSwimmerscouchdb () {
+		function getSwimmerscouchdb (laneforcouch, viewmapref) {
 			
 				formstartingswimmers = '';
+				buildpathurl = '';
+			
+			// convert pathurl in couchdb path url string
+			  buildpathurl = '/traintimer/_design/by' + viewmapref + '/_view/' + 'by_' + viewmapref + '?key="' + laneforcouch +'"';
 			
   			var opts = {
 				host: 'localhost',
 				port: 5984,
-				path: '/traintimer/_design/swimmers/_view/by_swimmer',
+				path: buildpathurl,
 			};
 
    		var requu = http.get(opts, function(resw) {
@@ -50,15 +62,15 @@ function buildswimmers(fullpath, response) {
 //console.log(swlivenew);								
 				});
 					resw.on('end', function() {
-//console.log(' after end function what I am trying to return');			
-//console.log(swlivenew);					
+console.log(' after end function what I am trying to return');			
+console.log(swlivenew);					
 					resultjs = JSON.parse(swlivenew);
 //console.log(resultjs["rows"]);
 						
 		
 						resultjs["rows"].forEach(function(rowswimrs){
 //console.log(rowswimrs['value']);	
-						formstartingswimmers += formswimmers(rowswimrs['value'], rowswimrs['key']);
+						formstartingswimmers += formswimmers(rowswimrs['value'][1], rowswimrs['value'][0]);
 //console.log(formstartingswimmers);							
 							
 						});
@@ -79,34 +91,13 @@ function buildswimmers(fullpath, response) {
 				swimstarters +=	'<li><a href="#" id="stop" name="' + swid + '" >Stop</a></li>';
 				swimstarters +=	'<li><a href="#" id="split" name="' + swid + '" >Split</a></li>';
 				swimstarters +=	'</ul>';
-				swimstarters +=	'<ul id="splits' + swid + '">';
+				swimstarters +=	'<ul id="splits' + swid + '" class="splits" >';
 				swimstarters +=	'<li></li>';
 				swimstarters +=	'</ul></li>';
 				
 				return swimstarters;
 			}
 			
-// query couch for list of swimmer, then make HTML
-/*	var swimstarters = '<li class="ui-state-default"  id="500101">Swimmer 1 HR';
-	swimstarters += '<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
-	swimstarters +=	'<ul id="controls">';
-	swimstarters +=	'<li><a href="#" id="stop" name="500101" >Stop</a></li>';
-	swimstarters +=	'<li><a href="#" id="split" name="500101" >Split</a></li>';
-	swimstarters +=	'</ul>';
-	swimstarters +=	'<ul id="splits500101">';
-	swimstarters +=	'<li></li>';
-	swimstarters +=	'</ul></li>';
-swimstarters += '<li class="ui-state-default"  id="500102">Swimmer 2 HR<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
-	swimstarters +=	'<ul id="controls">';
-	swimstarters +=	'<li><a href="#" id="stop" name="500102" >Stop</a></li>';
-	swimstarters +=	'<li><a href="#" id="split" name="500102" >Split</a></li>';
-	swimstarters +=	'</ul>';
-	swimstarters +=	'<ul id="splits500102">';
-	swimstarters +=	'<li></li>';
-	swimstarters +=	'</ul></li>';	
-	response.end(swimstarters);
- */     
-
 }
 
 
@@ -130,7 +121,7 @@ function dragdrop3(fullpath, response) {
 	var data  = '';
 	
 
-  fs.readFile('.css/dragdrop3.css', function(err, data) {
+  fs.readFile('./css/dragdrop3.css', function(err, data) {
 		
 	  	  response.end(data);
 	  });

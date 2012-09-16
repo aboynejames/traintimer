@@ -9,22 +9,22 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 #swimsettings {display:block; text-align:left; color:#999; text-decoration:none; outline:2;}	
 
 #timer {margin:0; font-size:48px; line-height:48px; color:#C00; text-shadow:#FFF 0 1px 0;}
-#controls {height:25px; margin:0 0 20px; padding:0; list-style:none;}
-#controls li {display:inline; float:left; margin:5px;}
+#controls { height:25px; margin:0 0 20px; padding:0; list-style:none;}
+#controls li {display:inline; float:left; margin:10px;}
 #controls li:last-child, #controls li.last {margin-right:0;}
-#controls li a {display:block; width:85px; text-align:center; line-height:32px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none;}
+#controls li a {display:block; width:85px; text-align:center; line-height:50px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none;}
 			 #start {background:#090;}
 			  #stop {background:#F7F;}
-			 #split {background:#069;}
+			 #split {background:#069; }
 			 #reset {background:#C00;}
 			#save {background:#C50;}
-#controls li a:hover {background:#333;}
+/*#controls li a:hover {background:#333;}*/
 #controls li a:active {position:relative; top:1px;}
-#splits {display:none; margin:20px 0 0; padding:0; list-style:none; border:1px solid #666; -moz-box-shadow:inset rgba(0, 0, 0, 0.3) 0 0 5px; -webkit-box-shadow:inset rgba(0, 0, 0, 0.3) 0 0 5px; border-radius:8px; -moz-border-radius:8px; -webkit-border-radius:8px; background:#F9F9F9;}
-#splits li {display:none; padding-left:10px; font-size:18px; text-shadow:#FFF 0 1px 0; line-height:30px; border-bottom:1px solid #CCC; border-top:1px solid #FFF;}
-#splits li span {margin-right:10px; padding:0 2px; color:#FFF; text-shadow:#666 0 -1px 0; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; background:#999;}
-#splits li:first-child, #splits li.first {border-top:none;}
-#splits li:last-child, #splits li.last {border-bottom:none;}
+.splits {display:none; margin:50px 0 0 200px; padding:0; list-style:none; border:1px solid #666; -moz-box-shadow:inset rgba(0, 0, 0, 0.3) 0 0 5px; -webkit-box-shadow:inset rgba(0, 0, 0, 0.3) 0 0 5px; border-radius:8px; -moz-border-radius:8px; -webkit-border-radius:8px; background:#F9F9F9;}
+.splits li {display:inline; padding-left:10px; font-size:18px; text-shadow:#FFF 0 1px 0; line-height:30px; border-bottom:1px solid #CCC; border-top:1px solid #FFF;}
+.splits li span {margin-right:10px; padding:0 2px; color:#FFF; text-shadow:#666 0 -1px 0; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; background:#999;}
+.splits li:first-child, .splits li.first {border-top:none;}
+.splits li:last-child, .splits li.last {border-bottom:none;}
 #labels {color:#666; text-shadow:#FFF 0 1px 0;}
 #labels span {margin-left:48px;}
 #help {position:relative; z-index:100; width:305px; padding:0 16px; margin:0 auto; font-family:Arial, Verdana, sans-serif; background:#FFF;}
@@ -33,3 +33,24 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 #help dt {font:italic 14px/18px Georgia, serif; border-bottom:1px solid #000;}
 #help dd {margin-top:5px;}
 #ads {position:fixed; top:20px; right:20px; z-index:1; width:160px;}
+
+/*
+*
+* formatting of settings
+*
+*/
+label {
+	float: left;
+	font-size:18px;
+	width:100px;
+	margin-right:6px;
+	vertical-align: bottom;
+
+
+}
+
+.rightselect {
+	width:180px;
+	font-size:18px;
+	
+}
