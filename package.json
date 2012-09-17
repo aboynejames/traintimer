@@ -1,0 +1,13 @@
+{
+  "name": "train-timer-open-sport-project",
+  "version": "0.0.1",
+  "author": "James Littlejohn <james@aboynejames.co.uk> (http://www.aboynejames.co.uk/)",
+  "description": "Package include NPM",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/aboynejames/traintimer.git"
+  },
+  "dependencies": {
+    "'socket.io": "0.9.10"
+  }
+}
