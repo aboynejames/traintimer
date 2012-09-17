@@ -8,6 +8,6 @@
     "url": "git://github.com/aboynejames/traintimer.git"
   },
   "dependencies": {
-    "'socket.io": "0.9.10"
+    "socket.io": "0.9.10"
   }
 }
