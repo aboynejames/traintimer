@@ -18,7 +18,7 @@
  function SwimtimeController () {
 //console.log('the swimmer controller');	 
 
-	 	  this.activetimeclock = new PerSwimmer();
+		this.activetimeclock = new PerSwimmer();
 	 
 // need to set id of the swimmer thats split or stop has been click on the UI
 	 	this.identifyswimmer = function(swimid, clickid) {
@@ -50,19 +50,22 @@
 			break;
 				
 			case "save":	
+					setsaveallowed = $.cookie("traintimer");
+console.log('has cookie been set for save?' + setsaveallowed);		
+						if(setsaveallowed == "123321") {	
 									// prepare the data TODO abstract out to a function
 									swimdate = $("#swimdate").text();
-console.log(swimdate);	
+//console.log(swimdate);	
 									swimstyle = $("#swimstyle").val();
-console.log(swimstyle);	
+//console.log(swimstyle);	
 									swimstroke = $("#swimstroke").val();
-console.log(swimstroke);	
+//console.log(swimstroke);	
 									swimtechnique = $("#swimtechnique").val();
-console.log(swimtechnique);	
+//console.log(swimtechnique);	
 									swimdistance = $("#swimdistance").val();
-console.log(swimdistance);
+//console.log(swimdistance);
 									swimsplit = $("#swimsplit").val();
-console.log(swimsplit);	
+//console.log(swimsplit);	
 // form swim data
 swimdatastatus = {};
 swimdatastatus['swimdate'] = swimdate;
@@ -81,10 +84,11 @@ console.log(swimdatastatus);
 				socket.emit('splitsdatalive', stxtstring);	
 					
 console.log(stxtstring);
-			$.post("/save", stxtstring ,function(result){
+				$.post("/save", stxtstring ,function(result){
 				// put a message back to UI to tell of a successful save TODO
 				
-			});
+				});
+			}
 			break;
 				
 			}		
@@ -457,7 +461,10 @@ console.log('all watches have been stopped');
 	}	
 	},
 
-	
+/**
+*  Splits and calculations	
+* 
+*/	
 	this.split = function(spidin) {
 console.log('split clicked');	
 	// contorl logic, has the main timer been started? If yes proceed if not do nothing.		
@@ -522,9 +529,101 @@ console.log('start new timer object');
 	var today = new Date();
 
 		$("#swimdate").text(today);
+	
+	// sigin modal
+	loginhtml = '';
+	loginhtml += '<div>Welcome, to Train Timer - an open sport project</div>';
+	loginhtml += '<form method="post" action="#" id="siginform" >';
+	loginhtml += '<div><label for="name">Username</label><input id="name" class="text ui-widget-content ui-corner-all" type="text" name="name" size="16" ></div>';
+	loginhtml += '<div><label for="password">Password</label><input id="password" class="text ui-widget-content ui-corner-all" type="password" value="" name="password" size="16" ></div></form>';
+	loginhtml += '<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"> <div class="ui-dialog-buttonset"><button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button" role="button" aria-disabled="false"><span class="ui-button-text">Sign me in</span></button></div></div><div id="responsemessage"></div>';
+loginpassed = '';
+	var $dialog = $('<div id="siginform" ></div>')
+		.html(loginhtml)
+		.dialog({
+			autoOpen: false,
+			height: 300,
+			width: 260, 
+			title: 'Signin to Train Timer',
+			buttons: {
+										"Sign me in": function() {
+											// need to make couchdb call to accept user details
+//console.log('validation of the form signin');
+									
+										usernamein = '';
+										passwordin = '';
+										usernamein = $("#name").val();
+										passwordin = $("#password").val();	
+//console.log(usernamein);
+//console.log(passwordin);	
+										signtxt = {};
+										signtxt['username'] = usernamein;
+										signtxt['password'] = passwordin;		
+										signstring =  JSON.stringify(signtxt);	
+										acceptdetails = '';
+		
+										$.get("/signin/" + usernamein, function(resultback){
+										// put a message back to UI to tell of a successful save TODO
+//console.log('what back from couch');	
+//console.log(resultback);
+	
+var jsomesata = '';											
+												if((resultback['key'] == usernamein) && (resultback['value'] == passwordin)) {		
+													console.log('what does model obejct look like?');
+console.log($dialog.dialog);
+												passedsigntest("one");
+												$.cookie("traintimer", passwordin,  { expires: 7 });
+												$("#ifsignedin").show();	
+												$("#ifsignedin").html('<a class="menu-text" text="SignOut" title="signout" href="#"  id="signincloser" >Sign-out</a>');
+												$dialog.dialog( "close" );
+												}
+												else {
+console.log('failed');
+													$("#responsemessage").html('Signin Failed, try again');
+												}
+										});											
+															
+										},
+										Cancel: function() {
+										$( this ).dialog( "close" );
+										},
 
+			}
+
+		});
+console.log('what does model obejct look like?');
+console.log($dialog.dialog);	
+porf = '';		
+function passedsigntest (porf) {
+	
+	console.log('is it zero or fail?'+ porf);
+}
+console.log('passor fail outside of the function' + porf);		
+
+	$('#signinopener').click(function() {
+		$dialog.dialog('open');
+		// prevent the default action, e.g., following a link
+		return false;
+	});
+	
+	$("#ifsignedin").click(function(e) {
+console.log('time to distroy the cookie please');
+			e.preventDefault(e);
+		 var $sotgt = $(e.target);
+console.log('what tgt look like?');			
+        if ($sotgt.is("#signincloser")) {
+					$("#ifsignedin").fadeOut("slow");
+						//$("#ifsignedin").hide();	
+						$("#loadlaneselect").hide();
+					$("#sortable1").empty();
+				$.cookie("traintimer", null);
+
+				}
+					
+	});
 		
 		$("#addswimmer").click(function () {
+			
 			lanelist = 'Lane: <select id="thelaneoptions">';
 			lanelist +=	'<option value="1">-</option>';
 			lanelist +=	'<option value="1">1</option>';
@@ -547,6 +646,11 @@ console.log('start new timer object');
 console.log('save new swimmer clicked');					
 console.log(e);					
 				e.preventDefault(e);
+				// has the user signed in?
+					setsaveallowed = '';
+					setsaveallowed = $.cookie("traintimer");
+console.log('has cookie been set?' + setsaveallowed);		
+						if(setsaveallowed == "123321") {	
 				
 				 var $tgt = $(e.target);
 console.log('what tgt look like?');
@@ -564,11 +668,13 @@ console.log($tgt.attr("name"));
 					firstsavenewmaster['lanetrain'] = newlane;
 					jsonfirstsavenewmaster =  JSON.stringify(firstsavenewmaster);
 console.log('new member jsson');
-console.log(jsonfirstsavenewmaster);					
-					$.post("/save", jsonfirstsavenewmaster ,function(result){
-				// put a message back to UI to tell of a successful save TODO
+console.log(jsonfirstsavenewmaster);			
+
+
+							$.post("/save", jsonfirstsavenewmaster ,function(result){
+							// put a message back to UI to tell of a successful save TODO
+							});					
 				
-					});					
 					
 				
 				$("#newmaster").hide();
@@ -589,31 +695,41 @@ var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">';
 				$("#saveconfirmswimmer").fadeOut("slow");
 
 				}
+				} // closes if cookie set
 				});
 		
 	// load lane of swimmers
 		$("#loadlane").click(function () {
- 			lanelistlive = 'Lane: <select id="thelaneoptions">';
-			lanelistlive +=	'<option value="1">-</option>';
-			lanelistlive +=	'<option value="1">1</option>';
-			lanelistlive +=	'<option value="2">2</option>';
-			lanelistlive +=	'<option value="3">3</option>';
-			lanelistlive +=	'<option value="4">4</option>';
-			lanelistlive +=	'<option value="5">5</option>';
-			lanelistlive +=	'<option value="6">6</option>';
-			lanelistlive +=	'<option value="7">7</option>';
-			lanelistlive +=	'</select>';
-			$("#loadlaneselect").html(lanelistlive);
-				//$("#loadlane").show();
-	
-    $("#thelaneoptions").change(function () {
-			selectedlanenow = $("#thelaneoptions").val();
-console.log('yes lane' +selectedlanenow );
-			// make post request to get swimmer for this lane and dispaly
-					$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow);
 			
-    });
-
+	
+			setsavedallowed = '';
+			setsaveallowed = $.cookie("traintimer");
+console.log('has cookie been set?' + setsaveallowed);		
+			if(setsaveallowed == "123321") {	
+				
+				$("#loadlaneselect").show();
+				
+				lanelistlive = 'Lane: <select id="thelaneoptions">';
+				lanelistlive +=	'<option value="1">-</option>';
+				lanelistlive +=	'<option value="1">1</option>';
+				lanelistlive +=	'<option value="2">2</option>';
+				lanelistlive +=	'<option value="3">3</option>';
+				lanelistlive +=	'<option value="4">4</option>';
+				lanelistlive +=	'<option value="5">5</option>';
+				lanelistlive +=	'<option value="6">6</option>';
+				lanelistlive +=	'<option value="7">7</option>';
+				lanelistlive +=	'</select>';
+				$("#loadlaneselect").html(lanelistlive);
+					//$("#loadlane").show();
+		
+			$("#thelaneoptions").change(function () {
+				selectedlanenow = $("#thelaneoptions").val();
+	console.log('yes lane' +selectedlanenow );
+				// make post request to get swimmer for this lane and dispaly
+					$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow);
+				
+				});
+			}
     });				
 				
 				

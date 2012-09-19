@@ -7,6 +7,7 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 #masterclock {display:block; height: 100px;  text-align:left; color:#999; text-decoration:none; outline:1;}	
 #swimadmin {display:block; clear: both; text-align:left; color:#999; text-decoration:none; outline:0;}	
 #swimsettings {display:block; text-align:left; color:#999; text-decoration:none; outline:2;}	
+#ifsignedin {display:inline; text-align:left;}	
 
 #timer {margin:0; font-size:48px; line-height:48px; color:#C00; text-shadow:#FFF 0 1px 0;}
 #controls { height:25px; margin:0 0 20px; padding:0; list-style:none;}

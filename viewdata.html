@@ -50,18 +50,19 @@ theevent = splitjsondata['swimstatus']['swimdate'] + ' ' + splitjsondata['swimst
 		
 						// do some maths to get difference, if higher colour red, lower colour green
 						// if not first number
-console.log(speratesplit);	
-console.log(lastsplitforcompare);	
-						thesplitdiff = (speratesplit - lasttimefornextcalc) - lastsplitforcompare;
-console.log(thesplitdiff);			
-						actualsplitdiff = (speratesplit - lasttimefornextcalc);
-						if(thesplitdiff > 0 ) {
+console.log('incoming split time' + speratesplit);	
+console.log('last splitime if not the first' + lastsplitforcompare);	
+						thesplitdiff = '';
+						thesplitdiff =  speratesplit - lasttimefornextcalc;
+console.log('the split diff for this run' + thesplitdiff);			
+						actualsplitdiff = speratesplit - lasttimefornextcalc;
+						if(thesplitdiff > lastsplitforcompare ) {
 						thecolourdiff = 'red'; }
 						else {
 						thecolourdiff = 'green'; }
 console.log(thecolourdiff);						
 						// last split to keep
-						lastsplitforcompare = thesplitdiff;
+						lastsplitforcompare = actualsplitdiff;
 						lasttimefornextcalc = speratesplit;
 						var shortsplit =formatlive.format(actualsplitdiff).slice(4,11);
 						

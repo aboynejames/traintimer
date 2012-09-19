@@ -4,13 +4,16 @@ var util = require('util');
 var http = require('http');
 var sio = require('socket.io');
 var EventEmitter = require('events').EventEmitter;
+var ttSettings = require("./ttSettings");
 
+couchin = {};
 
+	
 function start(fullpath, response) {
   console.log("Request handler 'start' was called.");
 
 	var data  = '';
-	
+
   fs.readFile('./sortexample5.html', function(err, data) {
 	//response.writeHead(200, {"Content-Type": "text/html"});
 	//response.write(data);
@@ -18,6 +21,69 @@ function start(fullpath, response) {
       });	
      
 }
+
+/**
+* check signin details
+*
+*/
+function signincheck (fullpath, response) {
+  
+	couchin = new ttSettings();
+//console.log(util.inspect(couchin));
+//console.log(util.inspect(couchin.account));
+	
+				checkusercouch ( response, fullpath) 
+
+				function checkusercouch ( response, fullpath) {
+console.log('train details in from client ui');
+console.log(fullpath);
+				//parsecheckuser = JSON.parse(checkuser);
+				checktpassdata = '';
+				var  trainertocheck = '';
+					
+				var opts = {
+				host: 'localhost',
+				port: 5984,
+				path: '/traintimer/_design/trainers/_view/by_trainers?key="' + fullpath[2] + '"',
+				auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd'],
+			};
+
+   		var requu = http.get(opts, function(checkinres) {
+ // console.log(res);
+				checkinres.setEncoding('utf8');
+				checkinres.on('data', function(signdata) {
+	
+					trainertocheck += signdata;	
+				
+				});
+
+	
+					checkinres.on('end', function() {
+console.log('what is couch returning?? trainers');
+console.log(trainertocheck);		 
+						jsontrainer =  JSON.parse(trainertocheck);
+console.log(jsontrainer);						
+						jsontrainer["rows"].forEach(function(tpassdata){
+						
+						checktpassdata = tpassdata;	
+							
+						});	
+console.log('train user details');
+console.log(checktpassdata);
+						checkjson = JSON.stringify(checktpassdata);
+						response.writeHead(200, {"Content-Type": "json"});
+						response.end(checkjson);
+
+       		
+					});
+
+			});
+			
+			}  // sigincheck close
+
+					
+}  // closes sigincheck
+				
 
 /**
 * get call on a couchdb view for list of swimmids and keys (make this function part of couchdb class with refactoring)
@@ -36,7 +102,7 @@ console.log(laneforcouch, couchdesignview);
 	
 // query couch to get existing save swimmers (could be in groups e.g. lane swimmers)	
 	getSwimmerscouchdb (laneforcouch, couchdesignview);
-	
+
 	
 		function getSwimmerscouchdb (laneforcouch, viewmapref) {
 			
@@ -50,6 +116,7 @@ console.log(laneforcouch, couchdesignview);
 				host: 'localhost',
 				port: 5984,
 				path: buildpathurl,
+				auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd'],
 			};
 
    		var requu = http.get(opts, function(resw) {
@@ -232,6 +299,7 @@ console.log('we have save next stage is to save to couch');
 				host: 'localhost',
 				port: 5984,
 				path: '/_uuids',
+				auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd'],
 			};
 
    		var requu = http.get(opts, function(resuu) {
@@ -261,6 +329,10 @@ console.log('we have save next stage is to save to couch');
 			}  // getuuid close
 			
 			
+			
+			
+			
+			
 	// form function and call it internally for now
 		function saveswimcouch(datatosaveswim, swimpathin) {
 			
@@ -275,6 +347,7 @@ console.log('start of couch save');
 			port: 5984,
 			method: 'PUT',
 			path: '/traintimer/' + swimpathlive,
+			auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd'],
 			headers: {}
 			};
 	
@@ -344,3 +417,4 @@ exports.stopwatchcss = stopwatchcss;
 exports.saveswimtimes = saveswimtimes;
 exports.buildswimmers = buildswimmers;
 exports.viewswimtimes =  viewswimtimes;
+exports.signincheck =  signincheck;
