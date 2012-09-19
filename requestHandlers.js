@@ -15,7 +15,7 @@ function start(fullpath, response) {
 	var data  = '';
 
   fs.readFile('./sortexample5.html', function(err, data) {
-	//response.writeHead(200, {"Content-Type": "text/html"});
+	response.writeHead(200, {"Content-Type": "text/html"});
 	//response.write(data);
 	  response.end(data);
       });	
@@ -175,7 +175,7 @@ function stopwatch3(fullpath, response) {
 	
 
   fs.readFile('./stopwatch3.js', function(err, data) {
-		
+			response.writeHead(200, {"Content-Type": "text/javascript"});
 	  	  response.end(data);
 	  });
       
@@ -189,7 +189,7 @@ function dragdrop3(fullpath, response) {
 	
 
   fs.readFile('./css/dragdrop3.css', function(err, data) {
-		
+			  response.writeHead(200, {"Content-Type": "tex/css"});
 	  	  response.end(data);
 	  });
 		
@@ -204,7 +204,7 @@ function scrollmin(fullpath, response) {
 	
 
   fs.readFile('./jquery.scrollTo-min.js', function(err, data) {
-		
+			  response.writeHead(200, {"Content-Type": "text/javascript"});
 	  	  response.end(data);
 	  });
       
@@ -217,7 +217,7 @@ function stopwatchcss(fullpath, response) {
 	
 
   fs.readFile('./stopwatch3.css', function(err, data) {
-		
+			  response.writeHead(200, {"Content-Type": "text/css"});
 	  	  response.end(data);
 	  });
       
@@ -400,7 +400,7 @@ function viewswimtimes(fullpath, response, io) {
 		var timedata  = '';
 	
   fs.readFile('./viewdata.html', function(err, timedata) {
-	//response.writeHead(200, {"Content-Type": "text/html"});
+	  response.writeHead(200, {"Content-Type": "text/html"});
 	//response.write(data);
 	  response.end(timedata);
       });	
