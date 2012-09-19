@@ -189,7 +189,7 @@ function dragdrop3(fullpath, response) {
 	
 
   fs.readFile('./css/dragdrop3.css', function(err, data) {
-			  response.writeHead(200, {"Content-Type": "tex/css"});
+			  response.writeHead(200, {"Content-Type": "text/css"});
 	  	  response.end(data);
 	  });
 		
