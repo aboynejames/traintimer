@@ -4,7 +4,7 @@
 * Start node.js  Train Timer
 *
 *
-* @package    Train Timer part of open source sport project
+* @package    Train Timer part of open sport project
 * @copyright  Copyright (c) 2012 James Littlejohn
 * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 * @version    0.1.0
