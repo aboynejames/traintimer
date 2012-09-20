@@ -18,6 +18,7 @@ var handle = {}
 handle["/"] = requestHandlers.start;
 handle["/start"] = requestHandlers.start;
 handle["/signin"] = requestHandlers.signincheck;
+handle["/signout"] = requestHandlers.signoutcheck;
 
 handle["/css"] = requestHandlers.dragdrop3;
 handle["/jquery.scrollTo-min.js"] = requestHandlers.scrollmin;

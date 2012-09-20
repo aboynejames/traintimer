@@ -16,18 +16,24 @@ var fs = require('fs');
 //var SimpleEE = require("./SimpleEE");
 var util = require('util');
 var EventEmitter = require('events').EventEmitter;
+var ttSettings = require("./ttSettings");
 
 function start(route, handle) {
 
-    var app = http.createServer(onRequest).listen(8822);
+		var couchin = {};
+		var	couchin = new ttSettings();
+//console.log('setting prent on serversetup ' + couchin);	
 	
+    var app = http.createServer(onRequest).listen(8822);
+			
+
 	  
 	function onRequest(request, response) {
 	
     var pathname = url.parse(request.url).pathname;
-	  
+  
     console.log("Request for " + pathname + " received.");
-    route(handle, pathname, response, request, emitter);
+    route(handle, pathname, response, request, emitter, couchin);
   }
 	
 			// event listening

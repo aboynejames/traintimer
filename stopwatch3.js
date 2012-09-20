@@ -52,7 +52,7 @@
 			case "save":	
 					setsaveallowed = $.cookie("traintimer");
 console.log('has cookie been set for save?' + setsaveallowed);		
-						if(setsaveallowed == "123321") {	
+				//		if(setsaveallowed == "-698696168") {	
 									// prepare the data TODO abstract out to a function
 									swimdate = $("#swimdate").text();
 //console.log(swimdate);	
@@ -84,11 +84,11 @@ console.log(swimdatastatus);
 				socket.emit('splitsdatalive', stxtstring);	
 					
 console.log(stxtstring);
-				$.post("/save", stxtstring ,function(result){
+				$.post("/save/" + setsaveallowed, stxtstring ,function(result){
 				// put a message back to UI to tell of a successful save TODO
 				
 				});
-			}
+			//}
 			break;
 				
 			}		
@@ -560,22 +560,37 @@ loginpassed = '';
 										signtxt['username'] = usernamein;
 										signtxt['password'] = passwordin;		
 										signstring =  JSON.stringify(signtxt);	
+										// make has string
+										hashCode = function(str){
+												var hash = 0;
+												if (str.length == 0) return hash;
+												for (i = 0; i < str.length; i++) {
+														char = str.charCodeAt(i);
+														hash = ((hash<<5)-hash)+char;
+														hash = hash & hash; // Convert to 32bit integer
+												}
+												return hash;
+										}
+										passwordhash = hashCode(passwordin);
+										cookieidhash = hashCode((usernamein + password));									
+											
 										acceptdetails = '';
 		
-										$.get("/signin/" + usernamein, function(resultback){
+										$.get("/signin/" + usernamein + '/' + cookieidhash + '/' + passwordhash, function(resultback){
 										// put a message back to UI to tell of a successful save TODO
-//console.log('what back from couch');	
+//console.log('what back from node');	
 //console.log(resultback);
 	
 var jsomesata = '';											
-												if((resultback['key'] == usernamein) && (resultback['value'] == passwordin)) {		
-													console.log('what does model obejct look like?');
-console.log($dialog.dialog);
+												if(resultback == 'passed') {		
+//console.log('what does model obejct look like?');
+//console.log($dialog.dialog);
 												passedsigntest("one");
-												$.cookie("traintimer", passwordin,  { expires: 7 });
+												$.cookie("traintimer", cookieidhash,  { expires: 7 });
 												$("#ifsignedin").show();	
 												$("#ifsignedin").html('<a class="menu-text" text="SignOut" title="signout" href="#"  id="signincloser" >Sign-out</a>');
 												$dialog.dialog( "close" );
+												$("#signinopener").hide();
 												}
 												else {
 console.log('failed');
@@ -591,14 +606,14 @@ console.log('failed');
 			}
 
 		});
-console.log('what does model obejct look like?');
-console.log($dialog.dialog);	
+//console.log('what does model obejct look like?');
+//console.log($dialog.dialog);	
 porf = '';		
 function passedsigntest (porf) {
 	
 	console.log('is it zero or fail?'+ porf);
 }
-console.log('passor fail outside of the function' + porf);		
+//console.log('passor fail outside of the function' + porf);		
 
 	$('#signinopener').click(function() {
 		$dialog.dialog('open');
@@ -610,13 +625,20 @@ console.log('passor fail outside of the function' + porf);
 console.log('time to distroy the cookie please');
 			e.preventDefault(e);
 		 var $sotgt = $(e.target);
-console.log('what tgt look like?');			
+//console.log('what tgt look like?');			
         if ($sotgt.is("#signincloser")) {
 					$("#ifsignedin").fadeOut("slow");
 						//$("#ifsignedin").hide();	
 						$("#loadlaneselect").hide();
 					$("#sortable1").empty();
-				$.cookie("traintimer", null);
+					$("#signinopener").show();
+	
+					
+					// need to tell the server of the log out too
+						$.get("/signout/" + $.cookie("traintimer"), function(resultout){
+							
+						});
+					$.cookie("traintimer", null);
 
 				}
 					
@@ -644,17 +666,16 @@ console.log('what tgt look like?');
 			$("#newmaster").click(function (e) {
 				//$("#newmasteradd").click(function (e) {
 console.log('save new swimmer clicked');					
-console.log(e);					
+//console.log(e);					
 				e.preventDefault(e);
 				// has the user signed in?
 					setsaveallowed = '';
 					setsaveallowed = $.cookie("traintimer");
-console.log('has cookie been set?' + setsaveallowed);		
-						if(setsaveallowed == "123321") {	
+//console.log('has cookie been set?' + setsaveallowed);		
 				
 				 var $tgt = $(e.target);
-console.log('what tgt look like?');
-console.log($tgt.attr("name"));				
+//console.log('what tgt look like?');
+//console.log($tgt.attr("name"));				
         if ($tgt.is("#newmasteradd")) {
 					
 					newmastnameis = $("#newmasteradd input#newmastid ").val();
@@ -667,11 +688,11 @@ console.log($tgt.attr("name"));
 					firstsavenewmaster['swimmerid'] = newmastidis;
 					firstsavenewmaster['lanetrain'] = newlane;
 					jsonfirstsavenewmaster =  JSON.stringify(firstsavenewmaster);
-console.log('new member jsson');
-console.log(jsonfirstsavenewmaster);			
+//console.log('new member jsson');
+//console.log(jsonfirstsavenewmaster);			
 
 
-							$.post("/save", jsonfirstsavenewmaster ,function(result){
+							$.post("/save/" + setsaveallowed, jsonfirstsavenewmaster ,function(result){
 							// put a message back to UI to tell of a successful save TODO
 							});					
 				
@@ -695,17 +716,15 @@ var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">';
 				$("#saveconfirmswimmer").fadeOut("slow");
 
 				}
-				} // closes if cookie set
+			
 				});
 		
 	// load lane of swimmers
 		$("#loadlane").click(function () {
 			
-	
 			setsavedallowed = '';
 			setsaveallowed = $.cookie("traintimer");
-console.log('has cookie been set?' + setsaveallowed);		
-			if(setsaveallowed == "123321") {	
+//console.log('has cookie been set?' + setsaveallowed);		
 				
 				$("#loadlaneselect").show();
 				
@@ -724,18 +743,18 @@ console.log('has cookie been set?' + setsaveallowed);
 		
 			$("#thelaneoptions").change(function () {
 				selectedlanenow = $("#thelaneoptions").val();
-	console.log('yes lane' +selectedlanenow );
+	//console.log('yes lane' +selectedlanenow );
 				// make post request to get swimmer for this lane and dispaly
-					$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow);
+					$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow + '/' + setsaveallowed);
 				
 				});
-			}
+
     });				
 				
 				
 // drag and drop
-console.log('is ul.drop being picked up?');
-console.log($("ul.droptrue"));	
+//console.log('is ul.drop being picked up?');
+//console.log($("ul.droptrue"));	
 		$("ul.droptrue").sortable({
 			connectWith: 'ul',
 			opacity: 0.6,
@@ -767,7 +786,7 @@ starttiming = new SwimtimeController();
 	   e.preventDefault(e);
 var resultord = $('#sortable1').sortable('toArray');
 console.log('order after start pressed');		
-console.log(resultord);		
+//console.log(resultord);		
 		// dgatea = $swtgt.is("a");
 		 idclick = $(this).attr("id");
      idname = $(this).attr("name");	
@@ -791,7 +810,7 @@ console.log(idname);
 	   e.preventDefault(e);
 		 var $swtgt = $(e.target);
 console.log('find value of delegate');			
-console.log($swtgt);	
+//console.log($swtgt);	
 		 if ($swtgt.is("a")) {
 			idclick = $swtgt.attr("id");
 			idname =$swtgt.attr("name");	
@@ -806,6 +825,6 @@ console.log(idname);
 		 }
 	});
 	
-console.log('start whole app');		
-console.log(starttiming);	
+//console.log('start whole app');		
+//console.log(starttiming);	
 });

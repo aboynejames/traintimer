@@ -11,9 +11,9 @@
 */
 var ttSettings = function() {
   this.account = {};
-	this.account['couchdbname'] = 'change to your liking';
-	this.account['couchuser'] = 'change to your liking';
-	this.account['couchpwd'] = 'change to your liking';
+	this.account['couchdbname'] = '';
+	this.account['couchuser'] = '';
+	this.account['couchpwd'] = '';
 	this.account['cookieset'] = '';
 };
 

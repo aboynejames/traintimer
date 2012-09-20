@@ -6,9 +6,7 @@ var sio = require('socket.io');
 var EventEmitter = require('events').EventEmitter;
 var ttSettings = require("./ttSettings");
 
-couchin = {};
 
-	
 function start(fullpath, response) {
   console.log("Request handler 'start' was called.");
 
@@ -26,12 +24,14 @@ function start(fullpath, response) {
 * check signin details
 *
 */
-function signincheck (fullpath, response) {
+function signincheck (fullpath, response, request, emitter, couchin) {
   
-	couchin = new ttSettings();
+//	couchin = new ttSettings();
 //console.log(util.inspect(couchin));
 //console.log(util.inspect(couchin.account));
-	
+	//set cookieid
+	couchin.account['cookieset'] = fullpath[3];
+//console.log('prototype account set??' + couchin.account['cookieset']);	
 				checkusercouch ( response, fullpath) 
 
 				function checkusercouch ( response, fullpath) {
@@ -44,7 +44,7 @@ console.log(fullpath);
 				var opts = {
 				host: 'localhost',
 				port: 5984,
-				path: '/traintimer/_design/trainers/_view/by_trainers?key="' + fullpath[2] + '"',
+				path: '/' + couchin.account['couchdbname'] + '/_design/trainers/_view/by_trainers?key="' + fullpath[2] + '"',
 				auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd'],
 			};
 
@@ -59,18 +59,35 @@ console.log(fullpath);
 
 	
 					checkinres.on('end', function() {
-console.log('what is couch returning?? trainers');
-console.log(trainertocheck);		 
+//console.log('what is couch returning?? trainers');
+//console.log(trainertocheck);		 
 						jsontrainer =  JSON.parse(trainertocheck);
-console.log(jsontrainer);						
+//console.log(jsontrainer);						
 						jsontrainer["rows"].forEach(function(tpassdata){
 						
 						checktpassdata = tpassdata;	
 							
 						});	
-console.log('train user details');
-console.log(checktpassdata);
-						checkjson = JSON.stringify(checktpassdata);
+//console.log('train user details');
+//console.log(checktpassdata);
+//console.log(fullpath[4].length);		
+//console.log(checktpassdata['value'].length);		
+						stringone = checktpassdata['value'].toString();
+						stringtwo = fullpath[4].toString();
+//console.log(stringone);
+//console.log(stringtwo);							
+						correctpwd = '';
+						if(stringone === stringtwo) {
+							correctpwd = 'passed';
+							// save sessioncookie id for testing/validation TODO
+							
+						}
+						else
+						{
+							correctpwd = 'wrong';
+							
+						}
+						checkjson = JSON.stringify(correctpwd);
 						response.writeHead(200, {"Content-Type": "json"});
 						response.end(checkjson);
 
@@ -83,22 +100,40 @@ console.log(checktpassdata);
 
 					
 }  // closes sigincheck
-				
 
+
+/**
+* Signout
+*
+*/
+function signoutcheck (fullpath, response, request, emitter, couchin) {
+
+	if((couchin.account['cookieset'] == fullpath[2]) && (fullpath[2] != null)) {
+		
+		couchin.account['cookieset'] = '';
+		response.end();
+	}
+
+} // closes signoutcheck
+	
+	
 /**
 * get call on a couchdb view for list of swimmids and keys (make this function part of couchdb class with refactoring)
 *
 */
-function buildswimmers(fullpath, response) {
-  console.log("build the swimmer for this lane");
-
+function buildswimmers(firstpath, response, request, emitter, couchin) {
+console.log("build the swimmer for this lane");
+//console.log('at hander filelllllllleelle' + util.inspect(couchin));
+	// only allow lane load if signedin ie cookie set
+	if((couchin.account['cookieset'] == firstpath[4]) && (firstpath[4] != null))  {
+	
 // which lane, view, map for couchdb?
 	laneforcouch = '';
-	laneforcouch = fullpath[3]	;
+	laneforcouch = firstpath[3]	;
 	couchdesignview = '';
-	couchdesignview = fullpath[2];
+	couchdesignview = firstpath[2];
 	
-console.log(laneforcouch, couchdesignview);	
+//console.log(laneforcouch, couchdesignview);	
 	
 // query couch to get existing save swimmers (could be in groups e.g. lane swimmers)	
 	getSwimmerscouchdb (laneforcouch, couchdesignview);
@@ -110,7 +145,7 @@ console.log(laneforcouch, couchdesignview);
 				buildpathurl = '';
 			
 			// convert pathurl in couchdb path url string
-			  buildpathurl = '/traintimer/_design/by' + viewmapref + '/_view/' + 'by_' + viewmapref + '?key="' + laneforcouch +'"';
+			  buildpathurl = '/' + couchin.account['couchdbname'] + '/_design/by' + viewmapref + '/_view/' + 'by_' + viewmapref + '?key="' + laneforcouch +'"';
 			
   			var opts = {
 				host: 'localhost',
@@ -129,8 +164,8 @@ console.log(laneforcouch, couchdesignview);
 //console.log(swlivenew);								
 				});
 					resw.on('end', function() {
-console.log(' after end function what I am trying to return');			
-console.log(swlivenew);					
+//console.log(' after end function what I am trying to return');			
+//console.log(swlivenew);					
 					resultjs = JSON.parse(swlivenew);
 //console.log(resultjs["rows"]);
 						
@@ -147,6 +182,7 @@ console.log(swlivenew);
 	
 			});
 			
+
 			}  // getSwimmer view from couchdb close
 	 	
 			
@@ -164,7 +200,13 @@ console.log(swlivenew);
 				
 				return swimstarters;
 			}
-			
+	} // closes if cookie set
+	else
+	{
+		
+			response.end('Please sign in.');
+		
+	}
 }
 
 
@@ -223,170 +265,180 @@ function stopwatchcss(fullpath, response) {
       
 }
 
-function saveswimtimes(fullpath, response, request, emitter) {
-  console.log("Request handler 'saveswimtimes' was called");
-	
- if(request.method == 'POST'){
-			 
-		var datain = '';
-		var cleandata = '';
-		request.on('data', function(chunk) {
-			datain += chunk;
-			cleandata =  JSON.parse(datain);
-console.log('we have save next stage is to save to couch');
-//console.log(datain);
-//console.log(cleandata);		
-// what sort of save, setup of new swimmer or saving of times data?			
-				if(cleandata['name'] ) {
-					// new swimmer add
-//console.log('this will be to save new master swimmer');				
-					getUIDfromcouch (JSON.stringify(cleandata));
-					response.end();	
+function saveswimtimes(fullpath, response, request, emitter, couchin) {
+  console.log("Request handler 'saveswimtimes' was called" );
+	//console.log(util.inspect(couchin));
+	//console.log(couchin.account['cookieset'] + 'fullpath' + fullpath[2]);
+			// only allow lane load if signedin ie cookie set
+	if((couchin.account['cookieset'] == fullpath[2]) && (fullpath[2] != null)) {
+			
+		 if(request.method == 'POST'){
+					 
+				var datain = '';
+				var cleandata = '';
+				request.on('data', function(chunk) {
+					datain += chunk;
+					cleandata =  JSON.parse(datain);
+		console.log('we have save next stage is to save to couch');
+		//console.log(datain);
+		//console.log(cleandata);		
+		// what sort of save, setup of new swimmer or saving of times data?			
+						if(cleandata['name'] ) {
+							// new swimmer add
+		//console.log('this will be to save new master swimmer');				
+							getUIDfromcouch (JSON.stringify(cleandata));
+							response.end();	
+							
+						}
+						else
+						{
+						
+			// before saving need split into individaul swimmer data chunks and then save
+						cleandatasw = cleandata["splitdata"];
+							
+						// we can now get this data out to display live splits/times anywhere on the web
+							//var emitter = new EventEmitter;
+						emitter.emit('splitscall', cleandatasw);	  						
+							
+			//console.log('clean data splits');
+			//console.log(cleandatasw);			
+						var cleandatakey= Object.keys(cleandatasw);
+
+						cleandatakey.forEach(function(swimsplitsdata){
+						
+			// identify the swimmer  get their doc id and then update their data				
+							//swimsplitsdata
+
+			// need for reform JSON for couch and call on the PUT api call. (hive out to seperate function probably)
+							// form data as string
+							var sptoday = new Date();
+						datesplitnumber = Date.parse(sptoday);//Date.parse(cleandata["swimstatus"]['swimdate']);
+						newjsonswim = {};
+						newjsonswim["swimmerid"] = '';
+						newjsonswim["session"] = {};
+						newjsonswim["swimmerid"] = 	swimsplitsdata;
+						newjsonswim["session"][datesplitnumber] = cleandata["swimstatus"];	
+						newjsonswim["session"][datesplitnumber]["splittimes"]	= cleandatasw[swimsplitsdata];
+			console.log('new json swim');
+			//console.log(newjsonswim);				
+								stnewjsonswim = JSON.stringify(newjsonswim);
+			// call save function/class eventually
+							swimpath = '';
+							swimpath = getUIDfromcouch (stnewjsonswim);
+			//console.log('getUUIDDDD');
+								
+						});	// closes forEach to form data for couchdb
+												
+					response.end();					
+					}  // closes else	
+										
+				}); // initial requst of data from UI
+
+			}  // opening if
+
 					
-				}
+					function getUIDfromcouch (newjsonswimin) {
+
+						reudata = '';
+							
+						var opts = {
+						host: 'localhost',
+						port: 5984,
+						path: '/_uuids',
+						auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd'],
+					};
+
+					var requu = http.get(opts, function(resuu) {
+		 // console.log(res);
+							//return testreturn;	
+						resuu.setEncoding('utf8');
+						resuu.on('data', function(data) {
+			
+							var  uuidnew = data;	
+							jsonuud =  JSON.parse(uuidnew)
+
+								jsonuud["uuids"].forEach(function(udata){
+								
+								reudata = udata;	
+								});						
+			
+							resuu.on('end', function() {
+		//console.log(' after end function what I am trying to return');			
+		//console.log(reudata);
+								saveswimcouch(newjsonswimin, reudata)					
+							
+							});
+						
+						});
+					});
+					
+					}  // getuuid close
+					
+					
+					
+					
+					
+					
+			// form function and call it internally for now
+				function saveswimcouch(datatosaveswim, swimpathin) {
+					
+		console.log('start of couch save');		
+					// need to ask couchdb for unique doc id.
+					swimpathlive = swimpathin;
+		//console.log('what is return from UUDS');
+		//console.log(swimpathlive );			
+				// need to call the couchdb function / class  pass on data and PUT				
+					var opts = {
+					host: 'localhost',
+					port: 5984,
+					method: 'PUT',
+					path: '/' + couchin.account['couchdbname'] + '/' + swimpathlive,
+					auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd'],
+					headers: {}
+					};
+			
+			// JSON encoding
+				opts.headers['Content-Type'] = 'application/json';
+				data = datatosaveswim;//JSON.stringify(req.data);
+		//console.log('json object after stringify');
+		//console.log(data);			
+				opts.headers['Content-Length'] = data.length;
+				rec_data = '';
+			
+						var reqc = http.request(opts, function(responsec) {
+				
+							responsec.on('data', function(chunk) {
+							rec_data += chunk;
+							});
+								
+							responsec.on('end', function() {
+		console.log('any response data from couch??');	
+		//console.log(rec_data);
+							});
+						
+						});
+					
+						reqc.on('error', function(e) {
+		console.log(e);
+		console.log("Got error: " + e.message);
+						});
+
+						// write the data
+						if (opts.method == 'PUT') {
+		console.log('post has been sent');	
+							reqc.write(data);
+						}
+						reqc.end();		
+						
+					}	
+					
+				} //closes if
 				else
 				{
-				
-	// before saving need split into individaul swimmer data chunks and then save
-				cleandatasw = cleandata["splitdata"];
 					
-				// we can now get this data out to display live splits/times anywhere on the web
-					//var emitter = new EventEmitter;
-				emitter.emit('splitscall', cleandatasw);	  						
+					response.end('Please sign in to save');
 					
-	//console.log('clean data splits');
-	//console.log(cleandatasw);			
-				var cleandatakey= Object.keys(cleandatasw);
-
-				cleandatakey.forEach(function(swimsplitsdata){
-				
-	// identify the swimmer  get their doc id and then update their data				
-					//swimsplitsdata
-
-	// need for reform JSON for couch and call on the PUT api call. (hive out to seperate function probably)
-					// form data as string
-					var sptoday = new Date();
-				datesplitnumber = Date.parse(sptoday);//Date.parse(cleandata["swimstatus"]['swimdate']);
-				newjsonswim = {};
-				newjsonswim["swimmerid"] = '';
-				newjsonswim["session"] = {};
-				newjsonswim["swimmerid"] = 	swimsplitsdata;
-				newjsonswim["session"][datesplitnumber] = cleandata["swimstatus"];	
-				newjsonswim["session"][datesplitnumber]["splittimes"]	= cleandatasw[swimsplitsdata];
-	console.log('new json swim');
-	//console.log(newjsonswim);				
-						stnewjsonswim = JSON.stringify(newjsonswim);
-	// call save function/class eventually
-					swimpath = '';
-					swimpath = getUIDfromcouch (stnewjsonswim);
-	//console.log('getUUIDDDD');
-						
-				});	// closes forEach to form data for couchdb
-										
-			response.end();					
-			}  // closes else	
-								
-		}); // initial requst of data from UI
-
-	}  // opening if
-
-			
-			function getUIDfromcouch (newjsonswimin) {
-
-				reudata = '';
-					
-				var opts = {
-				host: 'localhost',
-				port: 5984,
-				path: '/_uuids',
-				auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd'],
-			};
-
-   		var requu = http.get(opts, function(resuu) {
- // console.log(res);
-					//return testreturn;	
-				resuu.setEncoding('utf8');
-				resuu.on('data', function(data) {
-	
-					var  uuidnew = data;	
-					jsonuud =  JSON.parse(uuidnew)
-
-						jsonuud["uuids"].forEach(function(udata){
-						
-						reudata = udata;	
-						});						
-	
-					resuu.on('end', function() {
-//console.log(' after end function what I am trying to return');			
-//console.log(reudata);
-						saveswimcouch(newjsonswimin, reudata)					
-       		
-					});
-				
-				});
-			});
-			
-			}  // getuuid close
-			
-			
-			
-			
-			
-			
-	// form function and call it internally for now
-		function saveswimcouch(datatosaveswim, swimpathin) {
-			
-console.log('start of couch save');		
-			// need to ask couchdb for unique doc id.
-			swimpathlive = swimpathin;
-//console.log('what is return from UUDS');
-//console.log(swimpathlive );			
-		// need to call the couchdb function / class  pass on data and PUT				
-			var opts = {
-			host: 'localhost',
-			port: 5984,
-			method: 'PUT',
-			path: '/traintimer/' + swimpathlive,
-			auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd'],
-			headers: {}
-			};
-	
-	// JSON encoding
-		opts.headers['Content-Type'] = 'application/json';
-		data = datatosaveswim;//JSON.stringify(req.data);
-//console.log('json object after stringify');
-//console.log(data);			
-		opts.headers['Content-Length'] = data.length;
-		rec_data = '';
-	
-				var reqc = http.request(opts, function(responsec) {
-		
-					responsec.on('data', function(chunk) {
-					rec_data += chunk;
-					});
-						
-					responsec.on('end', function() {
-console.log('any response data from couch??');	
-//console.log(rec_data);
-					});
-				
-				});
-			
-				reqc.on('error', function(e) {
-console.log(e);
-console.log("Got error: " + e.message);
-				});
-
-				// write the data
-				if (opts.method == 'PUT') {
-console.log('post has been sent');	
-					reqc.write(data);
 				}
-				reqc.end();		
-				
-			}	
-			
-
       
 } // closes function
 
@@ -418,3 +470,4 @@ exports.saveswimtimes = saveswimtimes;
 exports.buildswimmers = buildswimmers;
 exports.viewswimtimes =  viewswimtimes;
 exports.signincheck =  signincheck;
+exports.signoutcheck =  signoutcheck;
