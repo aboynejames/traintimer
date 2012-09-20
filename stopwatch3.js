@@ -572,7 +572,7 @@ loginpassed = '';
 												return hash;
 										}
 										passwordhash = hashCode(passwordin);
-										cookieidhash = hashCode((usernamein + password));									
+										cookieidhash = hashCode((usernamein + passwordin));									
 											
 										acceptdetails = '';
 		
