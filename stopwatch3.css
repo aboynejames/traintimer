@@ -13,7 +13,7 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 #controls { height:25px; margin:0 0 20px; padding:0; list-style:none;}
 #controls li {display:inline; float:left; margin:10px;}
 #controls li:last-child, #controls li.last {margin-right:0;}
-#controls li a {display:block; width:85px; text-align:center; line-height:50px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none;}
+#controls li a {display:block; width:85px; text-align:center; line-height:60px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none;}
 			 #start {background:#090;}
 			  #stop {background:#F7F;}
 			 #split {background:#069; }

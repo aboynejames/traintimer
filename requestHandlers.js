@@ -31,7 +31,7 @@ function signincheck (fullpath, response, request, emitter, couchin) {
 //console.log(util.inspect(couchin.account));
 	//set cookieid
 	couchin.account['cookieset'] = fullpath[3];
-//console.log('prototype account set??' + couchin.account['cookieset']);	
+//console.log('prototype account set??' + util.inspect(couchin) );	
 				checkusercouch ( response, fullpath) 
 
 				function checkusercouch ( response, fullpath) {
@@ -68,29 +68,39 @@ console.log(fullpath);
 						checktpassdata = tpassdata;	
 							
 						});	
-//console.log('train user details');
-//console.log(checktpassdata);
+console.log('train user details');
+console.log(checktpassdata);
 //console.log(fullpath[4].length);		
-//console.log(checktpassdata['value'].length);		
+//console.log(checktpassdata['value'].length);	
+							if(checktpassdata) {
 						stringone = checktpassdata['value'].toString();
 						stringtwo = fullpath[4].toString();
 //console.log(stringone);
 //console.log(stringtwo);							
-						correctpwd = '';
-						if(stringone === stringtwo) {
-							correctpwd = 'passed';
-							// save sessioncookie id for testing/validation TODO
-							
-						}
-						else
-						{
-							correctpwd = 'wrong';
-							
-						}
+							correctpwd = '';
+							if(stringone === stringtwo) {
+								correctpwd = 'passed';
+								// save sessioncookie id for testing/validation TODO
+								
+							}
+							else
+							{
+								correctpwd = 'wrong';
+								
+							}
+						
+
 						checkjson = JSON.stringify(correctpwd);
 						response.writeHead(200, {"Content-Type": "json"});
 						response.end(checkjson);
-
+						}
+						else {
+							
+							response.writeHead(200, {"Content-Type": "json"});
+							response.end('wrong');
+							
+							
+						}
        		
 					});
 

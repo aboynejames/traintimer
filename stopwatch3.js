@@ -28,6 +28,7 @@
 		if(clickid != "start" || clickid != "rest" || clickid != "save" ){
 	  this.activetimeclock.splitswimmerid(this.identifer);
 		}
+		
 		this.activetimeclock.startclock.load();	
 			
 			
@@ -51,8 +52,7 @@
 				
 			case "save":	
 					setsaveallowed = $.cookie("traintimer");
-console.log('has cookie been set for save?' + setsaveallowed);		
-				//		if(setsaveallowed == "-698696168") {	
+//console.log('has cookie been set for save?' + setsaveallowed);		
 									// prepare the data TODO abstract out to a function
 									swimdate = $("#swimdate").text();
 //console.log(swimdate);	
@@ -67,18 +67,19 @@ console.log('has cookie been set for save?' + setsaveallowed);
 									swimsplit = $("#swimsplit").val();
 //console.log(swimsplit);	
 // form swim data
-swimdatastatus = {};
-swimdatastatus['swimdate'] = swimdate;
-swimdatastatus['swimstroke'] = swimstroke;
-swimdatastatus['swimtechnique'] = swimtechnique;
-swimdatastatus['swimdistance'] = swimdistance;
-swimdatastatus['swimsplit'] = swimsplit;
+				swimdatastatus = {};
+				swimdatastatus['swimdate'] = swimdate;
+				swimdatastatus['swimstroke'] = swimstroke;
+				swimdatastatus['swimtechnique'] = swimtechnique;
+				swimdatastatus['swimdistance'] = swimdistance;
+				swimdatastatus['swimsplit'] = swimsplit;
 console.log(swimdatastatus);
 				// route to server side URL
 				stxt = {};
 				stxt['swimstatus'] = swimdatastatus;
 				stxt['splitdata'] = this.activetimeclock.sparray;		
-				stxtstring =  JSON.stringify(stxt);							
+				stxtstring =  JSON.stringify(stxt);			
+console.log('the splitdata' + stxt);					
 				// make socket send to get real time display anywhere
 				var socket = io.connect();
 				socket.emit('splitsdatalive', stxtstring);	
@@ -88,13 +89,10 @@ console.log(stxtstring);
 				// put a message back to UI to tell of a successful save TODO
 				
 				});
-			//}
 			break;
 				
 			}		
  }
- 
-	
 			
 }
 
@@ -240,26 +238,26 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		$("#sortable1").sortable( "option", "disabled", true );			
 		this.swiminterval = '';
 		this.swiminterval = $("#swiminterval").val();
-console.log('time interval set');
-console.log(this.swiminterval)
+//console.log('time interval set');
+//console.log(this.swiminterval)
 		
 // need to identify active swimmers from UI
 			// what order did the swimmers go off 
 		this.activeswimmers = [];
 		var noswimmerlive = $("a#stop").length;
-console.log('the number of #stop ids in live');		
-console.log(noswimmerlive);
-console.log('the number of #stop ids in live');		
+//console.log('the number of #stop ids in live');		
+//console.log(noswimmerlive);
+//console.log('the number of #stop ids in live');		
 
 		var listactives = [];
 	  //$("#sortable1 .ui-state-default").each(function(){
 	    //listactives.push($(this).attr('id'));
 	 // });
 		var listactives = $('#sortable1').sortable('toArray');
-console.log(listactives);
-countswimmers = listactives.length;
-console.log(countswimmers);		
-this.activeswimmers = listactives;
+//console.log(listactives);
+		countswimmers = listactives.length;
+//console.log(countswimmers);		
+		this.activeswimmers = listactives;
 
 		
 //console.log('start of start');		
@@ -313,8 +311,6 @@ var PerSwimmer = function() {
 	this.startclock = new MasterWatch();
 //	this.swimmer = swimid;	
 	
-
-	
 // need to identify swimmer split or stop that has been clicked on the UI
 	 	this.splitswimmerid = function(splitid) {
 		this.splitidlive = splitid;	
@@ -364,16 +360,16 @@ var PerSwimmer = function() {
 
 	
 	this.stop = function(stoploc) {
-console.log('start of stop');
-console.log(this.startclock.t[1]);
+//console.log('start of stop');
+//console.log(this.startclock.t[1]);
 // contorl logic, has the main timer been started? If you proceed if not do nothing.		
 	if(this.startclock.t[1] == 0) {
 		// nothing start do nothing.
 	}
 	else
 	{
-	console.log('what t arrays are set start after resetbutton pressed?');
-	console.log(this.startclock.t);
+//console.log('what t arrays are set start after resetbutton pressed?');
+//console.log(this.startclock.t);
 	// form stop location div
 			$splitslive = '#splits'+stoploc;
 	//console.log($splitslive);
@@ -390,9 +386,9 @@ console.log(this.startclock.t[1]);
 	// need to make this stop logic local to this swimmer
 			this.spid[this.splitidlive][0] = 1 - this.spid[this.splitidlive][0];
 
-console.log('vales of spid pre a logic if check');		
-console.log(this.spid);		
-console.log(this.t);
+//console.log('vales of spid pre a logic if check');		
+//console.log(this.spid);		
+//console.log(this.t);
 			
 				if (this.spid[this.splitidlive][0] == 0) {
 	
@@ -400,12 +396,12 @@ console.log(this.t);
 	// make the total time elasped in ms local to this swimerid
 				// what order did this swimmer go off?
 				swimpos = this.startclock.activeswimmers.indexOf(stoploc);
-console.log('swim position');
-console.log(swimpos);				
+//console.log('swim position');
+//console.log(swimpos);				
 				// order position times interval time period
 				stoplag = swimpos * (this.startclock.swiminterval * 1000);
-console.log('split lag to deduct');
-console.log(stoplag);				
+//console.log('split lag to deduct');
+//console.log(stoplag);				
 				stoptimelive = this.t[1] - this.t[0] - stoplag;
 					
 				this.spid[this.splitidlive][1] = stoptimelive;
@@ -417,8 +413,8 @@ console.log(stoplag);
 				
 	// make this stop/split id local to this swimmer				
 				this.spid[this.splitidlive][2]++;
-	console.log('t2 not equal to zero in stop');
-	console.log(this.t);
+	//console.log('t2 not equal to zero in stop');
+	//console.log(this.t);
 				$($splitslive).show();
 				$('<li><span>' + this.startclock.zero(this.spid[this.splitidlive][2]) + '</span> ' + this.startclock.format(this.spid[this.splitidlive][1]) + '</li>').appendTo($($splitslive)).slideDown('fast');
 				$($splitslive).find('li').removeClass('first last');
@@ -453,7 +449,7 @@ console.log(this.lookup);
 	 
 		if(this.stoppedlist.length == (this.startclock.activeswimmers.length)){
 		// stop the main stopwatch
-console.log('all watches have been stopped');		
+//console.log('all watches have been stopped');		
 			clearInterval(this.t[4]);
 		// /reset/clear stoppedlist counter
 			this.stoppedlist = [];
@@ -466,7 +462,7 @@ console.log('all watches have been stopped');
 * 
 */	
 	this.split = function(spidin) {
-console.log('split clicked');	
+//console.log('split clicked');	
 	// contorl logic, has the main timer been started? If yes proceed if not do nothing.		
 	if(this.startclock.t[1] == 0) {
 		// nothing start do nothing.
@@ -488,18 +484,18 @@ console.log('split clicked');
 			if (this.t[2] !== 0) {
 				this.spid[spidin][2]++;
 				
-console.log('from within if in split');	
-console.log(this.spid);
+//console.log('from within if in split');	
+//console.log(this.spid);
 //console.log(this.spid[1]);				
-console.log(this.t);				
+//console.log(this.t);				
 				// what order did this swimmer go off?
 				swimpos = this.startclock.activeswimmers.indexOf(spidin);
-console.log('swim position');
-console.log(swimpos);				
+//console.log('swim position');
+//console.log(swimpos);				
 				// order position times interval time period
 				splitlag = swimpos * (this.startclock.swiminterval * 1000);
-console.log('split lag to deduct');
-console.log(splitlag);				
+//console.log('split lag to deduct');
+//console.log(splitlag);				
 				splittimelive = this.t[3] + this.t[1] - this.t[0] - splitlag;
 				
 				this.spid[this.splitidlive][1] = splittimelive;
@@ -524,8 +520,25 @@ console.log(splitlag);
 * 
 */	
 $(document).ready(function(){
-
 console.log('start new timer object');	
+	$(window).unload( function () { 
+		
+
+				$("#loadlaneselect").hide();
+					$("#sortable1").empty();
+					$("#signinopener").show();
+	
+					// need to tell the server of the log out too
+						$.get("/signout/" + $.cookie("traintimer"), function(resultout){
+							
+						});
+					$.cookie("traintimer", null);
+
+					alert("You haved signed out of TrainTimer");
+
+		} );
+	// setup objects
+	starttiming = new SwimtimeController();
 	var today = new Date();
 
 		$("#swimdate").text(today);
@@ -585,12 +598,13 @@ var jsomesata = '';
 												if(resultback == 'passed') {		
 //console.log('what does model obejct look like?');
 //console.log($dialog.dialog);
-												passedsigntest("one");
+												//passedsigntest("one");
 												$.cookie("traintimer", cookieidhash,  { expires: 7 });
 												$("#ifsignedin").show();	
 												$("#ifsignedin").html('<a class="menu-text" text="SignOut" title="signout" href="#"  id="signincloser" >Sign-out</a>');
 												$dialog.dialog( "close" );
 												$("#signinopener").hide();
+												$("#sortable1").empty();
 												}
 												else {
 console.log('failed');
@@ -611,7 +625,7 @@ console.log('failed');
 porf = '';		
 function passedsigntest (porf) {
 	
-	console.log('is it zero or fail?'+ porf);
+	//console.log('is it zero or fail?'+ porf);
 }
 //console.log('passor fail outside of the function' + porf);		
 
@@ -622,7 +636,7 @@ function passedsigntest (porf) {
 	});
 	
 	$("#ifsignedin").click(function(e) {
-console.log('time to distroy the cookie please');
+//console.log('time to distroy the cookie please');
 			e.preventDefault(e);
 		 var $sotgt = $(e.target);
 //console.log('what tgt look like?');			
@@ -646,7 +660,7 @@ console.log('time to distroy the cookie please');
 		
 		$("#addswimmer").click(function () {
 			
-			lanelist = 'Lane: <select id="thelaneoptions">';
+			lanelist = ': <select id="thelaneoptions">';
 			lanelist +=	'<option value="1">-</option>';
 			lanelist +=	'<option value="1">1</option>';
 			lanelist +=	'<option value="2">2</option>';
@@ -665,7 +679,7 @@ console.log('time to distroy the cookie please');
 // add swimmer form produced after default layout therefore need to delegate to existing DOM element		
 			$("#newmaster").click(function (e) {
 				//$("#newmasteradd").click(function (e) {
-console.log('save new swimmer clicked');					
+//console.log('save new swimmer clicked');					
 //console.log(e);					
 				e.preventDefault(e);
 				// has the user signed in?
@@ -728,7 +742,7 @@ var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">';
 				
 				$("#loadlaneselect").show();
 				
-				lanelistlive = 'Lane: <select id="thelaneoptions">';
+				lanelistlive = ': <select id="thelaneoptions">';
 				lanelistlive +=	'<option value="1">-</option>';
 				lanelistlive +=	'<option value="1">1</option>';
 				lanelistlive +=	'<option value="2">2</option>';
@@ -746,7 +760,7 @@ var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">';
 	//console.log('yes lane' +selectedlanenow );
 				// make post request to get swimmer for this lane and dispaly
 					$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow + '/' + setsaveallowed);
-				
+					$("#loadlaneselect").hide();
 				});
 
     });				
@@ -774,18 +788,16 @@ var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">';
 
 
 $("#startsort").click(function (e) {
-console.log('stop sort called');
+//console.log('stop sort called');
 $("#sortable1").sortable( "option", "disabled", false );	
 
 });
-	
-starttiming = new SwimtimeController();
 	
 // need to identify which swimmers css markup has been clicked
 	$("a").click(function(e){
 	   e.preventDefault(e);
 var resultord = $('#sortable1').sortable('toArray');
-console.log('order after start pressed');		
+//console.log('order after start pressed');		
 //console.log(resultord);		
 		// dgatea = $swtgt.is("a");
 		 idclick = $(this).attr("id");
@@ -809,7 +821,7 @@ console.log(idname);
   //  $("a").click(function(e){
 	   e.preventDefault(e);
 		 var $swtgt = $(e.target);
-console.log('find value of delegate');			
+//console.log('find value of delegate');			
 //console.log($swtgt);	
 		 if ($swtgt.is("a")) {
 			idclick = $swtgt.attr("id");
@@ -826,5 +838,5 @@ console.log(idname);
 	});
 	
 //console.log('start whole app');		
-//console.log(starttiming);	
+console.log(starttiming);	
 });
