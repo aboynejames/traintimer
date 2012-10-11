@@ -22,32 +22,33 @@
 	 
 // need to set id of the swimmer thats split or stop has been click on the UI
 	 	this.identifyswimmer = function(swimid, clickid) {
+			
 		this.identifer = swimid;
 		this.clicktype = clickid;
+console.log('clickid= ' + this.clicktype);
+console.log('name = ' + this.identifer);		
+		this.activetimeclock.startclock.load();	
 			
 		if(clickid != "start" || clickid != "rest" || clickid != "save" ){
 	  this.activetimeclock.splitswimmerid(this.identifer);
 		}
-		
-		this.activetimeclock.startclock.load();	
-			
-			
+						
 			switch(this.clicktype){
 
 			case "start": 
 			this.activetimeclock.startclock.startStop();
 			break;
-				
-			case "reset": 
-			this.activetimeclock.startclock.reset();
-			break;
-
+			
 			case "split":
 			this.activetimeclock.split(this.identifer);
 			break;
 
 			case "stop":	
 			this.activetimeclock.stop(this.identifer);
+			break;
+				
+			case "reset": 
+			this.activetimeclock.startclock.reset();
 			break;
 				
 			case "save":	
@@ -91,10 +92,122 @@ console.log(stxtstring);
 				});
 			break;
 				
-			}		
- }
+				case "addswimmer":
+				
+				addswimform = '<form method="post" action="#" id="newmasteradd" >Name<input type="text" id="newmastid" name="swimmername"  size="12" />MID<input type="number" id="newmidid" name="mastersid"  size="6" /><input type="submit" value="Add" id="newmasteradd" /></form>';
+				$("#newmaster").html(addswimform);
+				$("#newmaster").show();
+				$("#loadlaneselect").show();
+					
+				break;
+				
+				case "loadlane":
+				
+					setsavedallowed = '';
+					setsaveallowed = $.cookie("traintimer");
+//console.log('has cookie been set?' + setsaveallowed);		
+				
+				$("#loadlaneselect").show();
+				
+				break;
+				
+				case "startsort":
+				
+				$("#sortable1").sortable( "option", "disabled", false );	
+				
+				break;
+				
+				case "signinopener":
+				
+					// sigin modal
+	loginhtml = '';
+	loginhtml += '<div>Welcome, to Train Timer - an open sport project</div>';
+	loginhtml += '<form method="post" action="#" id="siginform" >';
+	loginhtml += '<div><label for="name">Username</label><input id="name" class="text ui-widget-content ui-corner-all" type="text" name="name" size="16" ></div>';
+	loginhtml += '<div><label for="password">Password</label><input id="password" class="text ui-widget-content ui-corner-all" type="password" value="" name="password" size="16" ></div></form>';
+	loginhtml += '<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"> <div class="ui-dialog-buttonset"><button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button" role="button" aria-disabled="false"><span class="ui-button-text">Sign me in</span></button></div></div><div id="responsemessage"></div>';
+loginpassed = '';
+	var $dialog = $('<div id="siginform" ></div>')
+		.html(loginhtml)
+		.dialog({
+			autoOpen: false,
+			height: 300,
+			width: 260, 
+			title: 'Signin to Train Timer',
+			buttons: {
+										"Sign me in": function() {
+											// need to make couchdb call to accept user details
+//console.log('validation of the form signin');
+									
+										usernamein = '';
+										passwordin = '';
+										usernamein = $("#name").val();
+										passwordin = $("#password").val();	
+//console.log(usernamein);
+//console.log(passwordin);	
+										signtxt = {};
+										signtxt['username'] = usernamein;
+										signtxt['password'] = passwordin;		
+										signstring =  JSON.stringify(signtxt);	
+										// make has string
+										hashCode = function(str){
+												var hash = 0;
+												if (str.length == 0) return hash;
+												for (i = 0; i < str.length; i++) {
+														char = str.charCodeAt(i);
+														hash = ((hash<<5)-hash)+char;
+														hash = hash & hash; // Convert to 32bit integer
+												}
+												return hash;
+										}
+										passwordhash = hashCode(passwordin);
+										cookieidhash = hashCode((usernamein + passwordin));									
+											
+										acceptdetails = '';
+		
+										$.get("/signin/" + usernamein + '/' + cookieidhash + '/' + passwordhash, function(resultback){
+										// put a message back to UI to tell of a successful save TODO
+//console.log('what back from node');	
+//console.log(resultback);
+	
+												var jsomesata = '';											
+												if(resultback == 'passed') {		
+//console.log('what does model obejct look like?');
+//console.log($dialog.dialog);
+												//passedsigntest("one");
+												$.cookie("traintimer", cookieidhash,  { expires: 7 });
+												$("#ifsignedin").show();	
+												$("#ifsignedin").html('<a class="menu-text" text="SignOut" title="signout" href="#"  id="signincloser" >Sign-out</a>');
+												$dialog.dialog( "close" );
+												$("#signinopener").hide();
+												$("#sortable1").empty();
+												}
+												else {
+console.log('failed');
+													$("#responsemessage").html('Signin Failed, try again');
+												}
+										});											
+															
+										},
+										Cancel: function() {
+										$( this ).dialog( "close" );
+										},
+
+			}
+
+		});
+
+		$dialog.dialog('open');
+		// prevent the default action, e.g., following a link
+		return false;
+				
+				break;
+				
+			} // closes switch		
 			
-}
+ } // closes id function
+			
+}  // closes controller class
 
 
 /**
@@ -521,133 +634,39 @@ console.log(this.lookup);
 */	
 $(document).ready(function(){
 console.log('start new timer object');	
+
 	$(window).unload( function () { 
-		
-
-				$("#loadlaneselect").hide();
-					$("#sortable1").empty();
-					$("#signinopener").show();
 	
-					// need to tell the server of the log out too
-						$.get("/signout/" + $.cookie("traintimer"), function(resultout){
-							
+			$("#loadlaneselect").hide();
+			$("#sortable1").empty();
+			$("#signinopener").show();
+	
+				// need to tell the server of the log out too
+			$.get("/signout/" + $.cookie("traintimer"), function(resultout){
 						});
-					$.cookie("traintimer", null);
-
-					alert("You haved signed out of TrainTimer");
+			$.cookie("traintimer", null);
+      alert("You haved signed out of TrainTimer");
 
 		} );
 	// setup objects
+	$("#loadlaneselect").hide();
 	starttiming = new SwimtimeController();
 	var today = new Date();
 
-		$("#swimdate").text(today);
-	
-	// sigin modal
-	loginhtml = '';
-	loginhtml += '<div>Welcome, to Train Timer - an open sport project</div>';
-	loginhtml += '<form method="post" action="#" id="siginform" >';
-	loginhtml += '<div><label for="name">Username</label><input id="name" class="text ui-widget-content ui-corner-all" type="text" name="name" size="16" ></div>';
-	loginhtml += '<div><label for="password">Password</label><input id="password" class="text ui-widget-content ui-corner-all" type="password" value="" name="password" size="16" ></div></form>';
-	loginhtml += '<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"> <div class="ui-dialog-buttonset"><button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button" role="button" aria-disabled="false"><span class="ui-button-text">Sign me in</span></button></div></div><div id="responsemessage"></div>';
-loginpassed = '';
-	var $dialog = $('<div id="siginform" ></div>')
-		.html(loginhtml)
-		.dialog({
-			autoOpen: false,
-			height: 300,
-			width: 260, 
-			title: 'Signin to Train Timer',
-			buttons: {
-										"Sign me in": function() {
-											// need to make couchdb call to accept user details
-//console.log('validation of the form signin');
-									
-										usernamein = '';
-										passwordin = '';
-										usernamein = $("#name").val();
-										passwordin = $("#password").val();	
-//console.log(usernamein);
-//console.log(passwordin);	
-										signtxt = {};
-										signtxt['username'] = usernamein;
-										signtxt['password'] = passwordin;		
-										signstring =  JSON.stringify(signtxt);	
-										// make has string
-										hashCode = function(str){
-												var hash = 0;
-												if (str.length == 0) return hash;
-												for (i = 0; i < str.length; i++) {
-														char = str.charCodeAt(i);
-														hash = ((hash<<5)-hash)+char;
-														hash = hash & hash; // Convert to 32bit integer
-												}
-												return hash;
-										}
-										passwordhash = hashCode(passwordin);
-										cookieidhash = hashCode((usernamein + passwordin));									
-											
-										acceptdetails = '';
-		
-										$.get("/signin/" + usernamein + '/' + cookieidhash + '/' + passwordhash, function(resultback){
-										// put a message back to UI to tell of a successful save TODO
-//console.log('what back from node');	
-//console.log(resultback);
-	
-var jsomesata = '';											
-												if(resultback == 'passed') {		
-//console.log('what does model obejct look like?');
-//console.log($dialog.dialog);
-												//passedsigntest("one");
-												$.cookie("traintimer", cookieidhash,  { expires: 7 });
-												$("#ifsignedin").show();	
-												$("#ifsignedin").html('<a class="menu-text" text="SignOut" title="signout" href="#"  id="signincloser" >Sign-out</a>');
-												$dialog.dialog( "close" );
-												$("#signinopener").hide();
-												$("#sortable1").empty();
-												}
-												else {
-console.log('failed');
-													$("#responsemessage").html('Signin Failed, try again');
-												}
-										});											
-															
-										},
-										Cancel: function() {
-										$( this ).dialog( "close" );
-										},
-
-			}
-
-		});
-//console.log('what does model obejct look like?');
-//console.log($dialog.dialog);	
-porf = '';		
-function passedsigntest (porf) {
-	
-	//console.log('is it zero or fail?'+ porf);
-}
-//console.log('passor fail outside of the function' + porf);		
-
-	$('#signinopener').click(function() {
-		$dialog.dialog('open');
-		// prevent the default action, e.g., following a link
-		return false;
-	});
+	$("#swimdate").text(today);
 	
 	$("#ifsignedin").click(function(e) {
 //console.log('time to distroy the cookie please');
 			e.preventDefault(e);
-		 var $sotgt = $(e.target);
+			var $sotgt = $(e.target);
 //console.log('what tgt look like?');			
         if ($sotgt.is("#signincloser")) {
 					$("#ifsignedin").fadeOut("slow");
 						//$("#ifsignedin").hide();	
-						$("#loadlaneselect").hide();
+					$("#loadlaneselect").hide();
 					$("#sortable1").empty();
 					$("#signinopener").show();
 	
-					
 					// need to tell the server of the log out too
 						$.get("/signout/" + $.cookie("traintimer"), function(resultout){
 							
@@ -658,31 +677,12 @@ function passedsigntest (porf) {
 					
 	});
 		
-		$("#addswimmer").click(function () {
-			
-			lanelist = ': <select id="thelaneoptions">';
-			lanelist +=	'<option value="1">-</option>';
-			lanelist +=	'<option value="1">1</option>';
-			lanelist +=	'<option value="2">2</option>';
-			lanelist +=	'<option value="3">3</option>';
-			lanelist +=	'<option value="4">4</option>';
-			lanelist +=	'<option value="5">5</option>';
-			lanelist +=	'<option value="6">6</option>';
-			lanelist +=	'<option value="7">7</option>';
-			lanelist +=	'</select>';
-			
- 			addswimform = '<form method="post" action="#" id="newmasteradd" >Name<input type="text" id="newmastid" name="swimmername"  size="12" />MID<input type="number" id="newmidid" name="mastersid"  size="6" />' + lanelist + '<input type="submit" value="Add" id="newmasteradd" /></form>';
-			$("#newmaster").html(addswimform);
-				$("#newmaster").show();
-    });
 
 // add swimmer form produced after default layout therefore need to delegate to existing DOM element		
 			$("#newmaster").click(function (e) {
-				//$("#newmasteradd").click(function (e) {
-//console.log('save new swimmer clicked');					
-//console.log(e);					
-				e.preventDefault(e);
-				// has the user signed in?
+				
+					e.preventDefault(e);
+					// has the user signed in?
 					setsaveallowed = '';
 					setsaveallowed = $.cookie("traintimer");
 //console.log('has cookie been set?' + setsaveallowed);		
@@ -702,27 +702,22 @@ function passedsigntest (porf) {
 					firstsavenewmaster['swimmerid'] = newmastidis;
 					firstsavenewmaster['lanetrain'] = newlane;
 					jsonfirstsavenewmaster =  JSON.stringify(firstsavenewmaster);
-//console.log('new member jsson');
-//console.log(jsonfirstsavenewmaster);			
 
-
-							$.post("/save/" + setsaveallowed, jsonfirstsavenewmaster ,function(result){
+						$.post("/save/" + setsaveallowed, jsonfirstsavenewmaster ,function(result){
 							// put a message back to UI to tell of a successful save TODO
 							});					
 				
-					
-				
 				$("#newmaster").hide();
 // add html code for new swimmer added
-var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">';
+					var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">';
 					newswimcode += newmastnameis + ' HR<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
-	newswimcode +=	'<ul id="controls">';
-	newswimcode +=	'<li> <br /><a href="#" id="stop" name="'+ newmastidis +'" >Stop</a></li>';
-	newswimcode +=	'<li> <br /><a href="#" id="split" name="'+ newmastidis +'" >Split</a></li>';
-	newswimcode +=	'</ul>';
-	newswimcode +=	'<ul id="splits'+ newmastidis +'" class="splits" >';
-	newswimcode +=	'<li></li>';
-	newswimcode +=	'</ul></li>';
+					newswimcode +=	'<ul id="controls">';
+					newswimcode +=	'<li> <br /><a href="#" id="stop" name="'+ newmastidis +'" >Stop</a></li>';
+					newswimcode +=	'<li> <br /><a href="#" id="split" name="'+ newmastidis +'" >Split</a></li>';
+					newswimcode +=	'</ul>';
+					newswimcode +=	'<ul id="splits'+ newmastidis +'" class="splits" >';
+					newswimcode +=	'<li></li>';
+					newswimcode +=	'</ul></li>';
 					
 				$("#sortable1").append(newswimcode);
 				$("#saveconfirmswimmer").text('new master added');
@@ -731,44 +726,19 @@ var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">';
 
 				}
 			
-				});
-		
-	// load lane of swimmers
-		$("#loadlane").click(function () {
-			
-			setsavedallowed = '';
-			setsaveallowed = $.cookie("traintimer");
-//console.log('has cookie been set?' + setsaveallowed);		
-				
-				$("#loadlaneselect").show();
-				
-				lanelistlive = ': <select id="thelaneoptions">';
-				lanelistlive +=	'<option value="1">-</option>';
-				lanelistlive +=	'<option value="1">1</option>';
-				lanelistlive +=	'<option value="2">2</option>';
-				lanelistlive +=	'<option value="3">3</option>';
-				lanelistlive +=	'<option value="4">4</option>';
-				lanelistlive +=	'<option value="5">5</option>';
-				lanelistlive +=	'<option value="6">6</option>';
-				lanelistlive +=	'<option value="7">7</option>';
-				lanelistlive +=	'</select>';
-				$("#loadlaneselect").html(lanelistlive);
-					//$("#loadlane").show();
+			});
 		
 			$("#thelaneoptions").change(function () {
+				
 				selectedlanenow = $("#thelaneoptions").val();
-	//console.log('yes lane' +selectedlanenow );
+console.log('yes lane' +selectedlanenow );
 				// make post request to get swimmer for this lane and dispaly
-					$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow + '/' + setsaveallowed);
-					$("#loadlaneselect").hide();
-				});
-
-    });				
-				
-				
+				$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow + '/' + setsaveallowed);
+				$("#loadlaneselect").hide();
+			});	
+			
+			
 // drag and drop
-//console.log('is ul.drop being picked up?');
-//console.log($("ul.droptrue"));	
 		$("ul.droptrue").sortable({
 			connectWith: 'ul',
 			opacity: 0.6,
@@ -785,54 +755,27 @@ var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">';
 				});
 				$('#postOrder').val(arrorder.join(','));
 			}
-
-
-$("#startsort").click(function (e) {
-//console.log('stop sort called');
-$("#sortable1").sortable( "option", "disabled", false );	
-
-});
-	
+			
 // need to identify which swimmers css markup has been clicked
 	$("a").click(function(e){
-	   e.preventDefault(e);
-var resultord = $('#sortable1').sortable('toArray');
-//console.log('order after start pressed');		
-//console.log(resultord);		
-		// dgatea = $swtgt.is("a");
-		 idclick = $(this).attr("id");
-     idname = $(this).attr("name");	
-	
-console.log(idclick);
-console.log(idname);
-   // pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
-	  starttiming.identifyswimmer(idname, idclick);
+			e.preventDefault(e);
+			var resultord = $('#sortable1').sortable('toArray');
+			idclick = $(this).attr("id");
+			idname = $(this).attr("name");	
+			// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
+			starttiming.identifyswimmer(idname, idclick);
 		
 	});	
-	
-	//$("#sortable1").on("myCustomEvent", function(e, myName, myValue){
-  //$(this).append(myName + ", hi there!");
-     // pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
-	//		starttiming.identifyswimmer(idname, idclick);
-//});
-	
+
 	
 	$("#sortable1").on("click", function (e) {
   //  $("a").click(function(e){
 	   e.preventDefault(e);
 		 var $swtgt = $(e.target);
-//console.log('find value of delegate');			
-//console.log($swtgt);	
 		 if ($swtgt.is("a")) {
 			idclick = $swtgt.attr("id");
 			idname =$swtgt.attr("name");	
-	
-console.log(idclick);
-console.log(idname);
-			   //$("#sortable1").trigger("myCustomEvent", [ idclick ]);
-//});
-			 
-   // pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
+			// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
 			starttiming.identifyswimmer(idname, idclick);
 		 }
 	});

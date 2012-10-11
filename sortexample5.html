@@ -19,8 +19,6 @@
 	<script src="/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="pouchdb.js"></script>
 	<script type="text/javascript" src="stopwatch3.js"></script>
-	
-	
 	</head>
 	
 	<body>
@@ -55,7 +53,17 @@
 	</div>
 	<div id="swimadmin">
 					<a href="/addswimmer" id="addswimmer" >Add swimmer</a><span id="newmaster"></span><span id="saveconfirmswimmer" ></span>
-<span id="startsort" ><a href="#" >reset lane order</a></span><span id="loadlane" > <a href="#" >Load Lane</a></span><span id="loadlaneselect" ></span>
+<span id="startsortdiv" ><a href="#"  id="startsort">reset lane order</a></span><span id="loadlanediv" > <a href="#" id="loadlane" >Load Lane</a></span><span id="loadlaneselect" > :
+<select id="thelaneoptions">'
+				<option value="1">-</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				</select></span>
 </div>
 	<br />
 		<div class="demo">

@@ -273,6 +273,16 @@ function localcache(fullpath, response) {
       
 }
 
+function pouchdb(fullpath, response) {
+  console.log("Request handler 'pouchdb' was called.");	
+
+  fs.readFile('./pouchdb.js', function(err, data) {
+			  response.writeHead(200, {"Content-Type": "text/javascript"});
+	  	  response.end(data);
+	  });
+      
+}
+
 
 function stopwatchcss(fullpath, response) {
   console.log("Request handler 'start' was called.");
@@ -485,6 +495,7 @@ function viewswimtimes(fullpath, response, io) {
 
 exports.start = start;
 exports.stopwatch3 = stopwatch3;
+exports.pouchdb = pouchdb;			
 exports.dragdrop3 = dragdrop3;
 exports.scrollmin = scrollmin;
 exports.localcache = localcache;
