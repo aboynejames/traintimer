@@ -262,6 +262,18 @@ function scrollmin(fullpath, response) {
       
 }
 
+
+function localcache(fullpath, response) {
+  console.log("Request handler 'appcache' was called.");	
+
+  fs.readFile('./traintimer.appcache', function(err, data) {
+			  response.writeHead(200, {"Content-Type": "text/plain"});
+	  	  response.end(data);
+	  });
+      
+}
+
+
 function stopwatchcss(fullpath, response) {
   console.log("Request handler 'start' was called.");
 
@@ -475,6 +487,7 @@ exports.start = start;
 exports.stopwatch3 = stopwatch3;
 exports.dragdrop3 = dragdrop3;
 exports.scrollmin = scrollmin;
+exports.localcache = localcache;
 exports.stopwatchcss = stopwatchcss;
 exports.saveswimtimes = saveswimtimes;
 exports.buildswimmers = buildswimmers;
