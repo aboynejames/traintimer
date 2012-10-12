@@ -1,0 +1,21 @@
+CACHE MANIFEST
+# v12 2012-12-10
+# This is another comment
+#sortexample5.html
+css/dragdrop3.css
+stopwatch3.css
+pouchdb.js
+http://code.jquery.com/jquery-1.7.2.min.js
+http://code.jquery.com/ui/1.8.21/jquery-ui.min.js
+http://www.aboynejames.co.uk/jquery/punch.js
+http://www.aboynejames.co.uk/jquery/jquerycookie.js
+stopwatch3.js
+/socket.io/socket.io.js
+
+# Use from network if available
+NETWORK:
+#network.html
+
+# Fallback content
+FALLBACK:
+#/ fallback.html
