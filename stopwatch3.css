@@ -40,18 +40,64 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 * formatting of settings
 *
 */
-label {
+
+.rightselect {
+	width:60%;
+	font-size: 1em;
+	
+}
+
+.menu-text {
+	
+	font-size: 1.8em;
+	padding-left: 0px;
+	margin: 10px;
+	
+}
+
+.control-text {
+	
+	font-size: 1.2em;
+	margin: 6px;
+	
+}
+
+#swimdate {
+		font-size: 0.8em;
+		margin: 6px;
+	
+}
+
+@media screen and (min-width: 600px) {
+     .swimsettings {
+         font-size: 2.4em
+
+     }
+	 
+	 label {
 	float: left;
-	font-size:18px;
+	padding-top:0.4em;
+	/*font-size:18px;*/
+	width:130px;
+	margin-right:6px;
+	vertical-align: bottom;
+}
+}
+
+
+@media screen and (max-width: 240px) {
+   .swimsettings {
+          font-size: 4em;
+     }
+	 
+	 label {
+	float: left;
+	/*font-size:18px;*/
 	width:100px;
 	margin-right:6px;
 	vertical-align: bottom;
-
-
 }
-
-.rightselect {
-	width:180px;
-	font-size:18px;
+	 
+}
 	
-}
+	

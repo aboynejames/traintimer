@@ -121,7 +121,7 @@ console.log(stxtstring);
 				
 					// sigin modal
 	loginhtml = '';
-	loginhtml += '<div>Welcome, to Train Timer - an open sport project</div>';
+	loginhtml += '<div>Welcome, to Train Timer </div>';
 	loginhtml += '<form method="post" action="#" id="siginform" >';
 	loginhtml += '<div><label for="name">Username</label><input id="name" class="text ui-widget-content ui-corner-all" type="text" name="name" size="16" ></div>';
 	loginhtml += '<div><label for="password">Password</label><input id="password" class="text ui-widget-content ui-corner-all" type="password" value="" name="password" size="16" ></div></form>';
@@ -131,7 +131,7 @@ loginpassed = '';
 		.html(loginhtml)
 		.dialog({
 			autoOpen: false,
-			height: 300,
+			height: 340,
 			width: 260, 
 			title: 'Signin to Train Timer',
 			buttons: {
@@ -181,6 +181,9 @@ loginpassed = '';
 												$dialog.dialog( "close" );
 												$("#signinopener").hide();
 												$("#sortable1").empty();
+												
+												usernamein = '';
+												passwordin = '';
 												}
 												else {
 console.log('failed');
@@ -637,6 +640,7 @@ console.log('start new timer object');
 
 	$(window).unload( function () { 
 	
+			passwordin = '';
 			$("#loadlaneselect").hide();
 			$("#sortable1").empty();
 			$("#signinopener").show();
@@ -661,6 +665,7 @@ console.log('start new timer object');
 			var $sotgt = $(e.target);
 //console.log('what tgt look like?');			
         if ($sotgt.is("#signincloser")) {
+					passwordin = '';
 					$("#ifsignedin").fadeOut("slow");
 						//$("#ifsignedin").hide();	
 					$("#loadlaneselect").hide();
