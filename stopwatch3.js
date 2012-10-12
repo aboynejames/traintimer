@@ -126,7 +126,7 @@ console.log(stxtstring);
 	loginhtml += '<div><label for="name">Username</label><input id="name" class="text ui-widget-content ui-corner-all" type="text" name="name" size="16" ></div>';
 	loginhtml += '<div><label for="password">Password</label><input id="password" class="text ui-widget-content ui-corner-all" type="password" value="" name="password" size="16" ></div></form>';
 	loginhtml += '<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"> <div class="ui-dialog-buttonset"><button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button" role="button" aria-disabled="false"><span class="ui-button-text">Sign me in</span></button></div></div><div id="responsemessage"></div>';
-loginpassed = '';
+
 	var $dialog = $('<div id="siginform" ></div>')
 		.html(loginhtml)
 		.dialog({
@@ -142,13 +142,11 @@ loginpassed = '';
 										usernamein = '';
 										passwordin = '';
 										usernamein = $("#name").val();
-										passwordin = $("#password").val();	
-//console.log(usernamein);
-//console.log(passwordin);	
-										signtxt = {};
-										signtxt['username'] = usernamein;
-										signtxt['password'] = passwordin;		
-										signstring =  JSON.stringify(signtxt);	
+										passwordin = $("#password").val();											
+								//		signtxt = {};
+									//	signtxt['username'] = usernamein;
+										//signtxt['password'] = passwordin;		
+									//	signstring =  JSON.stringify(signtxt);	
 										// make has string
 										hashCode = function(str){
 												var hash = 0;
@@ -167,13 +165,10 @@ loginpassed = '';
 		
 										$.get("/signin/" + usernamein + '/' + cookieidhash + '/' + passwordhash, function(resultback){
 										// put a message back to UI to tell of a successful save TODO
-//console.log('what back from node');	
-//console.log(resultback);
-	
+											acceptdetails = resultback;
+							
 												var jsomesata = '';											
-												if(resultback == 'passed') {		
-//console.log('what does model obejct look like?');
-//console.log($dialog.dialog);
+												if(acceptdetails['signin'] == 'passed') {		
 												//passedsigntest("one");
 												$.cookie("traintimer", cookieidhash,  { expires: 7 });
 												$("#ifsignedin").show();	
@@ -182,14 +177,22 @@ loginpassed = '';
 												$("#signinopener").hide();
 												$("#sortable1").empty();
 												
+
 												usernamein = '';
 												passwordin = '';
+												passwordhash = '';
+										    cookieidhash = '';
+												setsavedallowed = '';
+												setsaveallowed = '';
+												signtxt = '';		
+												signstring =  '';
+//console.log('all reset???' + usernamein + passwordin + passwordhash + cookieidhash + setsavedallowed + setsaveallowed + signtxt + signstring);												
 												}
 												else {
-console.log('failed');
+//console.log('failed');
 													$("#responsemessage").html('Signin Failed, try again');
 												}
-										});											
+											});	
 															
 										},
 										Cancel: function() {
@@ -665,7 +668,10 @@ console.log('start new timer object');
 			var $sotgt = $(e.target);
 //console.log('what tgt look like?');			
         if ($sotgt.is("#signincloser")) {
-					passwordin = '';
+					
+					//starttiming = '';
+					//starttiming.activetimeclock = '';
+
 					$("#ifsignedin").fadeOut("slow");
 						//$("#ifsignedin").hide();	
 					$("#loadlaneselect").hide();

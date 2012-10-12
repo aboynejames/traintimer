@@ -32,7 +32,7 @@ function signincheck (fullpath, response, request, emitter, couchin) {
 	//set cookieid
 	couchin.account['cookieset'] = fullpath[3];
 //console.log('prototype account set??' + util.inspect(couchin) );	
-				checkusercouch ( response, fullpath) 
+				checkusercouch ( response, fullpath); 
 
 				function checkusercouch ( response, fullpath) {
 console.log('train details in from client ui');
@@ -72,20 +72,22 @@ console.log('train user details');
 console.log(checktpassdata);
 //console.log(fullpath[4].length);		
 //console.log(checktpassdata['value'].length);	
-							if(checktpassdata) {
+						checkvalue =checktpassdata.hasOwnProperty("value");
+console.log('check value of true or false' + checkvalue);						
+							if(checkvalue == 1) {
 						stringone = checktpassdata['value'].toString();
 						stringtwo = fullpath[4].toString();
 //console.log(stringone);
 //console.log(stringtwo);							
 							correctpwd = '';
 							if(stringone === stringtwo) {
-								correctpwd = 'passed';
+								correctpwd = {"signin":"passed"};
 								// save sessioncookie id for testing/validation TODO
 								
 							}
 							else
 							{
-								correctpwd = 'wrong';
+								correctpwd= {"signin":"wrong"};
 								
 							}
 						
@@ -95,9 +97,10 @@ console.log(checktpassdata);
 						response.end(checkjson);
 						}
 						else {
-							
+							correctpwd = {"signin":"wrong"};
+							checkjson = JSON.stringify(correctpwd);
 							response.writeHead(200, {"Content-Type": "json"});
-							response.end('wrong');
+							response.end(checkjson);
 							
 							
 						}
