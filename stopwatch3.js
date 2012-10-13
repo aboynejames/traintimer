@@ -759,6 +759,12 @@ console.log('start new timer object');
 				
 				selectedlanenow = $("#thelaneoptions").val();
 console.log('yes lane' +selectedlanenow );
+				//first check local
+				laneswimmersasked = livepouch.mapQueryname();
+				livepouch.allDocs();
+				//livepouch.
+				
+console.log('pouchased' + laneswimmersasked);				
 				// make post request to get swimmer for this lane and dispaly
 				$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow + '/' + setsaveallowed);
 				$("#loadlaneselect").hide();

@@ -84,12 +84,13 @@ pouchdbSettings.prototype.mapQueryname = function() {
 			
 			function map(traintimer) {
 				if(traintimer.name) {
-				emit(traintimer.name, traintimer.mid);
+				emit(traintimer.lanetrain, [traintimer.swimmerid, traintimer.name]);
 				}
 			}
 			db.query({map: map}, {reduce: false}, function(err, response) {
 
 console.log(response);
+				return response;
 				
 		});
 		});

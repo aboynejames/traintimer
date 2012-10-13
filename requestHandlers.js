@@ -296,6 +296,16 @@ function pouchalpha(fullpath, response) {
       
 }
 
+function ttHTML(fullpath, response) {
+  console.log("Request handler 'pouchdb' was called.");	
+
+  fs.readFile('./ttHTML.js', function(err, data) {
+			  response.writeHead(200, {"Content-Type": "text/javascript"});
+	  	  response.end(data);
+	  });
+      
+}
+
 function stopwatchcss(fullpath, response) {
   console.log("Request handler 'start' was called.");
 
@@ -518,3 +528,4 @@ exports.buildswimmers = buildswimmers;
 exports.viewswimtimes =  viewswimtimes;
 exports.signincheck =  signincheck;
 exports.signoutcheck =  signoutcheck;
+exports.ttHTML = ttHTML;			
