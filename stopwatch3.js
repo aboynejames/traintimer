@@ -94,10 +94,21 @@ console.log(stxtstring);
 				
 				case "addswimmer":
 				
-				addswimform = '<form method="post" action="#" id="newmasteradd" >Name<input type="text" id="newmastid" name="swimmername"  size="12" />MID<input type="number" id="newmidid" name="mastersid"  size="6" /><input type="submit" value="Add" id="newmasteradd" /></form>';
+			lanelist = ': <select id="thelaneoptions">';
+			lanelist +=	'<option value="1">-</option>';
+			lanelist +=	'<option value="1">1</option>';
+			lanelist +=	'<option value="2">2</option>';
+			lanelist +=	'<option value="3">3</option>';
+			lanelist +=	'<option value="4">4</option>';
+			lanelist +=	'<option value="5">5</option>';
+			lanelist +=	'<option value="6">6</option>';
+			lanelist +=	'<option value="7">7</option>';
+			lanelist +=	'</select>';
+				
+				addswimform = '<form method="post" action="#" id="newmasteradd" >Name<input type="text" id="newmastid" name="swimmername"  size="12" />MID<input type="number" id="newmidid" name="mastersid"  size="6" />' + lanelist +'<input type="submit" value="Add" id="newmasteradd" /></form>';
 				$("#newmaster").html(addswimform);
 				$("#newmaster").show();
-				$("#loadlaneselect").show();
+				//$("#loadlaneselect").show();
 					
 				break;
 				
@@ -657,7 +668,9 @@ console.log('start new timer object');
 		} );
 	// setup objects
 	$("#loadlaneselect").hide();
+	//fire up the classes
 	starttiming = new SwimtimeController();
+	livepouch = new pouchdbSettings;	
 	var today = new Date();
 
 	$("#swimdate").text(today);
@@ -714,6 +727,9 @@ console.log('start new timer object');
 					firstsavenewmaster['lanetrain'] = newlane;
 					jsonfirstsavenewmaster =  JSON.stringify(firstsavenewmaster);
 
+						//  make save to poudbfirst
+						livepouch.singleSave(jsonfirstsavenewmaster);
+						
 						$.post("/save/" + setsaveallowed, jsonfirstsavenewmaster ,function(result){
 							// put a message back to UI to tell of a successful save TODO
 							});					
