@@ -18,14 +18,13 @@
   $(function(){
     var socket = io.connect();
     socket.on('connect', function () {
-
 			
 			socket.on('splitsdatalive', function(thesplittimes) {
 			// need to convert object
-console.log('viewdata html real time display');
-console.log(thesplittimes);	
+//console.log('viewdata html real time display');
+//console.log(thesplittimes);	
 			splitjsondata =  JSON.parse(thesplittimes);
-console.log(splitjsondata);
+//console.log(splitjsondata);
 			formatlive = new MasterWatch();
 
 theevent = splitjsondata['swimstatus']['swimdate'] + ' ' + splitjsondata['swimstatus']['swimdistance'] + ' ' + splitjsondata['swimstatus']['swimsplit'] + ' ' + splitjsondata['swimstatus']['swimstroke'] + ' ' + splitjsondata['swimstatus']['swimtechnique'];
@@ -93,7 +92,6 @@ console.log(thecolourdiff);
 
   </div> <!-- closes container-->
 
-		<script type="text/javascript" src="jquery.scrollTo-min.js"></script>
 		<script type="text/javascript" src="stopwatch3.js"></script>
 
   </body>

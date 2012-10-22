@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" manifest="traintimer.appcache" >
+<html lang="en" manifest="traintimer.appcache> <!--manifest="traintimer.appcache"--> 
 <head>
 <meta charset="utf-8">
 <title>Train Timer - an open sport project</title>
@@ -24,15 +24,7 @@
 	
 	<body>
 	<div class="container">
-	<header>
-		<nav>
-			<li class="">
-			<a class="menu-text" text="Signin" title="signin" href="/signin"  id="signinopener" >Sign-in</a>
-			<a class="menu-text" text="viewsplits" title="viewsplits" href="/viewsplits">View Splits</a>
-			<div id="ifsignedin"></div>
-			</li>
-		</nav>
-	</header>
+
 	<style>
 			.demo {clear: both;}
         #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
@@ -52,25 +44,12 @@
 						<li><a href="/save" id="save">Save</a></li>
 		</ul>
 	</div>
-	<div id="swimadmin">
-					<a class="control-text" href="/addswimmer" id="addswimmer" >Add swimmer</a><span id="newmaster"></span><span id="saveconfirmswimmer" ></span>
-<span id="startsortdiv" >
-					<a class="control-text" href="#"  id="startsort">reset lane order</a></span><span id="loadlanediv" >
-					<a class="control-text" href="#" id="loadlane" >Load Lane</a></span><span id="loadlaneselect" > :
-<select id="thelaneoptions">'
-				<option value="1">-</option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-				<option value="6">6</option>
-				<option value="7">7</option>
-				</select></span>
-</div>
 	<br />
+	<div id="viewdatalive"></div>
+		<div id="visualisedata"></div>
+		<div id="splittimeshistorical"></div>
 		<div class="demo">
-			<h2>The Swimmers</h2>
+			<h2>The Swimmers <a class="" text="viewsplits" title="viewsplits" href="/viewsplits" id="viewdata" >View Data</a></h2> 
 			<ul id="sortable1" class='droptrue'>
 			</ul>
 		</div>
@@ -96,7 +75,7 @@
 		</select>
 		</div>
 		<div>
-			<label>Stroke:</label><select id="swiminterval" class="rightselect" >
+			<label>Stroke:</label><select id="swimstroke" class="rightselect" >
 		<option value="freestyle">freestyle</option>
 		<option value="backcrawl">backcrawl</option>
 		<option value="breaststroke">breaststroke</option>
@@ -105,7 +84,7 @@
 		</select>
 		</div>
 		<div>
-		<label>Technique:</label><select id="swiminterval" class="rightselect" >
+		<label>Technique:</label><select id="swimtechnique" class="rightselect" >
 		<option value="swim">swim</option>
 		<option value="kick">kick</option>
 		<option value="drill">drill</option>
@@ -113,7 +92,7 @@
 		</select>
 		</div>
 		<div>
-		<label>Distance:</label><select id="swiminterval" class="rightselect" >
+		<label>Distance:</label><select id="swimdistance" class="rightselect" >
 		<option value="100">100</option>
 		<option value="25">25</option>
 		<option value="50">50</option>
@@ -133,7 +112,7 @@
 		</select>
 		</div>
 		<div>
-			<label>Split:</label><select id="swiminterval" class="rightselect" >
+			<label>Split:</label><select id="swimsplit" class="rightselect" >
 		<option value="50">50</option>
 		<option value="25">25</option>
 		<option value="100">100</option>
@@ -143,13 +122,35 @@
 	<br />
 
 	</div>
-
+<div id="swimadmin">
+					<a class="control-text" href="/addswimmer" id="addswimmer" >Add swimmer</a><span id="newmaster"></span><span id="saveconfirmswimmer" ></span>
+<span id="startsortdiv" >
+					<a class="control-text" href="#"  id="startsort">reset lane order</a></span><span id="loadlanediv" >
+					<a class="control-text" href="#" id="loadlane" >Load Lane</a></span><span id="loadlaneselect" > :
+<select id="thelaneoptions">'
+				<option value="1">-</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				</select></span>
 </div>
+</div>
+	<br />
+	<header>
+		<nav>
+			<li class="">
+			<a class="menu-text" text="Signin" title="signin" href="/signin"  id="signinopener" >Sign-in</a>
+			<div id="ifsignedin"></div>
+			</li>
+		</nav>
+	</header>
 <footer id="contentinfo" class="body">
       <p>2012- <a href="">Train Timer - open sport project</a></p>
     </footer><!-- /#contentinfo -->
-
-	<!--	<script type="text/javascript" src="jquery.scrollTo-min.js"></script>-->
 
   </body>
   </html>

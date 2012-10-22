@@ -41,11 +41,7 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 *
 */
 
-.rightselect {
-	width:60%;
-	font-size: 1em;
-	
-}
+
 
 .menu-text {
 	
@@ -67,14 +63,47 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 		margin: 6px;
 	
 }
+	
+	 label {
+	float: left;
+	width:80px;
+	margin-right:6px;
+	vertical-align: bottom;
+	font: bold;
+}
+
+.rightselect {
+	font-size: 1em;
+	width:60%;
+	
+}
+
+@media screen and (max-width: 240px) {
+	
+	
+   .swimsettings {
+          font-size: 4em;
+     }
+	
+	
+
+	 
+}
+
 
 @media screen and (min-width: 600px) {
      .swimsettings {
          font-size: 2.4em
 
      }
-	 
-	 label {
+	
+	.rightselect {
+	width:60%;
+	font-size: 1em;
+	
+}
+	
+	label {
 	float: left;
 	padding-top:0.4em;
 	/*font-size:18px;*/
@@ -85,19 +114,11 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 }
 
 
-@media screen and (max-width: 240px) {
-   .swimsettings {
-          font-size: 4em;
-     }
-	 
-	 label {
-	float: left;
-	/*font-size:18px;*/
-	width:100px;
-	margin-right:6px;
-	vertical-align: bottom;
-}
-	 
-}
+
+
 	
-	
+/*
+*
+* for view data 
+*
+*/	

@@ -56,40 +56,75 @@ console.log('name = ' + this.identifer);
 //console.log('has cookie been set for save?' + setsaveallowed);		
 									// prepare the data TODO abstract out to a function
 									swimdate = $("#swimdate").text();
-//console.log(swimdate);	
 									swimstyle = $("#swimstyle").val();
-//console.log(swimstyle);	
 									swimstroke = $("#swimstroke").val();
-//console.log(swimstroke);	
 									swimtechnique = $("#swimtechnique").val();
-//console.log(swimtechnique);	
 									swimdistance = $("#swimdistance").val();
-//console.log(swimdistance);
 									swimsplit = $("#swimsplit").val();
-//console.log(swimsplit);	
-// form swim data
-				swimdatastatus = {};
-				swimdatastatus['swimdate'] = swimdate;
-				swimdatastatus['swimstroke'] = swimstroke;
-				swimdatastatus['swimtechnique'] = swimtechnique;
-				swimdatastatus['swimdistance'] = swimdistance;
-				swimdatastatus['swimsplit'] = swimsplit;
-console.log(swimdatastatus);
-				// route to server side URL
-				stxt = {};
-				stxt['swimstatus'] = swimdatastatus;
-				stxt['splitdata'] = this.activetimeclock.sparray;		
-				stxtstring =  JSON.stringify(stxt);			
-console.log('the splitdata' + stxt);					
-				// make socket send to get real time display anywhere
-				var socket = io.connect();
-				socket.emit('splitsdatalive', stxtstring);	
+									// form swim data
+									swimdatastatus = {};
+									swimdatastatus['swimdate'] = swimdate;
+									swimdatastatus['swimstyle'] = swimstyle;
+									swimdatastatus['swimstroke'] = swimstroke;
+									swimdatastatus['swimtechnique'] = swimtechnique;
+									swimdatastatus['swimdistance'] = swimdistance;
+									swimdatastatus['swimsplit'] = swimsplit;
+//console.log(swimdatastatus);
+								// route to server side URL
+								stxt = {};
+								stxt['swimstatus'] = swimdatastatus;
+								stxt['splitdata'] = this.activetimeclock.sparray;		
+								stxtstring =  JSON.stringify(stxt);			
+console.log('the splitdata' + stxt);
+console.log(stxt);										
+								// make socket send to get real time display anywhere
+								//var socket = io.connect();
+								//socket.emit('splitsdatalive', stxtstring);	
 					
-console.log(stxtstring);
-				$.post("/save/" + setsaveallowed, stxtstring ,function(result){
-				// put a message back to UI to tell of a successful save TODO
-				
-				});
+//console.log(stxtstring);
+									// save to localpouchdb need to prepare buld array json structure 
+									
+									cleandatakey = {};
+									bulksplits = [];
+									i = 0;
+								cleandatakey= Object.keys(stxt['splitdata']);
+								cleandatakey.forEach(function(bulkkey){
+									newjsonswim = {};
+console.log(newjsonswim);										
+console.log('id of swimmer loop' + bulkkey);
+								if(stxt['splitdata'][bulkkey].length > 0 ) 
+								{									
+									var sptoday = new Date();
+									datesplitnumber = Date.parse(sptoday);//Date.parse(cleandata["swimstatus"]['swimdate']);
+
+									newjsonswim["swimmerid"] = '';
+									newjsonswim["session"] = {};
+									activesplitsb  = [];	
+									activesplitsb = stxt['splitdata'][bulkkey]
+									newjsonswim["swimmerid"] = bulkkey;
+									newjsonswim["session"]["sessionid"] = datesplitnumber;	
+									newjsonswim["session"]["swiminfo"] = stxt['swimstatus'];	
+									newjsonswim["session"]["splittimes"]	= activesplitsb;
+console.log(activesplitsb);									
+console.log('json for pouchdb strcuture');
+console.log(newjsonswim);
+console.log(activesplitsb);										
+									//livepouch.singleSave(newjsonswim);
+									bulksplits[i] = newjsonswim;
+									i++
+									}		
+									// collect array and then do bulk save as single saving timing out.
+
+								});
+console.log('bulksplits object for saving to pouch');								
+console.log(bulksplits);		
+									livepouch.bulkSave(bulksplits);
+							
+								
+								//$.post("/save/" + setsaveallowed, stxtstring ,function(result){
+								// put a message back to UI to tell of a successful save TODO
+								
+								//});
 			break;
 				
 				case "addswimmer":
@@ -188,7 +223,6 @@ console.log(stxtstring);
 												$("#signinopener").hide();
 												$("#sortable1").empty();
 												
-
 												usernamein = '';
 												passwordin = '';
 												passwordhash = '';
@@ -219,6 +253,38 @@ console.log(stxtstring);
 		return false;
 				
 				break;
+		
+			case "viewdata":
+			// needs swimmerids and names
+			function localDatacall(selectedlanenow, callback) {  
+				livepouch.mapQueryname(selectedlanenow, callback);
+			}  
+      selectedlanenow = 1;
+			localDatacall(selectedlanenow, function(rtmap) {  
+
+				presentswimmerlist = {};
+									
+				rtmap["rows"].forEach(function(rowswimrs){
+console.log(rowswimrs);
+					if(rowswimrs['key'] == selectedlanenow )
+					{
+						//stringswnames += rowswimrs['value'][1];
+console.log(rowswimrs['value'][0]);						
+						//pass the lane data to get html ready
+						presentswimmerlist[rowswimrs['value'][0]] = rowswimrs['value'][1];
+							
+					}
+				});
+console.log(presentswimmerlist);
+				// pass along for html formatting
+				datahead = liveHTML.viewdataHeader(presentswimmerlist);
+				$("#viewdatalive").html(datahead);
+			});
+
+
+
+
+			break;
 				
 			} // closes switch		
 			
@@ -671,6 +737,7 @@ console.log('start new timer object');
 	//fire up the classes
 	starttiming = new SwimtimeController();
 	livepouch = new pouchdbSettings;	
+	liveHTML = new ttHTML;	
 	var today = new Date();
 
 	$("#swimdate").text(today);
@@ -728,24 +795,17 @@ console.log('start new timer object');
 					jsonfirstsavenewmaster =  JSON.stringify(firstsavenewmaster);
 
 						//  make save to poudbfirst
-						livepouch.singleSave(jsonfirstsavenewmaster);
+						livepouch.singleSave(firstsavenewmaster);
 						
-						$.post("/save/" + setsaveallowed, jsonfirstsavenewmaster ,function(result){
+						//$.post("/save/" + setsaveallowed, jsonfirstsavenewmaster ,function(result){
 							// put a message back to UI to tell of a successful save TODO
-							});					
+						//	});					
 				
 				$("#newmaster").hide();
 // add html code for new swimmer added
-					var newswimcode = '<li class="ui-state-default"  id="'+ newmastidis +'">';
-					newswimcode += newmastnameis + ' HR<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
-					newswimcode +=	'<ul id="controls">';
-					newswimcode +=	'<li> <br /><a href="#" id="stop" name="'+ newmastidis +'" >Stop</a></li>';
-					newswimcode +=	'<li> <br /><a href="#" id="split" name="'+ newmastidis +'" >Split</a></li>';
-					newswimcode +=	'</ul>';
-					newswimcode +=	'<ul id="splits'+ newmastidis +'" class="splits" >';
-					newswimcode +=	'<li></li>';
-					newswimcode +=	'</ul></li>';
-					
+					newswimcode = '';		
+					newswimcode = liveHTML.fromswimmers(newmastnameis, newmastidis);			
+							
 				$("#sortable1").append(newswimcode);
 				$("#saveconfirmswimmer").text('new master added');
 				$("#saveconfirmswimmer").show();
@@ -756,15 +816,50 @@ console.log('start new timer object');
 			});
 		
 			$("#thelaneoptions").change(function () {
-				
+	//livepouch.deletePouch();
+				$("#viewdatalive").empty();
+				$("#visualisedata").empty();
+				$("#splittimeshistorical").empty();
 				selectedlanenow = $("#thelaneoptions").val();
-console.log('yes lane' +selectedlanenow );
+console.log('yes lane' + selectedlanenow );
 				//first check local
-				laneswimmersasked = livepouch.mapQueryname();
-				livepouch.allDocs();
-				//livepouch.
-				
-console.log('pouchased' + laneswimmersasked);				
+					function localDatacall(selectedlanenow, callback) {  
+						livepouch.mapQueryname(selectedlanenow, callback);
+					}  
+      
+					localDatacall(selectedlanenow, function(rtmap) {  
+
+						presentswimmer = '';
+						
+//console.log(rtmap + 'what get back??');
+//console.log(rtmap);			
+					rtmap["rows"].forEach(function(rowswimrs){
+//console.log(rowswimrs['key']);
+							if(rowswimrs['key'] == selectedlanenow )
+							{
+								//stringswnames += rowswimrs['value'][1];
+								//pass the lane data to get html ready
+								presentswimmer += liveHTML.fromswimmers(rowswimrs['value'][1], rowswimrs['value'][0]);
+							
+								}
+						});
+
+				$("#sortable1").html(presentswimmer);	
+
+	// test splits data recall						
+	function localDataSPcall(dataspin, callback) {  
+						livepouch.mapQuerySplits(dataspin, callback);
+
+					}  
+      
+					localDataSPcall('1', function(spmap) {  
+//console.log('how splits data look after save');
+//console.log(spmap);						
+						});						
+						
+
+    });  
+							
 				// make post request to get swimmer for this lane and dispaly
 				$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow + '/' + setsaveallowed);
 				$("#loadlaneselect").hide();
@@ -811,6 +906,27 @@ console.log('pouchased' + laneswimmersasked);
 			// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
 			starttiming.identifyswimmer(idname, idclick);
 		 }
+	});
+	
+	$("#viewdatalive").change(function (ec) {
+		
+		ec.preventDefault(ec);
+		$("#sortable1").empty();
+		var $chdiv = $(ec.target);
+		changefrom = $chdiv.attr("id");
+		changefromvalue = $chdiv.attr("value");
+//console.log($chdiv);
+//console.log(changefrom);
+		if(changefrom == "theswimmerview")
+		{
+			$("#visualisedata").empty();
+			$('#splittimeshistorical').empty();
+			// 1 get the data, 2 pass on the HTML class
+			datacall = livepouch.returndatacallback(changefromvalue);
+//console.log('databacl when?' + datacall);			
+			
+		}
+		
 	});
 	
 //console.log('start whole app');		

@@ -359,9 +359,6 @@ function saveswimtimes(fullpath, response, request, emitter, couchin) {
 						var cleandatakey= Object.keys(cleandatasw);
 
 						cleandatakey.forEach(function(swimsplitsdata){
-						
-			// identify the swimmer  get their doc id and then update their data				
-							//swimsplitsdata
 
 			// need for reform JSON for couch and call on the PUT api call. (hive out to seperate function probably)
 							// form data as string
