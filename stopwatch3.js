@@ -716,7 +716,7 @@ console.log(this.lookup);
 * 
 */	
 $(document).ready(function(){
-console.log('start new timer object');	
+//console.log('start new timer object');	
 
 	$(window).unload( function () { 
 	
