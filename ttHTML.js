@@ -77,7 +77,7 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin) {
 	visualdata += ' ';		
 	visualdata += swimidin[perswimmersp]['swiminfo']['swimsplit'];
 	visualdata += '<br />';
-	visualdata += '<div id="splittimeshistorical' + perswimmersp + '"></div>';	
+	visualdata += '<div class="splitview" id="splittimeshistorical' + perswimmersp + '"></div>';	
 		// now build the splits color coded
 	//$("#visualisedata").html(visualdata);
 	$('#visualisedata').prepend(visualdata);
@@ -110,7 +110,7 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin) {
 		
 		visualdatasph = '<li>' + starttiming.activetimeclock.startclock.format(speratesplit) + ' ' + 'split ' + shortsplit + '</li>';
 		$(visualdatasph).css("color", thecolourdiff).prependTo($(" #splittimeshistorical" + perswimmersp));
-		$("#splittimeshistorical").append('<div id="visualisedata' + perswimmersp + '"></div>');	
+		//$("#splittimeshistorical").append('<div id="visualisedata' + perswimmersp + '"></div>');	
 		thecolourdiff = '';
 		});
 
