@@ -861,7 +861,7 @@ console.log('yes lane' + selectedlanenow );
     });  
 							
 				// make post request to get swimmer for this lane and dispaly
-				$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow + '/' + setsaveallowed);
+				//$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow + '/' + setsaveallowed);
 				$("#loadlaneselect").hide();
 			});	
 			
