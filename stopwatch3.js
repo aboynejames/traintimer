@@ -259,7 +259,7 @@ console.log(bulksplits);
 			function localDatacall(selectedlanenow, callback) {  
 				livepouch.mapQueryname(selectedlanenow, callback);
 			}  
-      selectedlanenow = 1;
+      selectedlanenow = $("#thelaneoptions").val();
 			localDatacall(selectedlanenow, function(rtmap) {  
 
 				presentswimmerlist = {};
