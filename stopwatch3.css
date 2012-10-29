@@ -110,10 +110,16 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 
 }
 
+#theswimmerview {
+	
+	font-size: 2em;
+	width:80%;
+	
+}
+
 @media screen and (max-width: 240px) {
 	
 
-	
 	
 
 	 
@@ -160,5 +166,12 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 
 }
 
+#theswimmerview {
+	
+	font-size: 2em;
+	width:20%;
+	
+}
+	
 
 }

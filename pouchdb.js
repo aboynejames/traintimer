@@ -91,7 +91,7 @@ console.log('lane number in' + lanein);
 				}
 
 				db.query({map: map}, {reduce: false}, function(err, response) {
-console.log(response);		
+//console.log(response);		
 				callbackin(response);
 			});
 		});
@@ -110,7 +110,7 @@ pouchdbSettings.prototype.mapQuerySplits = function(lanein, callbackin) {
 				}
 
 				db.query({map: map}, {reduce: false}, function(err, response) {
-console.log(response);		
+//console.log(response);		
 				callbackin(response);
 			});
 		});
@@ -122,7 +122,7 @@ pouchdbSettings.prototype.changeLog = function() {
 		Pouch(this.account['pouchdbname'], function(err, db) {
 			
 		db.changes(function(err, response) {
-console.log(response);
+//console.log(response);
 			
 			});
 

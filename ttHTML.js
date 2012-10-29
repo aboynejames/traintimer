@@ -31,8 +31,9 @@ ttHTML.prototype.fromswimmers = function(swname, swid) {
 			
 ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 	
-	var viewdatahead = '<h1>View Data, Stats & Charts</h1>';
+	var viewdatahead = '<br />';
 	viewdatahead += '<select id="theswimmerview">';
+	viewdatahead += '<option value="-">-</option>';
 	
 	var swimids = Object.keys(swimmerlist);
 	swimids.forEach(function(swlist) {

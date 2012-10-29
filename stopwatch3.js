@@ -129,8 +129,8 @@ console.log(bulksplits);
 				
 				case "addswimmer":
 				
-			lanelist = ': <select id="thelaneoptions">';
-			lanelist +=	'<option value="1">-</option>';
+			lanelist = ': <select id="thelaneoptionsnew">';
+			lanelist +=	'<option  selected="-" value="-1">-</option>';
 			lanelist +=	'<option value="1">1</option>';
 			lanelist +=	'<option value="2">2</option>';
 			lanelist +=	'<option value="3">3</option>';
@@ -140,7 +140,7 @@ console.log(bulksplits);
 			lanelist +=	'<option value="7">7</option>';
 			lanelist +=	'</select>';
 				
-				addswimform = '<form method="post" action="#" id="newmasteradd" >Name<input type="text" id="newmastid" name="swimmername"  size="12" />MID<input type="number" id="newmidid" name="mastersid"  size="6" />' + lanelist +'<input type="submit" value="Add" id="newmasteradd" /></form>';
+				addswimform = '<form class="menu-text" method="post" action="#" id="newmasteradd" >Name<input type="text" id="newmastid" name="swimmername"  size="12" />' + lanelist +'<input type="submit" value="Add" id="newmasteradd" /></form>';
 				$("#newmaster").html(addswimform);
 				$("#newmaster").show();
 				//$("#loadlaneselect").show();
@@ -256,6 +256,8 @@ console.log(bulksplits);
 		
 			case "viewdata":
 			// needs swimmerids and names
+		  $("#sortable1").empty();
+		
 			function localDatacall(selectedlanenow, callback) {  
 				livepouch.mapQueryname(selectedlanenow, callback);
 			}  
@@ -265,24 +267,21 @@ console.log(bulksplits);
 				presentswimmerlist = {};
 									
 				rtmap["rows"].forEach(function(rowswimrs){
-console.log(rowswimrs);
+//console.log(rowswimrs);
 					if(rowswimrs['key'] == selectedlanenow )
 					{
 						//stringswnames += rowswimrs['value'][1];
-console.log(rowswimrs['value'][0]);						
+//console.log(rowswimrs['value'][0]);						
 						//pass the lane data to get html ready
 						presentswimmerlist[rowswimrs['value'][0]] = rowswimrs['value'][1];
 							
 					}
 				});
-console.log(presentswimmerlist);
+//console.log(presentswimmerlist);
 				// pass along for html formatting
 				datahead = liveHTML.viewdataHeader(presentswimmerlist);
 				$("#viewdatalive").html(datahead);
 			});
-
-
-
 
 			break;
 				
@@ -784,8 +783,27 @@ $(document).ready(function(){
         if ($tgt.is("#newmasteradd")) {
 					
 					newmastnameis = $("#newmasteradd input#newmastid ").val();
-					newmastidis = $("#newmasteradd input#newmidid ").val();	
-					newlane = $("#thelaneoptions").val();
+					//newmastidis = $("#newmasteradd input#newmidid ").val();
+												hashCode = function(str){
+												var hash = 0;
+												if (str.length == 0) return hash;
+												for (i = 0; i < str.length; i++) {
+														char = str.charCodeAt(i);
+														hash = ((hash<<5)-hash)+char;
+														hash = hash & hash; // Convert to 32bit integer
+												}
+console.log(hash + 'new hasnumber');
+												return hash;
+												}
+												var newidnumberstart = new Date();
+												newswimmerguid = Date.parse(newidnumberstart);
+console.log('date string' + newswimmerguid)	;									
+					newmastidish = hashCode(newmastnameis);
+					newmastidisrand = Math.floor((Math.random()*10000000)+1);
+console.log(newmastidisrand + 'randon number');												
+					newmastidis = newmastidisrand + '-' + newmastidish;												
+console.log('new GUID' + newmastidis);					
+					newlane = $("#thelaneoptionsnew").val();
 					
 // need to save new master to couch, name and masters id,  validate unique ID number
 					firstsavenewmaster = {};
