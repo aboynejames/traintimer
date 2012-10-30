@@ -81,7 +81,9 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 
 	
    .swimsettings {
-          font-size: 1.6em;
+
+		font-size: 1.6em;
+		clear:both;
      }
 
 	
@@ -98,6 +100,19 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 	margin-right:20px;
 	font: 2em;
 
+}
+
+.splitview {
+	
+	float:left;
+	clear:both;
+}
+
+.splitviewcompare {
+	
+	float:left;
+	margin-left:20px;
+	margin-top: 20px;
 }
 
 .splitview li {
@@ -117,6 +132,14 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 	
 }
 
+.lastcomparespace {
+	display: inline;
+	width:25%;
+	margin-left:20px;
+	clear:both;
+}
+
+
 @media screen and (max-width: 240px) {
 	
 
@@ -128,7 +151,9 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 
 @media screen and (min-width: 600px) {
      .swimsettings {
-         font-size: 2.4em
+
+		font-size: 2.4em;
+		clear:both;
 
      }
 	
@@ -156,6 +181,20 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 
 }
 
+.splitview {
+	
+	float:left;
+	clear:both;
+
+}
+
+.splitviewcompare {
+	
+	float:left;
+	margin-left:20px;
+
+}
+
 .splitview li {
 	
 	padding-top:0.4em;
@@ -172,6 +211,13 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 	width:20%;
 	
 }
-	
+
+.lastcomparespace {
+	display: inline;
+	width:25%;
+	margin-left:20px;
+	clear:both;
+}
+
 
 }

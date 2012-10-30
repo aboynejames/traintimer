@@ -161,18 +161,30 @@ historicalswimdata = {};
 					swimprepared = localDataSPcall(swimidin, function(spmap) {
 
 						historicalswimdata = {};	
-						//historicalswimdata['swiminfo'] = {};
-						//historicalswimdata['splittimes'] = {};	
-//console.log('how splits data look after save HTML');
-//console.log(spmap['rows']);	
+							
+						// the current swim settings
+						swimsetlive = {};
+						//swimsetlive["swimdate"] = $("#swimdate").text();
+						swimsetlive["swimstyle"] = $("#swimstyle").val();
+						swimsetlive["swimstroke"] = $("#swimstroke").val();
+						swimsetlive["swimtechnique"] = $("#swimtechnique").val();
+						swimsetlive["swimdistance"] = $("#swimdistance").val();
+							
 					// itterate over results and pick out the one required	
 						spmap['rows'].forEach(function(rowswimrs){
 //console.log(rowswimrs['key']);
 							if(rowswimrs['key'] == swimidin )
 							{
+								// need a set of filters for time period and swim setting e.g. stroke distance etc
+								if(swimsetlive["swimstyle"] ==  rowswimrs['value']['swiminfo']['swimstyle'] && swimsetlive["swimstroke"] ==  rowswimrs['value']['swiminfo']['swimstroke']  && swimsetlive["swimtechnique"] ==  rowswimrs['value']['swiminfo']['swimtechnique'] && swimsetlive["swimdistance"] ==  rowswimrs['value']['swiminfo']['swimdistance'] )
+								{
+								
+								
 								//stringswnames += rowswimrs['value'][1];
 								//pass the lane data to get html ready
 								historicalswimdata[rowswimrs['value']['sessionid']] = rowswimrs['value'];
+									
+								}
 					
 								}
 						});

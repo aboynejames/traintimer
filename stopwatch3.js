@@ -55,7 +55,10 @@ console.log('name = ' + this.identifer);
 					setsaveallowed = $.cookie("traintimer");
 //console.log('has cookie been set for save?' + setsaveallowed);		
 									// prepare the data TODO abstract out to a function
-									swimdate = $("#swimdate").text();
+									//swimdate = $("#swimdate").text();
+									var sptoday = new Date();
+									datesplitnumber = Date.parse(sptoday);//Date.parse(cleandata["swimstatus"]['swimdate']);
+									
 									swimstyle = $("#swimstyle").val();
 									swimstroke = $("#swimstroke").val();
 									swimtechnique = $("#swimtechnique").val();
@@ -63,7 +66,7 @@ console.log('name = ' + this.identifer);
 									swimsplit = $("#swimsplit").val();
 									// form swim data
 									swimdatastatus = {};
-									swimdatastatus['swimdate'] = swimdate;
+									swimdatastatus['swimdate'] = sptoday;
 									swimdatastatus['swimstyle'] = swimstyle;
 									swimdatastatus['swimstroke'] = swimstroke;
 									swimdatastatus['swimtechnique'] = swimtechnique;
@@ -94,8 +97,6 @@ console.log(newjsonswim);
 console.log('id of swimmer loop' + bulkkey);
 								if(stxt['splitdata'][bulkkey].length > 0 ) 
 								{									
-									var sptoday = new Date();
-									datesplitnumber = Date.parse(sptoday);//Date.parse(cleandata["swimstatus"]['swimdate']);
 
 									newjsonswim["swimmerid"] = '';
 									newjsonswim["session"] = {};
@@ -152,7 +153,7 @@ console.log(bulksplits);
 					setsavedallowed = '';
 					setsaveallowed = $.cookie("traintimer");
 //console.log('has cookie been set?' + setsaveallowed);		
-				
+				$("#thelaneoptions").val(-1);
 				$("#loadlaneselect").show();
 				
 				break;
@@ -282,6 +283,9 @@ console.log(bulksplits);
 				datahead = liveHTML.viewdataHeader(presentswimmerlist);
 				$("#viewdatalive").html(datahead);
 			});
+
+
+
 
 			break;
 				

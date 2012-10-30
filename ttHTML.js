@@ -54,72 +54,105 @@ console.log(swlist);
 }
 			
 ttHTML.prototype.visualiseme = function(livepouch, swimidin) {
+console.log(swimidin);	
 	
+	var lastdataid = {};
 	// give back all data capture locally for now
 	var perswimmerdata = Object.keys(swimidin);
-	perswimmerdata.forEach(function(perswimmersp) {
-	// reset for new swimmer
-		//lastsplitforcompare = '';
-		//lasttimefornextcalc = '';
-		//shortsplit = '';
-		// add a line of space between swimmers
-		//$('<li></li>').prependTo($('#swimdatalive'));	
-	
-	var visualdata = 'Date of Swim:' ;
-	visualdata += swimidin[perswimmersp]['swiminfo']['swimdate'];
-	visualdata += ' '; 
-	visualdata += swimidin[perswimmersp]['swiminfo']['swimstroke'];
-	visualdata += ' ';
-	visualdata += swimidin[perswimmersp]['swiminfo']['swimtechnique'];
-	visualdata += ' ';
-	visualdata += swimidin[perswimmersp]['swiminfo']['swimstyle'];
-	visualdata += ' ';			
-	visualdata += swimidin[perswimmersp]['swiminfo']['swimdistance'];
-	visualdata += ' ';		
-	visualdata += swimidin[perswimmersp]['swiminfo']['swimsplit'];
-	visualdata += '<br />';
-	visualdata += '<div class="splitview" id="splittimeshistorical' + perswimmersp + '"></div>';	
-		// now build the splits color coded
-	//$("#visualisedata").html(visualdata);
-	$('#visualisedata').prepend(visualdata);
-
-	thesplitdiff = '';
-	lastsplitforcompare = '';
-	lasttimefornextcalc = '';
-	actualsplitdiff = '';
-				
-	// itterate over each array split and format
-		swimidin[perswimmersp]['splittimes'].forEach(function (speratesplit) {
-
-		// do some maths to get difference, if higher colour red, lower colour green
-		// if not first number
-//console.log('incoming split time' + speratesplit);	
-//console.log('last splitime if not the first' + lastsplitforcompare);	
-		thesplitdiff = '';
-		thesplitdiff =  speratesplit - lasttimefornextcalc;
-//console.log('the split diff for this run' + thesplitdiff);			
-		actualsplitdiff = speratesplit - lasttimefornextcalc;
-		if(thesplitdiff > lastsplitforcompare ) {
-		thecolourdiff = 'red'; }
-		else {
-		thecolourdiff = 'green'; }
-//console.log(thecolourdiff);						
-		// last split to keep
-		lastsplitforcompare = actualsplitdiff;
-		lasttimefornextcalc = speratesplit;
-		var shortsplit = starttiming.activetimeclock.startclock.format(actualsplitdiff).slice(4,11);
+	perswimmersort = perswimmerdata.sort(function(a,b){return a-b});
+	perswimmersort.forEach(function(perswimmersp) {
 		
-		visualdatasph = '<li>' + starttiming.activetimeclock.startclock.format(speratesplit) + ' ' + 'split ' + shortsplit + '</li>';
-		$(visualdatasph).css("color", thecolourdiff).prependTo($(" #splittimeshistorical" + perswimmersp));
-		//$("#splittimeshistorical").append('<div id="visualisedata' + perswimmersp + '"></div>');	
-		thecolourdiff = '';
-		});
+		// setout new divs
+		visualnewdiv = '';
+		visualnewdiv += '<div class="splitview" id="splittimeshistorical' + perswimmersp + '"></div>';
+		visualnewdiv += '<div class="splitviewcompare" id="lastcomparesession' + perswimmersp + '"></div>';
+		$("#visualisedata").prepend(visualnewdiv);
+		
+		var visualdata = 'Date of Swim:' ;
+		visualdata += swimidin[perswimmersp]['swiminfo']['swimdate'];
+		visualdata += ' '; 
+		visualdata += swimidin[perswimmersp]['swiminfo']['swimstroke'];
+		visualdata += ' ';
+		visualdata += swimidin[perswimmersp]['swiminfo']['swimtechnique'];
+		visualdata += ' ';
+		visualdata += swimidin[perswimmersp]['swiminfo']['swimstyle'];
+		visualdata += ' ';			
+		visualdata += swimidin[perswimmersp]['swiminfo']['swimdistance'];
+		visualdata += ' ';		
+		visualdata += swimidin[perswimmersp]['swiminfo']['swimsplit'];
+		visualdata += '<br />';
+		//visualdata += '<div class="splitview" id="splittimeshistorical' + perswimmersp + '"></div>';
+		//visualdata += '<div class="splitviewcompare" id="lastcomparesession' + perswimmersp + '"></div>';
+			// now build the splits color coded
+	
 
-						
+			
+		thesplitdiff = '';
+		lastsplitforcompare = '';
+		lasttimefornextcalc = '';
+		actualsplitdiff = '';
+					
+		// itterate over each array split and format
+			swimidin[perswimmersp]['splittimes'].forEach(function (speratesplit) {
+
+			// do some maths to get difference, if higher colour red, lower colour green
+			// if not first number
+	//console.log('incoming split time' + speratesplit);	
+	//console.log('last splitime if not the first' + lastsplitforcompare);	
+			thesplitdiff = '';
+			thesplitdiff =  speratesplit - lasttimefornextcalc;
+	//console.log('the split diff for this run' + thesplitdiff);			
+			actualsplitdiff = speratesplit - lasttimefornextcalc;
+			if(thesplitdiff > lastsplitforcompare ) {
+			thecolourdiff = 'red'; }
+			else {
+			thecolourdiff = 'green'; }
+	//console.log(thecolourdiff);						
+			// last split to keep
+			lastsplitforcompare = actualsplitdiff;
+			lasttimefornextcalc = speratesplit;
+			
+			var shortsplit = starttiming.activetimeclock.startclock.format(actualsplitdiff).slice(4,11);
+			visualdatasph = '<li>' + starttiming.activetimeclock.startclock.format(speratesplit) + ' ' + 'split ' + shortsplit + '</li>';
+			$(visualdatasph).css("color", thecolourdiff).prependTo($(" #splittimeshistorical" + perswimmersp));
+				
+			thecolourdiff = '';
+				
+			});
+			
+			$("#splittimeshistorical" + perswimmersp).prepend(visualdata);
+			
+				// visualise the stats between different sessions
+			if(lastdataid['datasessionid'])
+			{
+				// do some analaysis  
+				netsetcompare =  lasttimefornextcalc - lastdataid['splitlasttime'];
+				if(netsetcompare > 0 ) {
+					lasttimegetting = 'slower'; 
+					var compareshortsplit = starttiming.activetimeclock.startclock.format(netsetcompare).slice(4,11);	
+					}
+				else {
+					lasttimegetting = 'faster';
+					var compareshortsplit = (netsetcompare/1000) + ' seconds';
+					}
+				
+				
+			$(" #lastcomparesession" + perswimmersp ).html('Getting: ' +lasttimegetting + ' by ' + compareshortsplit);
+			
+			}	
+			else
+			{
+				
+			$(" #lastcomparesession" + perswimmersp).html('last entry can only compare itself');
+			
+			}
+			
+			//set data session id for mulit data comparison
+			lastdataid['datasessionid'] = perswimmersp;
+			lastdataid['splitlasttime'] = lasttimefornextcalc;	
+	console.log(lastdataid);
+							
 	});  // closes perswimmer data
-		//visualdata += String(historicalswimdata['swimsplits']);
-//console.log('eachswimmer info');
-//console.log(historicalswimdata);	
-	//return visualdata;
+
 	
 }
