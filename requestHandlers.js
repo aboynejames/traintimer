@@ -270,7 +270,7 @@ function localcache(fullpath, response) {
   console.log("Request handler 'appcache' was called.");	
 
   fs.readFile('./traintimer.appcache', function(err, data) {
-			  response.writeHead(200, {"Content-Type": "text/plain"});
+			  response.writeHead(200, {"Content-Type": "text/cache-manifest"});
 	  	  response.end(data);
 	  });
       

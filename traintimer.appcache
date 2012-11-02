@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# v25 2012-30-10
+# v26 2012-02-11
 # This is another comment
 #sortexample5.html
 css/dragdrop3.css
@@ -20,4 +20,4 @@ NETWORK:
 
 # Fallback content
 FALLBACK:
-sortexample5.html
+/ sortexample5.html

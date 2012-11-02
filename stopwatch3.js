@@ -163,7 +163,7 @@ console.log(bulksplits);
 				$("#sortable1").sortable( "option", "disabled", false );	
 				
 				break;
-				
+				/*
 				case "signinopener":
 				
 					// sigin modal
@@ -212,7 +212,7 @@ console.log(bulksplits);
 		
 										$.get("/signin/" + usernamein + '/' + cookieidhash + '/' + passwordhash, function(resultback){
 										// put a message back to UI to tell of a successful save TODO
-											acceptdetails = resultback;
+											/*acceptdetails = resultback;
 							
 												var jsomesata = '';											
 												if(acceptdetails['signin'] == 'passed') {		
@@ -232,6 +232,7 @@ console.log(bulksplits);
 												setsaveallowed = '';
 												signtxt = '';		
 												signstring =  '';
+												
 //console.log('all reset???' + usernamein + passwordin + passwordhash + cookieidhash + setsavedallowed + setsaveallowed + signtxt + signstring);												
 												}
 												else {
@@ -254,7 +255,7 @@ console.log(bulksplits);
 		return false;
 				
 				break;
-		
+		*/
 			case "viewdata":
 			// needs swimmerids and names
 		  $("#sortable1").empty();
@@ -744,7 +745,104 @@ $(document).ready(function(){
 	var today = new Date();
 
 	$("#swimdate").text(today);
+		
+			$("#signinopener").click(function(e) {
+//console.log('time to distroy the cookie please');
+
 	
+							// sigin modal
+	loginhtml = '';
+	loginhtml += '<div>Welcome, to Train Timer </div>';
+	loginhtml += '<form method="post" action="#" id="siginform" >';
+	loginhtml += '<div><label for="name">Username</label><input id="name" class="text ui-widget-content ui-corner-all" type="text" name="name" size="16" ></div>';
+	loginhtml += '<div><label for="password">Password</label><input id="password" class="text ui-widget-content ui-corner-all" type="password" value="" name="password" size="16" ></div></form>';
+	loginhtml += '<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"> <div class="ui-dialog-buttonset"><button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button" role="button" aria-disabled="false"><span class="ui-button-text">Sign me in</span></button></div></div><div id="responsemessage"></div>';
+
+	var $dialog = $('<div id="siginform" ></div>')
+		.html(loginhtml)
+		.dialog({
+			autoOpen: false,
+			height: 340,
+			width: 260, 
+			title: 'Signin to Train Timer',
+			buttons: {
+										"Sign me in": function() {
+											// need to make couchdb call to accept user details
+//console.log('validation of the form signin');
+									
+										usernamein = '';
+										passwordin = '';
+										usernamein = $("#name").val();
+										passwordin = $("#password").val();											
+								//		signtxt = {};
+									//	signtxt['username'] = usernamein;
+										//signtxt['password'] = passwordin;		
+									//	signstring =  JSON.stringify(signtxt);	
+										// make has string
+										hashCode = function(str){
+												var hash = 0;
+												if (str.length == 0) return hash;
+												for (i = 0; i < str.length; i++) {
+														char = str.charCodeAt(i);
+														hash = ((hash<<5)-hash)+char;
+														hash = hash & hash; // Convert to 32bit integer
+												}
+												return hash;
+										}
+										passwordhash = hashCode(passwordin);
+										cookieidhash = hashCode((usernamein + passwordin));									
+											
+										acceptdetails = '';
+		
+										//$.get("/signin/", function(resultback){
+										$.get("/signin/" + usernamein + '/' + cookieidhash + '/' + passwordhash, function(resultback){
+										// put a message back to UI to tell of a successful save TODO
+											acceptdetails = resultback;
+							
+												var jsomesata = '';											
+												if(acceptdetails['signin'] == 'passed') {		
+												//passedsigntest("one");
+												$.cookie("traintimer", cookieidhash,  { expires: 7 });
+												$("#ifsignedin").show();	
+												$("#ifsignedin").html('<a class="menu-text" text="SignOut" title="signout" href="#"  id="signincloser" >Sign-out</a>');
+												$dialog.dialog( "close" );
+												$("#signinopener").hide();
+												$("#sortable1").empty();
+												
+												usernamein = '';
+												passwordin = '';
+												passwordhash = '';
+										    cookieidhash = '';
+												setsavedallowed = '';
+												setsaveallowed = '';
+												signtxt = '';		
+												signstring =  '';
+								
+//console.log('all reset???' + usernamein + passwordin + passwordhash + cookieidhash + setsavedallowed + setsaveallowed + signtxt + signstring);												
+												}
+												else {
+//console.log('failed');
+													$("#responsemessage").html('Signin Failed, try again');
+												}
+											});	
+															
+										},
+										Cancel: function() {
+										$( this ).dialog( "close" );
+										},
+
+			}
+
+		});
+
+		$dialog.dialog('open');
+		// prevent the default action, e.g., following a link
+		return false;
+	
+	});
+
+
+		
 	$("#ifsignedin").click(function(e) {
 //console.log('time to distroy the cookie please');
 			e.preventDefault(e);
