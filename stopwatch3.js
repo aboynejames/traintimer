@@ -769,11 +769,9 @@ $(document).ready(function(){
 			buttons: {
 										"Sign me in": function() {
 											// need to make couchdb call to accept user details
-console.log('data set? ' + usernamein + 'psswd ' + passwordin);
 										usernamein = $("#name").val();
 										passwordin = $("#password").val();											
 
-console.log('data set after jquery? ' + usernamein + 'psswd ' + passwordin);
 											hashCode = function(str){
 												var hash = 0;
 												if (str.length == 0) return hash;
@@ -823,8 +821,7 @@ console.log('data set after jquery? ' + usernamein + 'psswd ' + passwordin);
 			$("#name").val( "" );
 			$("#password").val( "" );
 			cookieidhash = '';
-			passwordhash= '';
-console.log('rest login' +	this.cookieidhash + this.passwordhash);					
+			passwordhash= '';		
 			},
 
 		});
