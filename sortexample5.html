@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  manifest="traintimer.appcache" > <!--manifest="traintimer.appcache"--> 
+<html lang="en"  > <!--manifest="traintimer.appcache"--> 
 <head>
 <meta charset="utf-8">
 <title>Train Timer - an open sport project</title>
@@ -158,6 +158,13 @@
 			<li class="">
 			<a class="menu-text" text="Signin" title="signin" href="/signin"  id="signinopener" >Sign-in</a>
 			<div id="ifsignedin"></div>
+	<div id="siginform" >
+	<div>Welcome, to Train Timer </div>
+	<form method="post" action="#" id="siginform" >
+	<div><label for="name">Username</label><input id="name" class="text ui-widget-content ui-corner-all" type="text" name="name" size="16" ></div>
+	<div><label for="password">Password</label><input id="password" class="text ui-widget-content ui-corner-all" type="password" value="" name="password" size="16" ></div></form>
+	<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"> <div class="ui-dialog-buttonset"><button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button" role="button" aria-disabled="false"><span class="ui-button-text">Sign me in</span></button></div></div><div id="responsemessage"></div>
+	</div>
 			</li>
 		</nav>
 	</header>

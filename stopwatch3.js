@@ -745,10 +745,14 @@ $(document).ready(function(){
 	var today = new Date();
 
 	$("#swimdate").text(today);
+	$("#siginform").hide();
 		
 	$("#signinopener").click(function(e) {
 //console.log('time to distroy the cookie please');
-
+		usernamein = '';
+		passwordin = '';
+		cookieidhash = '';
+		passwordhash= '';
 	// sigin modal
 	loginhtml = '';
 	loginhtml += '<div>Welcome, to Train Timer </div>';
@@ -757,9 +761,7 @@ $(document).ready(function(){
 	loginhtml += '<div><label for="password">Password</label><input id="password" class="text ui-widget-content ui-corner-all" type="password" value="" name="password" size="16" ></div></form>';
 	loginhtml += '<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"> <div class="ui-dialog-buttonset"><button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button" role="button" aria-disabled="false"><span class="ui-button-text">Sign me in</span></button></div></div><div id="responsemessage"></div>';
 
-	var $dialog = $('<div id="siginform" ></div>')
-		.html(loginhtml)
-		.dialog({
+	$("#siginform").dialog({
 			autoOpen: false,
 			height: 340,
 			width: 260, 
@@ -767,18 +769,12 @@ $(document).ready(function(){
 			buttons: {
 										"Sign me in": function() {
 											// need to make couchdb call to accept user details
-//console.log('validation of the form signin');
-									
-										usernamein = '';
-										passwordin = '';
+console.log('data set? ' + usernamein + 'psswd ' + passwordin);
 										usernamein = $("#name").val();
 										passwordin = $("#password").val();											
-								//		signtxt = {};
-									//	signtxt['username'] = usernamein;
-										//signtxt['password'] = passwordin;		
-									//	signstring =  JSON.stringify(signtxt);	
-										// make has string
-										hashCode = function(str){
+
+console.log('data set after jquery? ' + usernamein + 'psswd ' + passwordin);
+											hashCode = function(str){
 												var hash = 0;
 												if (str.length == 0) return hash;
 												for (i = 0; i < str.length; i++) {
@@ -791,33 +787,23 @@ $(document).ready(function(){
 										passwordhash = hashCode(passwordin);
 										cookieidhash = hashCode((usernamein + passwordin));									
 											
-										acceptdetails = '';
+										this.acceptdetails = '';
 		
 										//$.get("/signin/", function(resultback){
 										$.get("/signin/" + usernamein + '/' + cookieidhash + '/' + passwordhash, function(resultback){
 										// put a message back to UI to tell of a successful save TODO
-											acceptdetails = resultback;
+											this.acceptdetails = resultback;
 							
-												var jsomesata = '';											
-												if(acceptdetails['signin'] == 'passed') {		
+												if(this.acceptdetails['signin'] == 'passed') {		
 												//passedsigntest("one");
 												$.cookie("traintimer", cookieidhash,  { expires: 7 });
 												$("#ifsignedin").show();	
 												$("#ifsignedin").html('<a class="menu-text" text="SignOut" title="signout" href="#"  id="signincloser" >Sign-out</a>');
-												$dialog.dialog( "close" );
+												$("#siginform").dialog( "close" );
 												$("#signinopener").hide();
 												$("#sortable1").empty();
-												
-												usernamein = '';
-												passwordin = '';
-												passwordhash = '';
-										    cookieidhash = '';
-												setsavedallowed = '';
-												setsaveallowed = '';
-												signtxt = '';		
-												signstring =  '';
-								
-//console.log('all reset???' + usernamein + passwordin + passwordhash + cookieidhash + setsavedallowed + setsaveallowed + signtxt + signstring);												
+										
+																				
 												}
 												else {
 //console.log('failed');
@@ -826,18 +812,28 @@ $(document).ready(function(){
 											});	
 															
 										},
+
+										
 										Cancel: function() {
 										$( this ).dialog( "close" );
 										},
 
-			}
+			},
+			close: function() {
+			$("#name").val( "" );
+			$("#password").val( "" );
+			cookieidhash = '';
+			passwordhash= '';
+console.log('rest login' +	this.cookieidhash + this.passwordhash);					
+			},
 
 		});
+	$("#siginform").show();
+	$("#siginform").dialog('open');
 
-		$dialog.dialog('open');
 		// prevent the default action, e.g., following a link
 		return false;
-	
+
 	});
 
 
