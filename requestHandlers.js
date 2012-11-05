@@ -252,13 +252,13 @@ function dragdrop3(fullpath, response) {
       
 }
 
-function scrollmin(fullpath, response) {
+function jquery172(fullpath, response) {
   console.log("Request handler 'start' was called.");
 
 	var data  = '';
 	
 
-  fs.readFile('./jquery.scrollTo-min.js', function(err, data) {
+  fs.readFile('./jquery-1.7.2.min.js', function(err, data) {
 			  response.writeHead(200, {"Content-Type": "text/javascript"});
 	  	  response.end(data);
 	  });
@@ -515,9 +515,9 @@ function viewswimtimes(fullpath, response, io) {
 exports.start = start;
 exports.stopwatch3 = stopwatch3;
 exports.pouchalpha = pouchalpha;		
+exports.jquery172 = jquery172;
 exports.pouchdb = pouchdb;			
 exports.dragdrop3 = dragdrop3;
-exports.scrollmin = scrollmin;
 exports.localcache = localcache;
 exports.stopwatchcss = stopwatchcss;
 exports.saveswimtimes = saveswimtimes;

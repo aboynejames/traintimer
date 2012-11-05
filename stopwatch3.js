@@ -736,7 +736,7 @@ $(document).ready(function(){
       alert("You haved signed out of TrainTimer");
 
 		} );
-	// setup objects
+	
 	$("#loadlaneselect").hide();
 	//fire up the classes
 	starttiming = new SwimtimeController();
@@ -746,11 +746,10 @@ $(document).ready(function(){
 
 	$("#swimdate").text(today);
 		
-			$("#signinopener").click(function(e) {
+	$("#signinopener").click(function(e) {
 //console.log('time to distroy the cookie please');
 
-	
-							// sigin modal
+	// sigin modal
 	loginhtml = '';
 	loginhtml += '<div>Welcome, to Train Timer </div>';
 	loginhtml += '<form method="post" action="#" id="siginform" >';

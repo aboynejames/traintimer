@@ -21,12 +21,12 @@ handle["/signin"] = requestHandlers.signincheck;
 handle["/signout"] = requestHandlers.signoutcheck;
 
 handle["/css"] = requestHandlers.dragdrop3;
-handle["/jquery.scrollTo-min.js"] = requestHandlers.scrollmin;
 handle["/traintimer.appcache"] = requestHandlers.localcache;
 handle["/stopwatch3.css"] = requestHandlers.stopwatchcss;
 handle["/stopwatch3.js"] = requestHandlers.stopwatch3;
 handle["/ttHTML.js"] = requestHandlers.ttHTML;
 handle["/pouchdb.alpha.js"] = requestHandlers.pouchalpha;	
+handle["/jquery-1.7.2.min.js"] = requestHandlers.jquery172;	
 handle["/pouchdb.js"] = requestHandlers.pouchdb;	
 handle["/save"] = requestHandlers.saveswimtimes;
 handle["/buildswimmers"] = requestHandlers.buildswimmers;
