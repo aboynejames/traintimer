@@ -796,7 +796,7 @@ $(document).ready(function(){
 												//passedsigntest("one");
 												$.cookie("traintimer", cookieidhash,  { expires: 7 });
 												$("#ifsignedin").show();	
-												$("#ifsignedin").html('<a class="menu-text" text="SignOut" title="signout" href="#"  id="signincloser" >Sign-out</a>');
+												$("#ifsignedin").html('<a class="menu-text" text="SignOut" title="signout" href="#"  id="signincloser" >Sign-out</a> ' + usernamein );
 												$("#siginform").dialog( "close" );
 												$("#signinopener").hide();
 												$("#sortable1").empty();
@@ -821,7 +821,10 @@ $(document).ready(function(){
 			$("#name").val( "" );
 			$("#password").val( "" );
 			cookieidhash = '';
-			passwordhash= '';		
+			passwordhash= '';
+			//livepouch.	changeLog();
+			livepouch.replicate();
+				
 			},
 
 		});

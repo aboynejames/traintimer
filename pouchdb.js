@@ -122,7 +122,15 @@ pouchdbSettings.prototype.changeLog = function() {
 		Pouch(this.account['pouchdbname'], function(err, db) {
 			
 		db.changes(function(err, response) {
-//console.log(response);
+console.log(response);
+		
+			var doctosync = Object.keys(response['results']);
+			doctosync.forEach(function(doclist) {
+console.log(response['results'][doclist]['id']);
+			// foreach doc, get it contents and fire an insert into couchdb online
+				
+				
+			});
 			
 			});
 
@@ -132,9 +140,10 @@ pouchdbSettings.prototype.changeLog = function() {
 
 
 pouchdbSettings.prototype.replicate = function() {
-
-			Pouch.replicate(this.account['pouchdbname'], 'http://localhost:5984/traintimer', function(err, changes) {
+console.log('replication started ouside');	
+			Pouch.replicate(this.account['pouchdbname'], 'http://aboynejames:ivytree@localhost:5984/traintimer/', function(err, changes) {
   //
+console.log('replication started');				
 			});			
 
 };
