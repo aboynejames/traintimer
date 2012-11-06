@@ -823,7 +823,7 @@ $(document).ready(function(){
 			cookieidhash = '';
 			passwordhash= '';
 			//livepouch.	changeLog();
-			livepouch.replicate();
+			//livepouch.replicate();
 				
 			},
 
@@ -1045,5 +1045,5 @@ console.log('yes lane' + selectedlanenow );
 	});
 	
 //console.log('start whole app');		
-console.log(starttiming);	
+//console.log(starttiming);	
 });
