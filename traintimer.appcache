@@ -5,6 +5,7 @@ CACHE MANIFEST
 css/dragdrop3.css
 stopwatch3.css
 pouchdb.alpha.js
+IndexedDBShim.min.js
 pouchdb.js
 jquery-1.7.2.min.js
 http://code.jquery.com/ui/1.8.21/jquery-ui.min.js
