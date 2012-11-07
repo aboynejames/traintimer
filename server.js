@@ -17,7 +17,6 @@ var fs = require('fs');
 var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 var ttSettings = require("./ttSettings");
-
 function start(route, handle) {
 
 		var couchin = {};

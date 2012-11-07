@@ -824,6 +824,11 @@ $(document).ready(function(){
 			passwordhash= '';
 			//livepouch.	changeLog();
 			//livepouch.replicate();
+			//$.get("/sync/", function(resultback){
+//console.log('callback from sync to couchdb via node is comoplete');				
+
+				
+	//		});
 				
 			},
 

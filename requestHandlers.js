@@ -3,6 +3,7 @@ var fs = require("fs");
 var util = require('util');
 var http = require('http');
 var sio = require('socket.io');
+var Pouch = require('pouchdb');
 var EventEmitter = require('events').EventEmitter;
 var ttSettings = require("./ttSettings");
 
@@ -13,7 +14,11 @@ function start(fullpath, response) {
 	var data  = '';
 
   fs.readFile('./sortexample5.html', function(err, data) {
-	response.writeHead(200, {"Content-Type": "text/html"});
+		response.setHeader('Access-Control-Allow-Origin', '*');
+		response.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+		response.writeHead(200, {"Content-Type": "text/html"});
+
 	//response.write(data);
 	  response.end(data);
       });	
@@ -286,6 +291,16 @@ function pouchdb(fullpath, response) {
       
 }
 
+function indexedDB(fullpath, response) {
+  console.log("Request handler 'pouchdb' was called.");	
+
+  fs.readFile('./IndexedDBShim.min.js', function(err, data) {
+			  response.writeHead(200, {"Content-Type": "text/javascript"});
+	  	  response.end(data);
+	  });
+      
+}
+
 function pouchalpha(fullpath, response) {
   console.log("Request handler 'pouchdb' was called.");	
 
@@ -463,8 +478,8 @@ function saveswimtimes(fullpath, response, request, emitter, couchin) {
 							});
 								
 							responsec.on('end', function() {
-		console.log('any response data from couch??');	
-		//console.log(rec_data);
+console.log('any response data from couch??');	
+//console.log(rec_data);
 							});
 						
 						});
@@ -506,16 +521,37 @@ function viewswimtimes(fullpath, response, io) {
 	  response.writeHead(200, {"Content-Type": "text/html"});
 	//response.write(data);
 	  response.end(timedata);
-      });	
+		
+		});	
 
 			
-			}  //  viewswimtimes close
-	 	
+	}  //  viewswimtimes close
+
+
+/**
+* Perform a sync from local pouchdb to  online couchdb
+*
+*/
+function pouchsync(fullpath, response, io) {
+  console.log("pouchdb couchdb synup started");
+// couchdb-backed pouch
+	Pouch.replicate('idb://traintimer', 'http://localhost:5984/opentimer', function(err, changes) {
+console.log('replication complete');			
+	  response.writeHead(200, {"Content-Type": "text/json"});
+		syncreply = {"syncstatus" : "complete"};
+		syncreplyjson = JSON.stringify(syncreply);
+	  response.end(syncreplyjson);
+			
+	});
+			
+}  // closes pouchsync
+
 
 exports.start = start;
 exports.stopwatch3 = stopwatch3;
 exports.pouchalpha = pouchalpha;		
 exports.jquery172 = jquery172;
+exports.indexedDB = indexedDB;
 exports.pouchdb = pouchdb;			
 exports.dragdrop3 = dragdrop3;
 exports.localcache = localcache;
@@ -525,4 +561,5 @@ exports.buildswimmers = buildswimmers;
 exports.viewswimtimes =  viewswimtimes;
 exports.signincheck =  signincheck;
 exports.signoutcheck =  signoutcheck;
-exports.ttHTML = ttHTML;			
+exports.ttHTML = ttHTML;
+exports.pouchsync = pouchsync;	

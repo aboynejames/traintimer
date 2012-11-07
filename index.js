@@ -25,12 +25,14 @@ handle["/traintimer.appcache"] = requestHandlers.localcache;
 handle["/stopwatch3.css"] = requestHandlers.stopwatchcss;
 handle["/stopwatch3.js"] = requestHandlers.stopwatch3;
 handle["/ttHTML.js"] = requestHandlers.ttHTML;
-handle["/pouchdb.alpha.js"] = requestHandlers.pouchalpha;	
+handle["/pouchdb.alpha.js"] = requestHandlers.pouchalpha;
+handle["/IndexedDBShim.min.js"] = requestHandlers.indexedDB;		
 handle["/jquery-1.7.2.min.js"] = requestHandlers.jquery172;	
 handle["/pouchdb.js"] = requestHandlers.pouchdb;	
 handle["/save"] = requestHandlers.saveswimtimes;
 handle["/buildswimmers"] = requestHandlers.buildswimmers;
-handle["/viewswimtimes"] = requestHandlers.viewswimtimes;		
+handle["/viewswimtimes"] = requestHandlers.viewswimtimes;	
+handle["/sync"] = requestHandlers.pouchsync;	
 
 //console.log(util.inspect(router));	
 
