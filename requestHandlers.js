@@ -3,7 +3,7 @@ var fs = require("fs");
 var util = require('util');
 var http = require('http');
 var sio = require('socket.io');
-//var Pouch = require('pouchdb');
+var Pouch = require('pouchdb');
 var EventEmitter = require('events').EventEmitter;
 var ttSettings = require("./ttSettings");
 
@@ -348,9 +348,9 @@ function saveswimtimes(fullpath, response, request, emitter, couchin) {
 				request.on('data', function(chunk) {
 					datain += chunk;
 					cleandata =  JSON.parse(datain);
-		console.log('we have save next stage is to save to couch');
-		//console.log(datain);
-		//console.log(cleandata);		
+//console.log('we have save next stage is to save to couch');
+//console.log(datain);
+//console.log(cleandata);		
 		// what sort of save, setup of new swimmer or saving of times data?			
 						if(cleandata['name'] ) {
 							// new swimmer add
@@ -361,16 +361,12 @@ function saveswimtimes(fullpath, response, request, emitter, couchin) {
 						}
 						else
 						{
-						
-			// before saving need split into individaul swimmer data chunks and then save
+						// before saving need split into individaul swimmer data chunks and then save
 						cleandatasw = cleandata["splitdata"];
-							
 						// we can now get this data out to display live splits/times anywhere on the web
-							//var emitter = new EventEmitter;
+						var emitter = new EventEmitter;
 						emitter.emit('splitscall', cleandatasw);	  						
-							
-			//console.log('clean data splits');
-			//console.log(cleandatasw);			
+
 						var cleandatakey= Object.keys(cleandatasw);
 
 						cleandatakey.forEach(function(swimsplitsdata){
@@ -535,14 +531,13 @@ function viewswimtimes(fullpath, response, io) {
 function pouchsync(fullpath, response, io) {
   console.log("pouchdb couchdb synup started");
 // couchdb-backed pouch
-	Pouch.replicate('idb://traintimer', 'http://localhost:5984/opentimer', function(err, changes) {
-console.log('replication complete');			
-	  response.writeHead(200, {"Content-Type": "text/json"});
-		syncreply = {"syncstatus" : "complete"};
-		syncreplyjson = JSON.stringify(syncreply);
-	  response.end(syncreplyjson);
-			
-	});
+	//Pouch.replicate('http://traintimer', 'http://localhost:5984/opentimer', function(err, changes) {
+//console.log('replication complete');			
+	 // response.writeHead(200, {"Content-Type": "text/json"});
+		//syncreply = {"syncstatus" : "complete"};
+		//syncreplyjson = JSON.stringify(syncreply);
+	  //response.end(syncreplyjson);
+	//});
 			
 }  // closes pouchsync
 

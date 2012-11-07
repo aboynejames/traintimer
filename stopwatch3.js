@@ -81,9 +81,8 @@ console.log('name = ' + this.identifer);
 console.log('the splitdata' + stxt);
 console.log(stxt);										
 								// make socket send to get real time display anywhere
-								//var socket = io.connect();
-								//socket.emit('splitsdatalive', stxtstring);	
-					
+								var socket = io.connect();
+								socket.emit('splitsdatalive', stxtstring);	
 //console.log(stxtstring);
 									// save to localpouchdb need to prepare buld array json structure 
 									
@@ -93,8 +92,7 @@ console.log(stxt);
 								cleandatakey= Object.keys(stxt['splitdata']);
 								cleandatakey.forEach(function(bulkkey){
 									newjsonswim = {};
-console.log(newjsonswim);										
-console.log('id of swimmer loop' + bulkkey);
+
 								if(stxt['splitdata'][bulkkey].length > 0 ) 
 								{									
 
@@ -106,10 +104,7 @@ console.log('id of swimmer loop' + bulkkey);
 									newjsonswim["session"]["sessionid"] = datesplitnumber;	
 									newjsonswim["session"]["swiminfo"] = stxt['swimstatus'];	
 									newjsonswim["session"]["splittimes"]	= activesplitsb;
-console.log(activesplitsb);									
-console.log('json for pouchdb strcuture');
-console.log(newjsonswim);
-console.log(activesplitsb);										
+									
 									//livepouch.singleSave(newjsonswim);
 									bulksplits[i] = newjsonswim;
 									i++
@@ -824,11 +819,10 @@ $(document).ready(function(){
 			passwordhash= '';
 			//livepouch.	changeLog();
 			//livepouch.replicate();
-			//$.get("/sync/", function(resultback){
-//console.log('callback from sync to couchdb via node is comoplete');				
-
+			$.get("/sync/", function(resultback){
+console.log('callback from sync to couchdb via node is comoplete');	
 				
-	//		});
+			});
 				
 			},
 
