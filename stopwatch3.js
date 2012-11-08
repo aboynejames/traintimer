@@ -81,8 +81,8 @@ console.log('name = ' + this.identifer);
 console.log('the splitdata' + stxt);
 console.log(stxt);										
 								// make socket send to get real time display anywhere
-								//var socket = io.connect();
-								//socket.emit('splitsdatalive', stxtstring);	
+								var socket = io.connect();
+								socket.emit('splitsdatalive', stxtstring);	
 //console.log(stxtstring);
 									// save to localpouchdb need to prepare buld array json structure 
 									

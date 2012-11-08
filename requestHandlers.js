@@ -364,9 +364,9 @@ function saveswimtimes(fullpath, response, request, emitter, couchin) {
 						// before saving need split into individaul swimmer data chunks and then save
 						cleandatasw = cleandata["splitdata"];
 						// we can now get this data out to display live splits/times anywhere on the web
-						var emitter = new EventEmitter;
-						emitter.emit('splitscall', cleandatasw);	  	
-console.log('emitter has been called');							
+						//var emitter = new EventEmitter;
+					//	emitter.emit('splitscall', cleandatasw);	  	
+//console.log('emitter has been called');							
 /*
 						var cleandatakey= Object.keys(cleandatasw);
 
