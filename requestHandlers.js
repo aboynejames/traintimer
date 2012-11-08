@@ -3,7 +3,7 @@ var fs = require("fs");
 var util = require('util');
 var http = require('http');
 var sio = require('socket.io');
-var Pouch = require('pouchdb');
+//var Pouch = require('pouchdb');
 var EventEmitter = require('events').EventEmitter;
 var ttSettings = require("./ttSettings");
 

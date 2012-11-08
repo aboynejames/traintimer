@@ -53,7 +53,7 @@ console.log('name = ' + this.identifer);
 				
 			case "save":	
 					setsaveallowed = $.cookie("traintimer");
-//console.log('has cookie been set for save?' + setsaveallowed);		
+		
 									// prepare the data TODO abstract out to a function
 									//swimdate = $("#swimdate").text();
 									var sptoday = new Date();
@@ -72,15 +72,15 @@ console.log('name = ' + this.identifer);
 									swimdatastatus['swimtechnique'] = swimtechnique;
 									swimdatastatus['swimdistance'] = swimdistance;
 									swimdatastatus['swimsplit'] = swimsplit;
-//console.log(swimdatastatus);
+
 								// route to server side URL
 								stxt = {};
 								stxt['swimstatus'] = swimdatastatus;
 								stxt['splitdata'] = this.activetimeclock.sparray;		
 								stxtstring =  JSON.stringify(stxt);											
 								// make socket send to get real time display anywhere
-								var socket = io.connect();
-								socket.emit('splitsdatalive', stxtstring);	
+								//var socket = io.connect();
+								//socket.emit('splitsdatalive', stxtstring);	
 									
 								// save to localpouchdb need to prepare buld array json structure 
 									cleandatakey = {};
@@ -109,8 +109,7 @@ console.log('name = ' + this.identifer);
 									// collect array and then do bulk save as single saving timing out.
 
 								});
-//console.log('bulksplits object for saving to pouch');								
-//console.log(bulksplits);		
+
 									livepouch.bulkSave(bulksplits);
 							
 								setsaveallowed = 
@@ -264,14 +263,12 @@ console.log('name = ' + this.identifer);
 //console.log(rowswimrs);
 					if(rowswimrs['key'] == selectedlanenow )
 					{
-						//stringswnames += rowswimrs['value'][1];
-//console.log(rowswimrs['value'][0]);						
+				
 						//pass the lane data to get html ready
 						presentswimmerlist[rowswimrs['value'][0]] = rowswimrs['value'][1];
 							
 					}
 				});
-//console.log(presentswimmerlist);
 				// pass along for html formatting
 				datahead = liveHTML.viewdataHeader(presentswimmerlist);
 				$("#viewdatalive").html(datahead);
@@ -321,8 +318,7 @@ var MasterWatch = function() {
 	this.format = function(ms) {
 		var d = new Date(ms + this.t[5]).toString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1');
 		var x = String(ms % 1000);
-//console.log('formatting x ');
-//console.log(x);
+
 		while (x.length < 3) {
 			x = '0' + x;
 		}
@@ -342,8 +338,6 @@ var MasterWatch = function() {
 
 	this.reset = function() {
 		// re enable the drag and drop sorting
-		//$("#sortable1").removeClass("droptrue ui-sortable ui-sortable-disabled");
-		//$("#sortable1").sortable("enable");
 $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disabled", false );	
 		
 		// this needs updated to clear all splits for multiple active swimmers
@@ -359,10 +353,7 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		this.$start.text(this.startText);
 		
 //	needs moving to per swimmer splits function
-		//liverestids = [1,2,3];
-			//activeswimmers
-//console.log('how much is viewable in masterstop watch from outside classes');		
-//console.log(starttiming.activetimeclock.activesplitter);		
+
 		starttiming.activetimeclock.activesplitter.forEach(function(restswimid)
 			{
 				starttiming.activetimeclock.spid[restswimid][0] = 1;
@@ -370,22 +361,15 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 				starttiming.activetimeclock.spid[restswimid][2] = 0;
 				starttiming.activetimeclock.sparray[restswimid] = [];
 				
-//console.log(restswimid);				
+		
 			$splivereset = $('#splits'+restswimid);
-			//$splivereset.slideUp('fast', function() {
 				$splivereset.empty();
 				$splivereset.append("<li></li>");
 
-//			});	
-				// reset the local splitter array holder for each swimmer
-
-				
 		});
 		// and this needs move to per swimmer basis
 		this.t[7] = 0;
-		//starttiming.activetimeclock.spid = {};
-		//starttiming.activetimeclock.list3 = [];
-		//starttiming.activetimeclock.activesplitter = {};
+
 		starttiming.activetimeclock.splitswimmerid(0);
 		
 		return false;
@@ -402,13 +386,8 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 	
 	
 	this.displaymaster = function() {
-//console.log('display master started');	
-//console.log(this.t);
 		
 		this.delaymaster = starttiming.activetimeclock.startclock.t;
-//console.log('can t array be formed from source??)');
-//console.log(this.delaymaster);
-//console.log(this.delaymaster[2]);		
 		
 		if (this.delaymaster[2]) {
 //console.log('display function called and if t2');
@@ -430,30 +409,22 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		$("#sortable1").sortable( "option", "disabled", true );			
 		this.swiminterval = '';
 		this.swiminterval = $("#swiminterval").val();
-//console.log('time interval set');
-//console.log(this.swiminterval)
 		
 // need to identify active swimmers from UI
 			// what order did the swimmers go off 
 		this.activeswimmers = [];
 		var noswimmerlive = $("a#stop").length;
-//console.log('the number of #stop ids in live');		
-//console.log(noswimmerlive);
-//console.log('the number of #stop ids in live');		
+	
 
 		var listactives = [];
-	  //$("#sortable1 .ui-state-default").each(function(){
-	    //listactives.push($(this).attr('id'));
-	 // });
+
 		var listactives = $('#sortable1').sortable('toArray');
-//console.log(listactives);
+
 		countswimmers = listactives.length;
-//console.log(countswimmers);		
+	
 		this.activeswimmers = listactives;
 
 		
-//console.log('start of start');		
-//console.log(this.t);	
 		this.t[this.t[2]] = (+new Date()).valueOf();
 //console.log(this.t);
 
@@ -468,18 +439,15 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		
 			this.t[7]++;
 		
-		//t[4] = t[1] = t[0] = 0;
-//console.log(this.t);		
+
 			this.display();
 		}
 		else {
-//console.log('else start');			
-//console.log(this.t);
+
 			this.$start.text(this.stopText);
 						
 			this.t[4] =  setInterval(this.displaymaster, 43);
-//console.log('after setinterval 43');
-//console.log(this.t);			
+	
 		}
 		
 		return false;
@@ -505,9 +473,7 @@ var PerSwimmer = function() {
 	
 // need to identify swimmer split or stop that has been clicked on the UI
 	 	this.splitswimmerid = function(splitid) {
-		this.splitidlive = splitid;	
-//console.log('what id is present ??');
-//console.log(this.splitidlive);			
+		this.splitidlive = splitid;			
   	
 // keep track of the live split swimmers that are active
 			if(!this.activesplitter)
@@ -537,9 +503,7 @@ var PerSwimmer = function() {
 //console.log('should be only first time set of this');			
 		this.spid[this.splitidlive] =  [1,0,0];
 		this.sparray[this.splitidlive] =  [];	
-//console.log('the local split/time array data');	
-//console.log(this.spid);
-//console.log(this.spid[1]);			
+		
 	/*
 	 * setting for each swimmer  array of array [idofswimmer][splits time where:
 	 *
@@ -552,8 +516,6 @@ var PerSwimmer = function() {
 
 	
 	this.stop = function(stoploc) {
-//console.log('start of stop');
-//console.log(this.startclock.t[1]);
 // contorl logic, has the main timer been started? If you proceed if not do nothing.		
 	if(this.startclock.t[1] == 0) {
 		// nothing start do nothing.
@@ -561,26 +523,17 @@ var PerSwimmer = function() {
 	else
 	{
 //console.log('what t arrays are set start after resetbutton pressed?');
-//console.log(this.startclock.t);
 	// form stop location div
 			$splitslive = '#splits'+stoploc;
-	//console.log($splitslive);
 			$stoplive = '#stop'+stoploc;
-	//console.log($stoplive);
+
 			this.t =  this.startclock.t;
-//console.log('reform t from master clock');
-//console.log(this.t);
+
 			
 			this.t[this.t[2]] = (+new Date()).valueOf();
-//console.log(this.t[this.t[2]]);
-//console.log('stop function called');		
-//console.log(this.t);
+
 	// need to make this stop logic local to this swimmer
 			this.spid[this.splitidlive][0] = 1 - this.spid[this.splitidlive][0];
-
-//console.log('vales of spid pre a logic if check');		
-//console.log(this.spid);		
-//console.log(this.t);
 			
 				if (this.spid[this.splitidlive][0] == 0) {
 	
@@ -588,25 +541,20 @@ var PerSwimmer = function() {
 	// make the total time elasped in ms local to this swimerid
 				// what order did this swimmer go off?
 				swimpos = this.startclock.activeswimmers.indexOf(stoploc);
-//console.log('swim position');
-//console.log(swimpos);				
+	
 				// order position times interval time period
 				stoplag = swimpos * (this.startclock.swiminterval * 1000);
-//console.log('split lag to deduct');
-//console.log(stoplag);				
+		
 				stoptimelive = this.t[1] - this.t[0] - stoplag;
 					
 				this.spid[this.splitidlive][1] = stoptimelive;
 				this.sparray[this.splitidlive].push(this.spid[this.splitidlive][1]);	
-					
-//console.log('is $start being formed???');				
-//console.log(this.startclock.$start);			
+							
 				(this.startclock.$start).text(this.startclock.startText);
 				
 	// make this stop/split id local to this swimmer				
 				this.spid[this.splitidlive][2]++;
 	//console.log('t2 not equal to zero in stop');
-	//console.log(this.t);
 				$($splitslive).show();
 				$('<li><span>' + this.startclock.zero(this.spid[this.splitidlive][2]) + '</span> ' + this.startclock.format(this.spid[this.splitidlive][1]) + '</li>').appendTo($($splitslive)).slideDown('fast');
 				$($splitslive).find('li').removeClass('first last');
@@ -616,28 +564,7 @@ var PerSwimmer = function() {
 				this.stoppedlist.push(stoploc);
 				this.startclock.display();
 			}
-	// lastly if all the stop buttons have been pressed stop the mainstopwatch.
-			/*
-			this.lookup = {};
-			this.ll = 0;
-			this.list3 = [];
-			 for (var j in this.activesplitter) {
-				this.lookup[this.activesplitter[j]] = this.activesplitter[j];
-			}
-				for (var i in this.stoppedlist) {
-				if (typeof this.lookup[this.stoppedlist[i]] != 'undefined') {
-console.log('found ' + this.stoppedlist[i] + ' in both lists');
 
-//console.log(this.ll);				
-					this.list3[this.ll] = this.stoppedlist[i]
-				this.ll++	
-	 } 		
-	 }
-console.log('array to compare');
-console.log(this.list3);
-console.log(this.activesplitter);
-console.log(this.lookup);
-	*/
 	 
 		if(this.stoppedlist.length == (this.startclock.activeswimmers.length)){
 		// stop the main stopwatch
@@ -666,28 +593,17 @@ console.log(this.lookup);
 //console.log(this.t);
 		//form div id
 		$splive = '#splits'+spidin;
-//console.log($splive);		
-			
 	// need array to hold each swimmer id along with their times/splits info.
-//console.log('the local split/time array data');	
-//console.log(this.spid);
-//console.log(this.spid[1]);	
 	this.t[2] = 1;		
 			if (this.t[2] !== 0) {
 				this.spid[spidin][2]++;
-				
-//console.log('from within if in split');	
-//console.log(this.spid);
-//console.log(this.spid[1]);				
-//console.log(this.t);				
+							
 				// what order did this swimmer go off?
 				swimpos = this.startclock.activeswimmers.indexOf(spidin);
-//console.log('swim position');
-//console.log(swimpos);				
+		
 				// order position times interval time period
 				splitlag = swimpos * (this.startclock.swiminterval * 1000);
-//console.log('split lag to deduct');
-//console.log(splitlag);				
+		
 				splittimelive = this.t[3] + this.t[1] - this.t[0] - splitlag;
 				
 				this.spid[this.splitidlive][1] = splittimelive;
