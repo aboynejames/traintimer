@@ -23,7 +23,7 @@ function start(route, handle) {
 		var	couchin = new ttSettings();
 //console.log('setting prent on serversetup ' + couchin);	
 	
-    var app = http.createServer(onRequest).listen(8822);
+    var app = http.createServer(onRequest).listen(8833);
 			
 
 	  
