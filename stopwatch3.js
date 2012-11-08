@@ -77,15 +77,12 @@ console.log('name = ' + this.identifer);
 								stxt = {};
 								stxt['swimstatus'] = swimdatastatus;
 								stxt['splitdata'] = this.activetimeclock.sparray;		
-								stxtstring =  JSON.stringify(stxt);			
-//console.log('the splitdata');
-//console.log(stxt);										
+								stxtstring =  JSON.stringify(stxt);											
 								// make socket send to get real time display anywhere
 								var socket = io.connect();
 								socket.emit('splitsdatalive', stxtstring);	
-//console.log(stxtstring);
-									// save to localpouchdb need to prepare buld array json structure 
 									
+								// save to localpouchdb need to prepare buld array json structure 
 									cleandatakey = {};
 									bulksplits = [];
 									i = 0;

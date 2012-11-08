@@ -150,7 +150,7 @@ console.log(swimidin);
 			//set data session id for mulit data comparison
 			lastdataid['datasessionid'] = perswimmersp;
 			lastdataid['splitlasttime'] = lasttimefornextcalc;	
-	console.log(lastdataid);
+	//console.log(lastdataid);
 							
 	});  // closes perswimmer data
 
