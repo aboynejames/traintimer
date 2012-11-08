@@ -55,7 +55,6 @@ console.log('name = ' + this.identifer);
 					setsaveallowed = $.cookie("traintimer");
 		
 									// prepare the data TODO abstract out to a function
-									//swimdate = $("#swimdate").text();
 									var sptoday = new Date();
 									datesplitnumber = Date.parse(sptoday);//Date.parse(cleandata["swimstatus"]['swimdate']);
 									
