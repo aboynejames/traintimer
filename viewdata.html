@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="en"  > <!--manifest="traintimer.appcache"--> 
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>Train Timer - an open sport project</title>
+<meta charset="utf-8"><title>jQuery UI Touch Punch - Mobile Device Touch Event Support for jQuery UI</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
@@ -10,17 +9,11 @@
 	<link rel="stylesheet" type="text/css" href="css/dragdrop3.css" />
 	<link rel="stylesheet" type="text/css" href="stopwatch3.css" media="all" />
 	
-	<script type="text/javascript" src="pouchdb.alpha.js"></script>
-	<script type="text/javascript" src="IndexedDBShim.min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="http://www.aboynejames.co.uk/jquery/jquerycookie.js"></script>
-	<script type="text/javascript" src="http://www.aboynejames.co.uk/jquery/punch.js"></script>
-	<script type="text/javascript" src="pouchdb.js"></script>
+	<script type="text/javascript" src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script>
 	<script src="/socket.io/socket.io.js"></script>
-	<script type="text/javascript" src="stopwatch3.js"></script>
-	<script type="text/javascript" src="ttHTML.js"></script>
-	
+
   <script>
   $(function(){
     var socket = io.connect();
@@ -32,6 +25,211 @@ console.log('viewdata html real time display');
 console.log(thesplittimes);	
 			splitjsondata =  JSON.parse(thesplittimes);
 //console.log(splitjsondata);
+
+/**
+* Master Stop Watch Class
+*
+*/
+var MasterWatch = function() {
+//console.log('master class called');
+	// one universal start and reset button
+	this.$start = $('#start');
+	this.$reset = $('#reset');
+	this.$timer = $('#timer');
+	this.startText = this.$start.text();
+	this.stopText = this.$start.attr('alternate');
+
+	/*
+	 * I found this code on a few sites and am unsure of the original author.
+	 * If you know please inform me so I can credit them here.
+	 *
+	 * 0 = start time
+	 * 1 = end time
+	 * 2 = state (stopped or counting)
+	 * 3 = total elapsed time in ms
+	 * 4 = timer (interval object)
+	 * 5 = epoch (January 1, 1970)
+	 * 6 = element (not used here, normally stores the DOM element to update with the time)
+	 * 7 = split count
+	 */
+	this.t = [0, 0, 0, 0, 0, 0, 0, 0];
+
+
+	this.format = function(ms) {
+		var d = new Date(ms + this.t[5]).toString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1');
+		var x = String(ms % 1000);
+//console.log('formatting x ');
+//console.log(x);
+		while (x.length < 3) {
+			x = '0' + x;
+		}
+		d += '.' + x;
+		return d.substr(0, d.length - 1);
+	},
+	
+	this.zero = function(num) {
+		if (parseInt(num) < 0) var neg = true;
+		if (Math.abs(parseInt(num)) < 10) {
+			num = '0' + Math.abs(num);
+		}
+		if (neg) num = '-' + num;
+		return num;
+	},
+	
+
+	this.reset = function() {
+		// re enable the drag and drop sorting
+		//$("#sortable1").removeClass("droptrue ui-sortable ui-sortable-disabled");
+		//$("#sortable1").sortable("enable");
+$("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disabled", false );	
+		
+		// this needs updated to clear all splits for multiple active swimmers
+		
+		if (this.t[2]) {
+			this.startStop();
+		}
+		
+		this.t[4] = this.t[3] = this.t[2] = this.t[1] = this.t[0] = 0;
+		
+		this.display();
+		
+		this.$start.text(this.startText);
+		
+//	needs moving to per swimmer splits function
+		//liverestids = [1,2,3];
+			//activeswimmers
+//console.log('how much is viewable in masterstop watch from outside classes');		
+//console.log(starttiming.activetimeclock.activesplitter);		
+		starttiming.activetimeclock.activesplitter.forEach(function(restswimid)
+			{
+				starttiming.activetimeclock.spid[restswimid][0] = 1;
+				starttiming.activetimeclock.spid[restswimid][1] = 0;
+				starttiming.activetimeclock.spid[restswimid][2] = 0;
+				starttiming.activetimeclock.sparray[restswimid] = [];
+				
+//console.log(restswimid);				
+			$splivereset = $('#splits'+restswimid);
+			//$splivereset.slideUp('fast', function() {
+				$splivereset.empty();
+				$splivereset.append("<li></li>");
+
+//			});	
+				// reset the local splitter array holder for each swimmer
+
+				
+		});
+		// and this needs move to per swimmer basis
+		this.t[7] = 0;
+		//starttiming.activetimeclock.spid = {};
+		//starttiming.activetimeclock.list3 = [];
+		//starttiming.activetimeclock.activesplitter = {};
+		starttiming.activetimeclock.splitswimmerid(0);
+		
+		return false;
+	},
+	
+	this.display = function() {
+		if (this.t[2]) {
+//console.log('display function called and if t2');
+			this.t[1] = (new Date()).valueOf();
+		}
+//console.log('display function set timer after formatting time.');		
+		this.$timer.text(this.format(this.t[3] + this.t[1] - this.t[0]));
+	},
+	
+	
+	this.displaymaster = function() {
+//console.log('display master started');	
+//console.log(this.t);
+		
+		this.delaymaster = starttiming.activetimeclock.startclock.t;
+//console.log('can t array be formed from source??)');
+//console.log(this.delaymaster);
+//console.log(this.delaymaster[2]);		
+		
+		if (this.delaymaster[2]) {
+//console.log('display function called and if t2');
+			this.delaymaster[1] = (new Date()).valueOf();
+		}
+		
+		 starttiming.activetimeclock.startclock.$timer.text(starttiming.activetimeclock.startclock.format(this.delaymaster[3] + this.delaymaster[1] - this.delaymaster[0]));
+	},
+	
+	this.load = function() {
+		this.t[5] = new Date(1970, 1, 1, 0, 0, 0, 0).valueOf();
+
+		this.display();
+	},
+	
+	this.startStop = function() {
+				
+// disable drag and drop when start press, then reset when stopped.
+		$("#sortable1").sortable( "option", "disabled", true );			
+		this.swiminterval = '';
+		this.swiminterval = $("#swiminterval").val();
+//console.log('time interval set');
+//console.log(this.swiminterval)
+		
+// need to identify active swimmers from UI
+			// what order did the swimmers go off 
+		this.activeswimmers = [];
+		var noswimmerlive = $("a#stop").length;
+//console.log('the number of #stop ids in live');		
+//console.log(noswimmerlive);
+//console.log('the number of #stop ids in live');		
+
+		var listactives = [];
+	  //$("#sortable1 .ui-state-default").each(function(){
+	    //listactives.push($(this).attr('id'));
+	 // });
+		var listactives = $('#sortable1').sortable('toArray');
+//console.log(listactives);
+		countswimmers = listactives.length;
+//console.log(countswimmers);		
+		this.activeswimmers = listactives;
+
+		
+//console.log('start of start');		
+//console.log(this.t);	
+		this.t[this.t[2]] = (+new Date()).valueOf();
+//console.log(this.t);
+
+		this.t[2] = 1 - this.t[2];
+//console.log(this.t);
+			if (this.t[2] == 0) {
+	// a split time being set
+			clearInterval(this.t[4]);
+			this.t[3] += this.t[1] - this.t[0];
+		
+			this.$start.text(this.startText);
+		
+			this.t[7]++;
+		
+		//t[4] = t[1] = t[0] = 0;
+//console.log(this.t);		
+			this.display();
+		}
+		else {
+//console.log('else start');			
+//console.log(this.t);
+			this.$start.text(this.stopText);
+						
+			this.t[4] =  setInterval(this.displaymaster, 43);
+//console.log('after setinterval 43');
+//console.log(this.t);			
+		}
+		
+		return false;
+	},
+	
+	
+	this.savetocouch = function () {
+		
+	
+	}
+	
+};
+	
 			formatlive = new MasterWatch();
 
 theevent = splitjsondata['swimstatus']['swimdate'] + ' ' + splitjsondata['swimstatus']['swimdistance'] + ' ' + splitjsondata['swimstatus']['swimsplit'] + ' ' + splitjsondata['swimstatus']['swimstroke'] + ' ' + splitjsondata['swimstatus']['swimtechnique'];
@@ -87,9 +285,8 @@ console.log(thecolourdiff);
   });
   </script>
 
+</head>
 
-	</head>
-	
 	<body>
 	<div class="container">
 	<h1>Real time swim display</h1>

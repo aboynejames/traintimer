@@ -78,8 +78,8 @@ console.log('name = ' + this.identifer);
 								stxt['swimstatus'] = swimdatastatus;
 								stxt['splitdata'] = this.activetimeclock.sparray;		
 								stxtstring =  JSON.stringify(stxt);			
-console.log('the splitdata' + stxt);
-console.log(stxt);										
+//console.log('the splitdata');
+//console.log(stxt);										
 								// make socket send to get real time display anywhere
 								var socket = io.connect();
 								socket.emit('splitsdatalive', stxtstring);	
@@ -112,8 +112,8 @@ console.log(stxt);
 									// collect array and then do bulk save as single saving timing out.
 
 								});
-console.log('bulksplits object for saving to pouch');								
-console.log(bulksplits);		
+//console.log('bulksplits object for saving to pouch');								
+//console.log(bulksplits);		
 									livepouch.bulkSave(bulksplits);
 							
 								setsaveallowed = 
