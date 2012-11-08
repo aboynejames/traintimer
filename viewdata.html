@@ -25,11 +25,11 @@
   $(function(){
     var socket = io.connect();
     socket.on('connect', function () {
-			
+console.log('hellop from broadcasth tmll');
 			socket.on('splitsdatalive', function(thesplittimes) {
 			// need to convert object
-//console.log('viewdata html real time display');
-//console.log(thesplittimes);	
+console.log('viewdata html real time display');
+console.log(thesplittimes);	
 			splitjsondata =  JSON.parse(thesplittimes);
 //console.log(splitjsondata);
 			formatlive = new MasterWatch();

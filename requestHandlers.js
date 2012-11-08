@@ -365,8 +365,9 @@ function saveswimtimes(fullpath, response, request, emitter, couchin) {
 						cleandatasw = cleandata["splitdata"];
 						// we can now get this data out to display live splits/times anywhere on the web
 						var emitter = new EventEmitter;
-						emitter.emit('splitscall', cleandatasw);	  						
-
+						emitter.emit('splitscall', cleandatasw);	  	
+console.log('emitter has been called');							
+/*
 						var cleandatakey= Object.keys(cleandatasw);
 
 						cleandatakey.forEach(function(swimsplitsdata){
@@ -390,8 +391,9 @@ function saveswimtimes(fullpath, response, request, emitter, couchin) {
 			//console.log('getUUIDDDD');
 								
 						});	// closes forEach to form data for couchdb
-												
-					response.end();					
+*/												
+					response.end();
+					
 					}  // closes else	
 										
 				}); // initial requst of data from UI
@@ -411,7 +413,7 @@ function saveswimtimes(fullpath, response, request, emitter, couchin) {
 					};
 
 					var requu = http.get(opts, function(resuu) {
-		 // console.log(res);
+// console.log(res);
 							//return testreturn;	
 						resuu.setEncoding('utf8');
 						resuu.on('data', function(data) {
@@ -435,11 +437,6 @@ function saveswimtimes(fullpath, response, request, emitter, couchin) {
 					});
 					
 					}  // getuuid close
-					
-					
-					
-					
-					
 					
 			// form function and call it internally for now
 				function saveswimcouch(datatosaveswim, swimpathin) {

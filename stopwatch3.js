@@ -81,8 +81,8 @@ console.log('name = ' + this.identifer);
 console.log('the splitdata' + stxt);
 console.log(stxt);										
 								// make socket send to get real time display anywhere
-								var socket = io.connect();
-								socket.emit('splitsdatalive', stxtstring);	
+								//var socket = io.connect();
+								//socket.emit('splitsdatalive', stxtstring);	
 //console.log(stxtstring);
 									// save to localpouchdb need to prepare buld array json structure 
 									
@@ -116,11 +116,11 @@ console.log('bulksplits object for saving to pouch');
 console.log(bulksplits);		
 									livepouch.bulkSave(bulksplits);
 							
-								
-								//$.post("/save/" + setsaveallowed, stxtstring ,function(result){
+								setsaveallowed = 
+								$.post("/save/" + setsaveallowed, stxtstring ,function(result){
 								// put a message back to UI to tell of a successful save TODO
 								
-								//});
+								});
 			break;
 				
 				case "addswimmer":
@@ -819,10 +819,10 @@ $(document).ready(function(){
 			passwordhash= '';
 			//livepouch.	changeLog();
 			//livepouch.replicate();
-			$.get("/sync/", function(resultback){
-console.log('callback from sync to couchdb via node is comoplete');	
+		//	$.get("/sync/", function(resultback){
+//console.log('callback from sync to couchdb via node is comoplete');	
 				
-			});
+	//		});
 				
 			},
 
@@ -944,14 +944,11 @@ console.log('yes lane' + selectedlanenow );
 					localDatacall(selectedlanenow, function(rtmap) {  
 
 						presentswimmer = '';
-						
-//console.log(rtmap + 'what get back??');
-//console.log(rtmap);			
+								
 					rtmap["rows"].forEach(function(rowswimrs){
-//console.log(rowswimrs['key']);
+
 							if(rowswimrs['key'] == selectedlanenow )
 							{
-								//stringswnames += rowswimrs['value'][1];
 								//pass the lane data to get html ready
 								presentswimmer += liveHTML.fromswimmers(rowswimrs['value'][1], rowswimrs['value'][0]);
 							
