@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" manifest="traintimer.appcache"  > <!--manifest="traintimer.appcache"--> 
+<html lang="en" > <!--manifest="traintimer.appcache"--> 
 <head>
 <meta charset="utf-8">
 <title>Train Timer - an open sport project</title>
@@ -21,9 +21,10 @@
 	<!--<script type="text/javascript" src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script>-->
 
 
-	<script src="/socket.io/socket.io.js"></script>
+
 	<script type="text/javascript" src="stopwatch3.js"></script>
 	<script type="text/javascript" src="ttHTML.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
 	</head>
 	
 	<body>
@@ -52,19 +53,53 @@
 
 		<div class="demo">
 			<h2>
-				<a class="control-text" text="viewsplits" title="viewsplits" href="/viewsplits" id="viewdata" >View Data</a>
-				<a class="control-text" href="#"  id="startsort">reset order</a></span><span id="loadlanediv" >
-					<a class="control-text" href="#" id="loadlane" >Lane</a></span><span id="loadlaneselect" > :
-<select id="thelaneoptions">'
-				<option  selected="-" value="-1">-</option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-				<option value="6">6</option>
-				<option value="7">7</option>
-				</select></span>
+				<a class="control-text" text="viewsplits" title="viewsplits" href="/viewsplits" id="viewdata" >Analysis</a>
+				<a class="control-text" href="#"  id="startsort">reorder</a></span><span id="loadlanediv" >
+					<a class="control-text" href="#" id="loadlane" >Load</a></span>
+					<div id="loadlaneselect" > Lane:
+						<select id="thelaneoptions">'
+							<option  selected="-" value="-1">-</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+						</select>
+					</div>
+					<div id="loadswimmers" >Swimmer
+					<select id="theswimmeroptions">'
+							<option  selected="-" value="-1">-</option>
+							<option value="a">A</option>
+							<option value="b">B</option>
+							<option value="c">C</option>
+							<option value="d">D</option>
+							<option value="e">E</option>
+							<option value="f">F</option>
+							<option value="g">G</option>
+							<option value="h">H</option>
+							<option value="i">I</option>
+							<option value="j">J</option>
+							<option value="k">K</option>
+							<option value="l">L</option>
+							<option value="m">M</option>
+							<option value="n">N</option>
+							<option value="o">O</option>
+							<option value="p">P</option>
+							<option value="q">Q</option>
+							<option value="r">R</option>
+							<option value="s">S</option>
+							<option value="t">T</option>
+							<option value="u">U</option>
+							<option value="v">V</option>
+							<option value="w">W</option>
+							<option value="x">X</option>
+							<option value="y">Y</option>
+							<option value="z">Z</option>
+
+						</select>
+					<div>
 </div>
 </div>
 				</h2> 
@@ -166,6 +201,10 @@
 	<div><label for="password">Password</label><input id="password" class="text ui-widget-content ui-corner-all" type="password" value="" name="password" size="16" ></div></form>
 	<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"> <div class="ui-dialog-buttonset"><button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button" role="button" aria-disabled="false"><span class="ui-button-text">Sign me in</span></button></div></div><div id="responsemessage"></div>
 	</div>
+			</li>
+			<li class="">
+				<a class="menu-text" text="Sync data" title="syncdata" href="/sync"  id="syncdata" >Sync &amp Clear data</a>
+				<a class="menu-text" text="Clear Pouchdb" title="clearpouchdb" href="#"  id="clearpouchdb" >Clear Database</a>
 			</li>
 		</nav>
 	</header>

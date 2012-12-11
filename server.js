@@ -17,11 +17,13 @@ var fs = require('fs');
 var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 var ttSettings = require("./ttSettings");
+var ttCouchDB = require("./ttCouchDB");
 function start(route, handle) {
 
 		var couchin = {};
+		var couchlive = {};
 		var	couchin = new ttSettings();
-//console.log('setting prent on serversetup ' + couchin);	
+		var couchlive = new ttCouchDB(couchin);
 	
     var app = http.createServer(onRequest).listen(8822);
 			
@@ -32,7 +34,7 @@ function start(route, handle) {
     var pathname = url.parse(request.url).pathname;
   
     console.log("Request for " + pathname + " received.");
-    route(handle, pathname, response, request, emitter, couchin);
+    route(handle, pathname, response, request, emitter, couchin, couchlive);
   }
 	
 			// event listening
@@ -42,26 +44,41 @@ function start(route, handle) {
 			emitter.on('splitscall', function(splitsdata){
 console.log('save data from splits emitter has been evented ');
 console.log(splitsdata);
-console.log('end of save apit data');
-					
-					io.sockets.on('connection', function (socketdata) {
-						
-		      socketdata.on('splitsdatalive', function (splitsdata) {
+console.log('end of save split data');
+//console.log(io);					
+					io.sockets.on('connection', function (socket) {
+console.log('connect socketstart');						
+//		      socketdata.on('splitsdatalive', function (splitsdata) {
 						// need to route to logic and present html code via the socket
 console.log('from within message on socket listener');
 console.log(splitsdata);
-						socketdata.broadcast.emit('splitsdatalive', splitsdata);
-							//socketdata.broadcast.emit('splitsdatalive', splitsdata);
+						stringswimdatalive = JSON.stringify(splitsdata);
+						socket.emit('splitsdatalive', stringswimdatalive);
+					  socket.emit('newswim', {hello: 'worldofswimmin'});
+						//socket.broadcast.emit('splitsdatalive', splitsdata);
 						});
-						
-					socketdata.send("hell new client from james and co.");
-					});
-			});
-	
+
+				
+/*
+						io.sockets.on(
+						'connection',
+						function (socket) {
+								socket.emit('newswim', {hello: 'worldofswimmin'});
+							}
+						);
+*/					
+			});	
+				
 			// data for live two way socket data flow for real time display everywhere
-	 eventdataswim = {};
-	 eventdataswim = { hello: 'world of train timer' };
 		var io = sio.listen(app);
+
+		io.sockets.on(
+    'connection',
+    function (socket) {
+        socket.emit('news', {hello: 'world'});
+    }
+);
+
 
 
 } // closes start function 

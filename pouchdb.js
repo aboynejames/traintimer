@@ -72,6 +72,24 @@ pouchdbSettings.prototype.getDoc = function(docid) {
 			db.get(docid, function(err, doc) {
 
 console.log(doc);	
+				syncdataforsave =  JSON.stringify(doc);
+				$.post("/sync/", syncdataforsave ,function(result){
+					// put a message back to UI to tell of a successful sync
+console.log('callback from sync to couchdb via node is complete');	
+			
+				});
+			});
+		});
+
+};
+
+pouchdbSettings.prototype.putDoc = function(designdoc) {
+	
+		Pouch(this.account['pouchdbname'], function(err, db) {
+			
+			db.put( designdoc ,  function(err, doc) {
+
+console.log(doc);	
 				
 			});
 		});
@@ -117,20 +135,46 @@ pouchdbSettings.prototype.mapQuerySplits = function(lanein, callbackin) {
 
 };
 
-pouchdbSettings.prototype.changeLog = function() {
+pouchdbSettings.prototype.deleteDoc = function(docid) {
+	
+		Pouch(this.account['pouchdbname'], function(err, db) {
+console.log(docid);		
+		db.get(docid, function(err, docout) {
+console.log('docid returned');
+console.log(docout);			
+			db.remove(docout, function(err, response) {
+console.log('remove response');
+console.log(response);				
+				
+			});
+		});
+	});
+
+};
+
+
+pouchdbSettings.prototype.changeLog = function(synccallback) {
 	
 		Pouch(this.account['pouchdbname'], function(err, db) {
 			
 		db.changes(function(err, response) {
-console.log(response);
-		
-			var doctosync = Object.keys(response['results']);
-			doctosync.forEach(function(doclist) {
-console.log(response['results'][doclist]['id']);
-			// foreach doc, get it contents and fire an insert into couchdb online
-				
-				
+//console.log(response);
+				synccallback(response);
 			});
+
+		});
+
+};
+
+
+pouchdbSettings.prototype.filterchangeLog = function(callbackin) {
+	
+		Pouch(this.account['pouchdbname'], function(err, db) {
+			
+		db.changes( {filter : 'swimmers/justname'}, function(err, response) {
+console.log(response);
+			callbackin(response);
+			
 			
 			});
 
@@ -141,7 +185,7 @@ console.log(response['results'][doclist]['id']);
 
 pouchdbSettings.prototype.replicate = function() {
 console.log('replication started ouside');	
-			Pouch.replicate(this.account['pouchdbname'], 'http://aboynejames:ivytree@localhost:5984/traintimer/', function(err, changes) {
+			Pouch.replicate(this.account['pouchdbname'], 'http://localhost:5984/traintimer/', function(err, changes) {
   //
 console.log('replication started');				
 			});			

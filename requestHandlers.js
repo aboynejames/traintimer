@@ -19,104 +19,152 @@ function start(fullpath, response) {
     response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 		response.writeHead(200, {"Content-Type": "text/html"});
 
-	//response.write(data);
 	  response.end(data);
-      });	
+	});	
      
+}
+
+function stopwatch3(fullpath, response) {
+  console.log("Request handler 'stopwatch js' was called.");
+	var data  = '';
+	
+  fs.readFile('./stopwatch3.js', function(err, data) {
+			response.writeHead(200, {"Content-Type": "text/javascript"});
+	  	  response.end(data);
+	});
+      
+}
+
+
+function dragdrop3(fullpath, response) {
+  console.log("Request handler 'dragdrop css' was called.");
+	var data  = '';
+
+  fs.readFile('./css/dragdrop3.css', function(err, data) {
+			  response.writeHead(200, {"Content-Type": "text/css"});
+	  	  response.end(data);
+	});
+      
+}
+
+function jquery172(fullpath, response) {
+  console.log("Request handler 'start' was called.");
+	var data  = '';
+	
+  fs.readFile('./jquery-1.7.2.min.js', function(err, data) {
+			  response.writeHead(200, {"Content-Type": "text/javascript"});
+	  	  response.end(data);
+	});
+      
+}
+
+function localcache(fullpath, response) {
+  console.log("Request handler 'appcache' was called.");	
+
+  fs.readFile('./traintimer.appcache', function(err, data) {
+		response.writeHead(200, {"Content-Type": "text/cache-manifest"});
+		response.end(data);
+	});
+      
+}
+
+function pouchdb(fullpath, response) {
+  console.log("Request handler 'pouchdb' was called.");	
+
+  fs.readFile('./pouchdb.js', function(err, data) {
+		response.writeHead(200, {"Content-Type": "text/javascript"});
+		response.end(data);
+	});
+      
+}
+
+function indexedDB(fullpath, response) {
+  console.log("Request handler 'pouchdb' was called.");	
+
+  fs.readFile('./IndexedDBShim.min.js', function(err, data) {
+		response.writeHead(200, {"Content-Type": "text/javascript"});
+		response.end(data);
+	});
+      
 }
 
 /**
 * check signin details
 *
 */
-function signincheck (fullpath, response, request, emitter, couchin) {
-  
-//	couchin = new ttSettings();
-//console.log(util.inspect(couchin));
-//console.log(util.inspect(couchin.account));
+function signincheck (fullpath, response, request, emitter, couchin, couchlive) {
 	//set cookieid
 	couchin.account['cookieset'] = fullpath[3];
-//console.log('prototype account set??' + util.inspect(couchin) );	
-				checkusercouch ( response, fullpath); 
+	checkusercouch (response, fullpath); 
 
-				function checkusercouch ( response, fullpath) {
+	function checkusercouch ( response, fullpath) {
 console.log('train details in from client ui');
-console.log(fullpath);
-				//parsecheckuser = JSON.parse(checkuser);
-				checktpassdata = '';
-				var  trainertocheck = '';
+		checktpassdata = '';
+		var  trainertocheck = '';
+		
+		var opts = {
+		host: 'localhost',
+		port: 5984,
+		path: '/' + couchin.account['couchdbname'] + '/_design/trainers/_view/by_trainers?key="' + fullpath[2] + '"',
+		auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd'],
+		};
+
+		var requu = http.get(opts, function(checkinres) {
+// console.log(res);
+			checkinres.setEncoding('utf8');
+			checkinres.on('data', function(signdata) {
+
+				trainertocheck += signdata;	
+	
+			});
+
+			checkinres.on('end', function() {
+			
+				jsontrainer =  JSON.parse(trainertocheck);
+				jsontrainer["rows"].forEach(function(tpassdata){
+		
+					checktpassdata = tpassdata;	
+			
+				});	
+	console.log('train user details');
+	console.log(checktpassdata);
+		
+			checkvalue =checktpassdata.hasOwnProperty("value");
+	console.log('check value of true or false' + checkvalue);						
+				if(checkvalue == 1) {
+					stringone = checktpassdata['value'].toString();
+					stringtwo = fullpath[4].toString();
+					correctpwd = '';
+						if(stringone === stringtwo) {
+							correctpwd = {"signin":"passed"};
+					// save sessioncookie id for testing/validation TODO
 					
-				var opts = {
-				host: 'localhost',
-				port: 5984,
-				path: '/' + couchin.account['couchdbname'] + '/_design/trainers/_view/by_trainers?key="' + fullpath[2] + '"',
-				auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd'],
-			};
+						}
+						else
+						{
+							correctpwd= {"signin":"wrong"};
+					
+						}
+			
 
-   		var requu = http.get(opts, function(checkinres) {
- // console.log(res);
-				checkinres.setEncoding('utf8');
-				checkinres.on('data', function(signdata) {
-	
-					trainertocheck += signdata;	
+				checkjson = JSON.stringify(correctpwd);
+				response.writeHead(200, {"Content-Type": "json"});
+				response.end(checkjson);
+				}
+				else {
+					correctpwd = {"signin":"wrong"};
+					checkjson = JSON.stringify(correctpwd);
+					response.writeHead(200, {"Content-Type": "json"});
+					response.end(checkjson);
 				
-				});
-
-	
-					checkinres.on('end', function() {
-//console.log('what is couch returning?? trainers');
-//console.log(trainertocheck);		 
-						jsontrainer =  JSON.parse(trainertocheck);
-//console.log(jsontrainer);						
-						jsontrainer["rows"].forEach(function(tpassdata){
-						
-						checktpassdata = tpassdata;	
-							
-						});	
-console.log('train user details');
-console.log(checktpassdata);
-//console.log(fullpath[4].length);		
-//console.log(checktpassdata['value'].length);	
-						checkvalue =checktpassdata.hasOwnProperty("value");
-console.log('check value of true or false' + checkvalue);						
-							if(checkvalue == 1) {
-						stringone = checktpassdata['value'].toString();
-						stringtwo = fullpath[4].toString();
-//console.log(stringone);
-//console.log(stringtwo);							
-							correctpwd = '';
-							if(stringone === stringtwo) {
-								correctpwd = {"signin":"passed"};
-								// save sessioncookie id for testing/validation TODO
-								
-							}
-							else
-							{
-								correctpwd= {"signin":"wrong"};
-								
-							}
-						
-
-						checkjson = JSON.stringify(correctpwd);
-						response.writeHead(200, {"Content-Type": "json"});
-						response.end(checkjson);
-						}
-						else {
-							correctpwd = {"signin":"wrong"};
-							checkjson = JSON.stringify(correctpwd);
-							response.writeHead(200, {"Content-Type": "json"});
-							response.end(checkjson);
-							
-							
-						}
-       		
-					});
+				}
 
 			});
-			
-			}  // sigincheck close
 
-					
+		});
+
+	}  // sigincheck close
+
 }  // closes sigincheck
 
 
@@ -144,28 +192,27 @@ console.log("build the swimmer for this lane");
 //console.log('at hander filelllllllleelle' + util.inspect(couchin));
 	// only allow lane load if signedin ie cookie set
 	if((couchin.account['cookieset'] == firstpath[4]) && (firstpath[4] != null))  {
-	
 // which lane, view, map for couchdb?
-	laneforcouch = '';
-	laneforcouch = firstpath[3]	;
-	couchdesignview = '';
-	couchdesignview = firstpath[2];
+		laneforcouch = '';
+		laneforcouch = firstpath[3]	;
+		couchdesignview = '';
+		couchdesignview = firstpath[2];
 	
 //console.log(laneforcouch, couchdesignview);	
 	
 // query couch to get existing save swimmers (could be in groups e.g. lane swimmers)	
-	getSwimmerscouchdb (laneforcouch, couchdesignview);
+		getSwimmerscouchdb (laneforcouch, couchdesignview);
 
 	
 		function getSwimmerscouchdb (laneforcouch, viewmapref) {
 			
-				formstartingswimmers = '';
-				buildpathurl = '';
+			formstartingswimmers = '';
+			buildpathurl = '';
 			
 			// convert pathurl in couchdb path url string
-			  buildpathurl = '/' + couchin.account['couchdbname'] + '/_design/by' + viewmapref + '/_view/' + 'by_' + viewmapref + '?key="' + laneforcouch +'"';
+			buildpathurl = '/' + couchin.account['couchdbname'] + '/_design/by' + viewmapref + '/_view/' + 'by_' + viewmapref + '?key="' + laneforcouch +'"';
 			
-  			var opts = {
+			var opts = {
 				host: 'localhost',
 				port: 5984,
 				path: buildpathurl,
@@ -200,24 +247,22 @@ console.log("build the swimmer for this lane");
 	
 			});
 			
-
 			}  // getSwimmer view from couchdb close
-	 	
-			
-			function formswimmers(swname, swid) {
+	 				
+		function formswimmers(swname, swid) {
 				
-				var swimstarters = '<li class="ui-state-default"  id="' + swid + '">' + swname + ' HR';
-				swimstarters += '<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
-				swimstarters +=	'<ul id="controls">';
-				swimstarters +=	'<li><a href="#" id="stop" name="' + swid + '" >Stop</a></li>';
-				swimstarters +=	'<li><a href="#" id="split" name="' + swid + '" >Split</a></li>';
-				swimstarters +=	'</ul>';
-				swimstarters +=	'<ul id="splits' + swid + '" class="splits" >';
-				swimstarters +=	'<li></li>';
-				swimstarters +=	'</ul></li>';
+			var swimstarters = '<li class="ui-state-default"  id="' + swid + '">' + swname + ' HR';
+			swimstarters += '<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
+			swimstarters +=	'<ul id="controls">';
+			swimstarters +=	'<li><a href="#" id="stop" name="' + swid + '" >Stop</a></li>';
+			swimstarters +=	'<li><a href="#" id="split" name="' + swid + '" >Split</a></li>';
+			swimstarters +=	'</ul>';
+			swimstarters +=	'<ul id="splits' + swid + '" class="splits" >';
+			swimstarters +=	'<li></li>';
+			swimstarters +=	'</ul></li>';
 				
-				return swimstarters;
-			}
+			return swimstarters;
+		}
 	} // closes if cookie set
 	else
 	{
@@ -227,79 +272,6 @@ console.log("build the swimmer for this lane");
 	}
 }
 
-
-function stopwatch3(fullpath, response) {
-  console.log("Request handler 'stopwatch js' was called.");
-
-	var data  = '';
-	
-
-  fs.readFile('./stopwatch3.js', function(err, data) {
-			response.writeHead(200, {"Content-Type": "text/javascript"});
-	  	  response.end(data);
-	  });
-      
-}
-
-
-function dragdrop3(fullpath, response) {
-  console.log("Request handler 'dragdrop css' was called.");
-
-	var data  = '';
-	
-
-  fs.readFile('./css/dragdrop3.css', function(err, data) {
-			  response.writeHead(200, {"Content-Type": "text/css"});
-	  	  response.end(data);
-	  });
-		
-		
-      
-}
-
-function jquery172(fullpath, response) {
-  console.log("Request handler 'start' was called.");
-
-	var data  = '';
-	
-
-  fs.readFile('./jquery-1.7.2.min.js', function(err, data) {
-			  response.writeHead(200, {"Content-Type": "text/javascript"});
-	  	  response.end(data);
-	  });
-      
-}
-
-
-function localcache(fullpath, response) {
-  console.log("Request handler 'appcache' was called.");	
-
-  fs.readFile('./traintimer.appcache', function(err, data) {
-			  response.writeHead(200, {"Content-Type": "text/cache-manifest"});
-	  	  response.end(data);
-	  });
-      
-}
-
-function pouchdb(fullpath, response) {
-  console.log("Request handler 'pouchdb' was called.");	
-
-  fs.readFile('./pouchdb.js', function(err, data) {
-			  response.writeHead(200, {"Content-Type": "text/javascript"});
-	  	  response.end(data);
-	  });
-      
-}
-
-function indexedDB(fullpath, response) {
-  console.log("Request handler 'pouchdb' was called.");	
-
-  fs.readFile('./IndexedDBShim.min.js', function(err, data) {
-			  response.writeHead(200, {"Content-Type": "text/javascript"});
-	  	  response.end(data);
-	  });
-      
-}
 
 function pouchalpha(fullpath, response) {
   console.log("Request handler 'pouchdb' was called.");	
@@ -334,27 +306,50 @@ function stopwatchcss(fullpath, response) {
       
 }
 
-function saveswimtimes(fullpath, response, request, emitter, couchin) {
-  console.log("Request handler 'saveswimtimes' was called" );
-	//console.log(util.inspect(couchin));
-	//console.log(couchin.account['cookieset'] + 'fullpath' + fullpath[2]);
-			// only allow lane load if signedin ie cookie set
+/**
+* view the data capture in real time
+*
+*/
+function viewswimtimes(fullpath, response) {
+  console.log("view the splits on stop save in real time, eventually when ever a split or stop button is pressed");
+
+		var timedata  = '';
+	
+  fs.readFile('./viewdata.html', function(err, timedata) {
+	  response.writeHead(200, {"Content-Type": "text/html"});
+	//response.write(data);
+	  response.end(timedata);
+		
+		});	
+
+			
+	}  //  viewswimtimes close
+
+/**
+* transfer data to be broadcast  (similar to sync up toTHink out)
+*
+*/	
+function saveswimtimes(fullpath, response, request, emitter, couchin, couchlive) {
+console.log("Request handler 'saveswimtimes' was called" );
+//console.log(util.inspect(couchin));
+//console.log(couchin.account['cookieset'] + 'fullpath' + fullpath[2]);
+	// only allow lane load if signedin ie cookie set
 	if((couchin.account['cookieset'] == fullpath[2]) && (fullpath[2] != null)) {
 			
-		 if(request.method == 'POST'){
+		 if(request.method == 'POST') {
 					 
 				var datain = '';
 				var cleandata = '';
 				request.on('data', function(chunk) {
 					datain += chunk;
-					cleandata =  JSON.parse(datain);
-//console.log('we have save next stage is to save to couch');
-//console.log(datain);
-//console.log(cleandata);		
-		// what sort of save, setup of new swimmer or saving of times data?			
+					
+				});
+				
+				request.on('end', function() {
+						cleandata =  JSON.parse(datain);
 						if(cleandata['name'] ) {
 							// new swimmer add
-		//console.log('this will be to save new master swimmer');				
+//console.log('this will be to save new master swimmer');				
 							getUIDfromcouch (JSON.stringify(cleandata));
 							response.end();	
 							
@@ -362,11 +357,10 @@ function saveswimtimes(fullpath, response, request, emitter, couchin) {
 						else
 						{
 						// before saving need split into individaul swimmer data chunks and then save
-						cleandatasw = cleandata["splitdata"];
+						cleandatasw = cleandata;
 						// we can now get this data out to display live splits/times anywhere on the web
-						//var emitter = new EventEmitter;
 						emitter.emit('splitscall', cleandatasw);	  	
-//console.log('emitter has been called');							
+console.log('emitter has been called');							
 /*
 						var cleandatakey= Object.keys(cleandatasw);
 
@@ -421,14 +415,12 @@ function saveswimtimes(fullpath, response, request, emitter, couchin) {
 							var  uuidnew = data;	
 							jsonuud =  JSON.parse(uuidnew)
 
-								jsonuud["uuids"].forEach(function(udata){
-								
+							jsonuud["uuids"].forEach(function(udata){
 								reudata = udata;	
-								});						
+							});						
 			
 							resuu.on('end', function() {
 		//console.log(' after end function what I am trying to return');			
-		//console.log(reudata);
 								saveswimcouch(newjsonswimin, reudata)					
 							
 							});
@@ -440,27 +432,26 @@ function saveswimtimes(fullpath, response, request, emitter, couchin) {
 					
 			// form function and call it internally for now
 				function saveswimcouch(datatosaveswim, swimpathin) {
-					
-		console.log('start of couch save');		
-					// need to ask couchdb for unique doc id.
-					swimpathlive = swimpathin;
-		//console.log('what is return from UUDS');
-		//console.log(swimpathlive );			
-				// need to call the couchdb function / class  pass on data and PUT				
-					var opts = {
-					host: 'localhost',
-					port: 5984,
-					method: 'PUT',
-					path: '/' + couchin.account['couchdbname'] + '/' + swimpathlive,
-					auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd'],
-					headers: {}
-					};
+						
+console.log('start of couch save');		
+						// need to ask couchdb for unique doc id.
+						swimpathlive = swimpathin;
+	//console.log('what is return from UUDS');
+	//console.log(swimpathlive );			
+					// need to call the couchdb function / class  pass on data and PUT				
+						var opts = {
+						host: 'localhost',
+						port: 5984,
+						method: 'PUT',
+						path: '/' + couchin.account['couchdbname'] + '/' + swimpathlive,
+						auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd'],
+						headers: {}
+						};
 			
 			// JSON encoding
 				opts.headers['Content-Type'] = 'application/json';
 				data = datatosaveswim;//JSON.stringify(req.data);
-		//console.log('json object after stringify');
-		//console.log(data);			
+		
 				opts.headers['Content-Length'] = data.length;
 				rec_data = '';
 			
@@ -484,8 +475,9 @@ console.log('any response data from couch??');
 
 						// write the data
 						if (opts.method == 'PUT') {
-		console.log('post has been sent');	
+	console.log('post has been sent');	
 							reqc.write(data);
+							
 						}
 						reqc.end();		
 						
@@ -501,39 +493,72 @@ console.log('any response data from couch??');
       
 } // closes function
 
-/**
-* view the data capture in real time
-*
-*/
-function viewswimtimes(fullpath, response, io) {
-  console.log("view the splits on stop save in real time, eventually when ever a split or stop button is pressed");
-
-		var timedata  = '';
-	
-  fs.readFile('./viewdata.html', function(err, timedata) {
-	  response.writeHead(200, {"Content-Type": "text/html"});
-	//response.write(data);
-	  response.end(timedata);
-		
-		});	
-
-			
-	}  //  viewswimtimes close
-
 
 /**
 * Perform a sync from local pouchdb to  online couchdb
 *
 */
-function pouchsync(fullpath, response, io) {
-  console.log("pouchdb couchdb synup started");
-// couchdb-backed pouch
+function pouchsync(fullpath, response, request, emitter, couchin, couchlive) {
+console.log("pouchdb couchdb synup started");
+	if(request.method == 'POST'){
+					 
+		var syncdatain = '';
+		var cleandata = '';
+		request.on('data', function(chunk) {
+			syncdatain += chunk;
+			
+		});	
+		
+		request.on('end', function() {
+		// make POST call to couchdb
+//console.log('data sync received');
+//console.log(syncdatain);
+		cleandata =  JSON.parse(syncdatain);
+		// next make a PUT call to couchdb API
+		
+			if(cleandata['name'] ) {
+console.log('this will be sync new master swimmer');		
+
+				function syncUIDcall(callback) {  
+					couchlive.getUIDfromcouch(callback);
+					
+				}  
+			
+			//syncUIDcall();
+				syncUIDcall(function(responseuid) {  
+console.log('stared callback name');
+console.log(responseuid);
+					//cleandata = {"name":"oner lane one"};
+					couchlive.syncsave(cleandata, responseuid);
+					response.end();
+				});
+
+
+			}
+			else
+			{
+				function syncUIDcall(callback) {  
+					couchlive.getUIDfromcouch(callback);
+					
+				}  
+			
+			//syncUIDcall();
+				syncUIDcall(function(responseuid) {  
+console.log('stared callback splits');
+console.log(responseuid);
+					//cleandata = {"split":"1334.34"};
+					couchlive.syncsave(cleandata, responseuid);
+					response.end();
+				});
+				
+			}  // closes else	
+		
+	});
+						
+	}
+		
 	//Pouch.replicate('http://traintimer', 'http://localhost:5984/opentimer', function(err, changes) {
 //console.log('replication complete');			
-	 // response.writeHead(200, {"Content-Type": "text/json"});
-		//syncreply = {"syncstatus" : "complete"};
-		//syncreplyjson = JSON.stringify(syncreply);
-	  //response.end(syncreplyjson);
 	//});
 			
 }  // closes pouchsync

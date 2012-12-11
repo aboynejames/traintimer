@@ -145,6 +145,7 @@ console.log('name = ' + this.identifer);
 //console.log('has cookie been set?' + setsaveallowed);		
 				$("#thelaneoptions").val(-1);
 				$("#loadlaneselect").show();
+				$("#loadswimmers").show();
 				
 				break;
 				
@@ -633,6 +634,9 @@ $(document).ready(function(){
 	
 			passwordin = '';
 			$("#loadlaneselect").hide();
+			$("#loadswimmers").hide();
+			$("#syncdata").hide();
+			$("#clearpouchdb").hide();
 			$("#sortable1").empty();
 			$("#signinopener").show();
 	
@@ -645,6 +649,9 @@ $(document).ready(function(){
 		} );
 	
 	$("#loadlaneselect").hide();
+	$("#loadswimmers").hide();
+	$("#syncdata").hide();
+	$("#clearpouchdb").hide();
 	//fire up the classes
 	starttiming = new SwimtimeController();
 	livepouch = new pouchdbSettings;	
@@ -707,6 +714,8 @@ $(document).ready(function(){
 												$("#siginform").dialog( "close" );
 												$("#signinopener").hide();
 												$("#sortable1").empty();
+												$("#syncdata").show();
+												$("#clearpouchdb").show();
 										
 																				
 												}
@@ -718,7 +727,6 @@ $(document).ready(function(){
 															
 										},
 
-										
 										Cancel: function() {
 										$( this ).dialog( "close" );
 										},
@@ -729,12 +737,6 @@ $(document).ready(function(){
 			$("#password").val( "" );
 			cookieidhash = '';
 			passwordhash= '';
-			//livepouch.	changeLog();
-			//livepouch.replicate();
-		//	$.get("/sync/", function(resultback){
-//console.log('callback from sync to couchdb via node is comoplete');	
-				
-	//		});
 				
 			},
 
@@ -747,8 +749,85 @@ $(document).ready(function(){
 
 	});
 
-
+	
+		/*
+	* Clear pouchDB
+	*
+	*/
+	$("#clearpouchdb").click(function(e) {
 		
+		livepouch.deletePouch();
+		
+	});
+	
+	/*
+	* Sync data back to couchdb online
+	*
+	*/
+	$("#syncdata").click(function(e) {
+		
+		designdoc = 0;
+		// need to set a design document (but only needed once)
+		if(designdoc != 1 ) {
+			
+			designdocjson = {"_id": "_design/swimmers",  "filters" : {"justname" : "function(traintimer) {if(traintimer.name == '_design/swimmers' ) { emit (traintimer.changes, traintimer.changes)} }" }};
+	livepouch.putDoc(designdocjson);
+		}
+		// get all current doc from pouchdb and pass them on to nodejs to couchdb and delete local data (ideally leave 1 month or user directed future todo )
+		//
+		localsplitstodelete = [];
+		
+		function localDatalog(callback) {  
+			livepouch.filterchangeLog(callback);
+			//livepouch.mapQueryname(selectedlanenow, callback);
+			
+		}  
+
+		localDatalog( function(trainlog) {
+
+				trainlog['results'].forEach(function(rowsswimsplit){
+		
+					if (rowsswimsplit.doc['session'] && (rowsswimsplit.deleted != 1))
+					{
+						// form JSON to sync back to couch
+						buildsyncsplits = {};
+						buildsyncsplits['session'] = rowsswimsplit.doc['session'];
+						buildsyncsplits['swimmerid'] =rowsswimsplit.doc['swimmerid'];
+						syncdataforsave =  JSON.stringify(buildsyncsplits);
+						$.post("/sync/", syncdataforsave ,function(result){
+					// put a message back to UI to tell of a successful sync
+						livepouch.deleteDoc(rowsswimsplit.doc['_id']);	
+			
+						});
+					}
+				});
+			
+	
+		/*
+		// same for swimmer names expect do not del but mark last seq no. 
+		trainlog['results'].forEach(function(rowsswimname){
+					
+					if (rowsswimname.doc['name'] )
+					{
+console.log('new names back to couch');						
+console.log(rowsswimname);
+						// form JSON to sync back to couch
+						buildsyncswimmer = {};
+						buildsyncswimmer['lanetrain'] = rowsswimname.doc['lanetrain'];
+						buildsyncswimmer['name'] = rowsswimname.doc['name'];
+						buildsyncswimmer['swimmerid'] = rowsswimname.doc['swimmerid'];
+							syncdataforsave =  JSON.stringify(buildsyncswimmer);
+				$.post("/sync/", syncdataforsave ,function(result){
+					// put a message back to UI to tell of a successful sync
+console.log('callback from sync to couchdb via node is complete');	
+			
+				});
+					}
+				});
+		*/
+		});
+});
+
 	$("#ifsignedin").click(function(e) {
 //console.log('time to distroy the cookie please');
 			e.preventDefault(e);
@@ -762,6 +841,8 @@ $(document).ready(function(){
 					$("#ifsignedin").fadeOut("slow");
 						//$("#ifsignedin").hide();	
 					$("#loadlaneselect").hide();
+					$("#syncdata").hide();
+					$("#clearpouchdb").hide();
 					$("#sortable1").empty();
 					$("#signinopener").show();
 	
@@ -800,17 +881,17 @@ $(document).ready(function(){
 														hash = ((hash<<5)-hash)+char;
 														hash = hash & hash; // Convert to 32bit integer
 												}
-console.log(hash + 'new hasnumber');
+//console.log(hash + 'new hasnumber');
 												return hash;
 												}
 												var newidnumberstart = new Date();
 												newswimmerguid = Date.parse(newidnumberstart);
-console.log('date string' + newswimmerguid)	;									
+//console.log('date string' + newswimmerguid)	;									
 					newmastidish = hashCode(newmastnameis);
 					newmastidisrand = Math.floor((Math.random()*10000000)+1);
-console.log(newmastidisrand + 'randon number');												
+//console.log(newmastidisrand + 'randon number');												
 					newmastidis = newmastidisrand + '-' + newmastidish;												
-console.log('new GUID' + newmastidis);					
+//console.log('new GUID' + newmastidis);					
 					newlane = $("#thelaneoptionsnew").val();
 					
 // need to save new master to couch, name and masters id,  validate unique ID number
@@ -886,8 +967,63 @@ console.log('yes lane' + selectedlanenow );
 				// make post request to get swimmer for this lane and dispaly
 				//$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow + '/' + setsaveallowed);
 				$("#loadlaneselect").hide();
+				$("#loadswimmers").hide();
 			});	
 			
+/*
+*
+* List swimmer alphabetically
+*/
+	$("#theswimmeroptions").change(function () {
+
+				$("#viewdatalive").empty();
+				$("#visualisedata").empty();
+				$("#splittimeshistorical").empty();
+				selectedswimmernow = $("#theswimmeroptions").val();
+console.log('letter in ' + selectedswimmernow );
+				//first check local
+					function localDatacall(selectedswimmernow, callback) {  
+						livepouch.mapQueryname(selectedswimmernow, callback);
+					}  
+      
+					localDatacall(selectedswimmernow, function(rtmap) {  
+
+						presentswimmer = '';
+//console.log(rtmap);								
+					rtmap["rows"].forEach(function(rowswimrs){
+						getfirstletter = rowswimrs['value'][1].charAt(0);
+						makelettersmall = getfirstletter.toLowerCase();
+						
+							if(makelettersmall == selectedswimmernow )
+							{
+								//pass the lane data to get html ready
+								presentswimmer += liveHTML.fromswimmers(rowswimrs['value'][1], rowswimrs['value'][0]);
+							
+								}
+						});
+
+				$("#sortable1").html(presentswimmer);	
+
+	// test splits data recall						
+	function localDataSPcall(dataspin, callback) {  
+						livepouch.mapQuerySplits(dataspin, callback);
+
+					}  
+      
+					localDataSPcall('1', function(spmap) {  
+//console.log('how splits data look after save');
+//console.log(spmap);						
+						});						
+						
+
+    });  
+							
+				// make post request to get swimmer for this lane and dispaly
+				//$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow + '/' + setsaveallowed);
+				$("#loadlaneselect").hide();
+				$("#loadswimmers").hide();
+			});	
+
 			
 // drag and drop
 		$("ul.droptrue").sortable({
