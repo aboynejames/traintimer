@@ -362,9 +362,12 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 				starttiming.activetimeclock.sparray[restswimid] = [];
 				
 		
-			$splivereset = $('#splits'+restswimid);
+				$splivereset = $('#splits'+restswimid);
 				$splivereset.empty();
 				$splivereset.append("<li></li>");
+				$diffreset = $('#analysis'+restswimid);
+				$diffreset.empty();
+				$diffreset.append("<li></li>");
 
 		});
 		// and this needs move to per swimmer basis
@@ -496,13 +499,15 @@ var PerSwimmer = function() {
 			{
 			this.spid = {};	
 			this.sparray = {};	
+			this.spdiffarray = {};
 			}
 			
 // if an individual swimmer id array has not been set set it
 		if(!this.spid[this.splitidlive]){			
 //console.log('should be only first time set of this');			
 		this.spid[this.splitidlive] =  [1,0,0];
-		this.sparray[this.splitidlive] =  [];	
+		this.sparray[this.splitidlive] =  [];
+		this.spdiffarray[this.splitidlive] = [];	
 		
 	/*
 	 * setting for each swimmer  array of array [idofswimmer][splits time where:
@@ -524,8 +529,7 @@ var PerSwimmer = function() {
 	{
 //console.log('what t arrays are set start after resetbutton pressed?');
 	// form stop location div
-			$splitslive = '#splits'+stoploc;
-			$stoplive = '#stop'+stoploc;
+			
 
 			this.t =  this.startclock.t;
 
@@ -533,11 +537,13 @@ var PerSwimmer = function() {
 			this.t[this.t[2]] = (+new Date()).valueOf();
 
 	// need to make this stop logic local to this swimmer
-			this.spid[this.splitidlive][0] = 1 - this.spid[this.splitidlive][0];
+			this.spid[stoploc][0] = 1 - this.spid[this.splitidlive][0];
 			
-				if (this.spid[this.splitidlive][0] == 0) {
+				if (this.spid[stoploc][0] == 0) {
 	
 					
+					liveHTML.realtimestop(this, stoploc);
+	/*				
 	// make the total time elasped in ms local to this swimerid
 				// what order did this swimmer go off?
 				swimpos = this.startclock.activeswimmers.indexOf(stoploc);
@@ -563,17 +569,19 @@ var PerSwimmer = function() {
 				this.t[1] = 0;
 				this.stoppedlist.push(stoploc);
 				this.startclock.display();
-			}
+*/
+				}
 
-	 
 		if(this.stoppedlist.length == (this.startclock.activeswimmers.length)){
 		// stop the main stopwatch
 //console.log('all watches have been stopped');		
 			clearInterval(this.t[4]);
 		// /reset/clear stoppedlist counter
 			this.stoppedlist = [];
-		}	
-	}	
+			}	
+
+		}
+		
 	},
 
 /**
@@ -591,13 +599,14 @@ var PerSwimmer = function() {
 		
 		this.t =  this.startclock.t;	
 //console.log(this.t);
-		//form div id
-		$splive = '#splits'+spidin;
+		
 	// need array to hold each swimmer id along with their times/splits info.
-	this.t[2] = 1;		
+		this.t[2] = 1;		
 			if (this.t[2] !== 0) {
 				this.spid[spidin][2]++;
-							
+console.log(this);				
+				liveHTML.realtimesplitsdiff(this, spidin);
+/*							
 				// what order did this swimmer go off?
 				swimpos = this.startclock.activeswimmers.indexOf(spidin);
 		
@@ -607,16 +616,58 @@ var PerSwimmer = function() {
 				splittimelive = this.t[3] + this.t[1] - this.t[0] - splitlag;
 				
 				this.spid[this.splitidlive][1] = splittimelive;
-				this.sparray[this.splitidlive].push(this.spid[this.splitidlive][1]);
 				
+				lastsplitpers = this.sparray[this.splitidlive].slice(-1)[0];
+				if(lastsplitpers == undefined)
+				{
+	console.log('if bein called');				
+					lastsplitpers = splittimelive;
+				}
+console.log('previous split time');				
+console.log(lastsplitpers);
+				
+				this.sparray[this.splitidlive].push(this.spid[this.splitidlive][1]);
+				// display splits
 				$($splive).show();
 				$('<li><span>' + this.startclock.zero(this.spid[spidin][2]) + '</span> ' + this.startclock.format(splittimelive) + '</li>').appendTo($($splive)).slideDown('fast');
 				$($splive).find('li').removeClass('first last');
 				$($splive).find('li:first').addClass('first').end().find('li:last').addClass('last');
-			}
+				// perform analysis & display
+
+				lastsplitper = this.sparray[this.splitidlive].slice(-1)[0];
+console.log('current split time');				
+console.log(lastsplitper);				
+
+
+					lastdifftocompare = this.spdiffarray[this.splitidlive].slice(-1)[0];
+				if(lastdifftocompare == undefined)
+				{
+					lastdifftocompare = 0;
+				}
+console.log('last live diff');
+console.log(lastdifftocompare);
+
+				thedifflive = splittimelive - lastsplitpers;
+console.log('now diff');
+console.log(thedifflive);
+console.log(thedifflive - lastdifftocompare);				
+				this.spdiffarray[this.splitidlive].push(thedifflive);
+				if(thedifflive > lastdifftocompare ) {
+						thecolourdiff = 'red'; }
+				else {
+						thecolourdiff = 'green'; }
+					
+					$($analysislive).show();
+					$('<li><span>' + this.startclock.zero(this.spid[spidin][2]) + '</span> ' + this.startclock.format(thedifflive) + '</li>').appendTo($($analysislive)).slideDown('fast');
+					$($analysislive).find('li').removeClass('first last');
+					$($analysislive).find('li:first').addClass('first').end().find('li:last').addClass('last');
+					//.css("color", thecolourdiff)
+*/			}
 			
 			return false;
-		}	
+	
+		}
+		
 	}
 
 	
@@ -774,6 +825,7 @@ $(document).ready(function(){
 	livepouch.putDoc(designdocjson);
 		}
 		// get all current doc from pouchdb and pass them on to nodejs to couchdb and delete local data (ideally leave 1 month or user directed future todo )
+//console.log('list to sync');	
 		//
 		localsplitstodelete = [];
 		
@@ -1089,5 +1141,5 @@ console.log('letter in ' + selectedswimmernow );
 	});
 	
 //console.log('start whole app');		
-//console.log(starttiming);	
+console.log(starttiming);	
 });

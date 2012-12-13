@@ -14,6 +14,9 @@ var ttHTML = function() {
 
 };
 
+/*
+* Display swimmer live
+*/	
 ttHTML.prototype.fromswimmers = function(swname, swid) {
 				
 				var swimstarters = '<li class="ui-state-default"  id="' + swid + '">' + swname + ' HR';
@@ -24,7 +27,11 @@ ttHTML.prototype.fromswimmers = function(swname, swid) {
 				swimstarters +=	'</ul>';
 				swimstarters +=	'<ul id="splits' + swid + '" class="splits" >';
 				swimstarters +=	'<li></li>';
-				swimstarters +=	'</ul></li>';
+				swimstarters +=	'</ul>';
+				swimstarters +=	'<ul id="analysis' + swid + '" class="analysis" >';
+				swimstarters +=	'<li></li>';
+				swimstarters +=	'</ul>';
+				swimstarters += '</li>';
 				
 				return swimstarters;
 			}
@@ -52,7 +59,10 @@ console.log(swlist);
 
 	return viewdatahead;
 }
-			
+
+/*
+* Display of Analysis post real time
+*/	
 ttHTML.prototype.visualiseme = function(livepouch, swimidin) {
 console.log(swimidin);	
 	
@@ -153,6 +163,153 @@ console.log(swimidin);
 	//console.log(lastdataid);
 							
 	});  // closes perswimmer data
-
-	
 }
+
+/*
+* Display of splilt and diffence color coded
+*/	
+	ttHTML.prototype.realtimesplitsdiff = function(thisin, spidint) {
+
+				$splive = '#splits'+spidint;
+				$analysislive = '#analysis'+spidint;
+		
+				// what order did this swimmer go off?
+				swimpos = thisin.startclock.activeswimmers.indexOf(spidint);
+		
+				// order position times interval time period
+				splitlag = swimpos * (thisin.startclock.swiminterval * 1000);
+		
+				splittimelive = thisin.t[3] + thisin.t[1] - thisin.t[0] - splitlag;
+				
+				thisin.spid[thisin.splitidlive][1] = splittimelive;
+				
+				lastsplitpers = thisin.sparray[thisin.splitidlive].slice(-1)[0];
+				if(lastsplitpers == undefined)
+				{
+	console.log('if bein called');				
+					lastsplitpers = splittimelive;
+				}
+console.log('previous split time');				
+console.log(lastsplitpers);
+				
+				thisin.sparray[thisin.splitidlive].push(thisin.spid[thisin.splitidlive][1]);
+				// display splits
+					var shortsplitreal = thisin.startclock.format(splittimelive).slice(3,11);
+				$($splive).show();
+				$('<li><span>' + thisin.startclock.zero(thisin.spid[spidint][2]) + '</span> ' + shortsplitreal + '</li>').appendTo($($splive)).slideDown('fast');
+				$($splive).find('li').removeClass('first last');
+				$($splive).find('li:first').addClass('first').end().find('li:last').addClass('last');
+				// perform analysis & display
+
+				lastsplitper = thisin.sparray[thisin.splitidlive].slice(-1)[0];
+console.log('current split time');				
+console.log(lastsplitper);				
+
+
+					lastdifftocompare = thisin.spdiffarray[thisin.splitidlive].slice(-1)[0];
+				if(lastdifftocompare == undefined)
+				{
+					lastdifftocompare = 0;
+				}
+console.log('last live diff');
+console.log(lastdifftocompare);
+
+				thedifflive = splittimelive - lastsplitpers;
+console.log('now diff');
+console.log(thedifflive);
+console.log(thedifflive - lastdifftocompare);				
+				thisin.spdiffarray[thisin.splitidlive].push(thedifflive);
+				if(thedifflive > lastdifftocompare ) {
+						thecolourdiff = 'red'; }
+				else {
+						thecolourdiff = 'green'; }
+						
+					var shortsplitreal = thisin.startclock.format(thedifflive).slice(3,11);
+					$($analysislive).show();
+					$('<li><span>' + thisin.startclock.zero(thisin.spid[spidint][2]) + '</span> ' + shortsplitreal + '</li>').appendTo($($analysislive)).slideDown('fast');
+					$($analysislive).find('li').removeClass('first last');
+					$($analysislive).find('li:first').addClass('first').end().find('li:last').addClass('last');
+					//.css("color", thecolourdiff)
+}
+
+/*
+* Display of splilt and diffence color coded FROM STOP BUTTON
+*/	
+	ttHTML.prototype.realtimestop = function(thisin, stoploc) {
+		
+				$splitslive = '#splits'+stoploc;
+				$stoplive = '#stop'+stoploc;
+			$analysislive = '#analysis'+stoploc;
+		
+		// make the total time elasped in ms local to this swimerid
+				// what order did this swimmer go off?
+				swimpos = thisin.startclock.activeswimmers.indexOf(stoploc);
+	
+		
+				lastsplitpers = thisin.sparray[stoploc].slice(-1)[0];
+				// order position times interval time period
+				stoplag = swimpos * (thisin.startclock.swiminterval * 1000);
+		
+				stoptimelive = thisin.t[1] - thisin.t[0] - stoplag;
+					
+				thisin.spid[stoploc][1] = stoptimelive;
+				thisin.sparray[stoploc].push(thisin.spid[stoploc][1]);	
+							
+				(thisin.startclock.$start).text(thisin.startclock.startText);
+				
+	// make this stop/split id local to this swimmer				
+				thisin.spid[thisin.splitidlive][2]++;
+		
+		// for splits
+
+				if(lastsplitpers == undefined)
+				{
+	console.log('if bein called');				
+					lastsplitpers = splittimelive;
+				}
+console.log('previous split time');				
+console.log(lastsplitpers);
+				//thisin.sparray[thisin.splitidlive].push(thisin.spid[thisin.splitidlive][1]);		
+		
+	//console.log('t2 not equal to zero in stop');
+					var shortsplitreal = thisin.startclock.format(thisin.spid[stoploc][1]).slice(3,11);
+				$($splitslive).show();
+				$('<li><span>' + thisin.startclock.zero(thisin.spid[stoploc][2]) + '</span> ' + shortsplitreal + '</li>').appendTo($($splitslive)).slideDown('fast');
+				$($splitslive).find('li').removeClass('first last');
+				$($splitslive).find('li:first').addClass('first').end().find('li:last').addClass('last');
+				
+				thisin.t[1] = 0;
+				thisin.stoppedlist.push(stoploc);
+				thisin.startclock.display();
+				
+								lastsplitper = thisin.sparray[stoploc].slice(-1)[0];
+console.log('current split time');				
+console.log(lastsplitper);				
+
+
+					lastdifftocompare = thisin.spdiffarray[stoploc].slice(-1)[0];
+				if(lastdifftocompare == undefined)
+				{
+					lastdifftocompare = 0;
+				}
+console.log('last live diff');
+console.log(lastdifftocompare);
+
+				thedifflive = stoptimelive - lastsplitpers;
+console.log('now diff');
+console.log(thedifflive);
+console.log(thedifflive - lastdifftocompare);				
+				thisin.spdiffarray[stoploc].push(thedifflive);
+				if(thedifflive > lastdifftocompare ) {
+						thecolourdiff = 'red'; }
+				else {
+						thecolourdiff = 'green'; }
+					
+					var shortsplitreal = thisin.startclock.format(thedifflive).slice(3,11);
+					$($analysislive).show();
+					$('<li><span>' + thisin.startclock.zero(thisin.spid[stoploc][2]) + '</span> ' + shortsplitreal + '</li>').appendTo($($analysislive)).slideDown('fast');
+					$($analysislive).find('li').removeClass('first last');
+					$($analysislive).find('li:first').addClass('first').end().find('li:last').addClass('last');
+					//.css("color", thecolourdiff)
+		
+	}
