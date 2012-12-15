@@ -120,7 +120,7 @@ console.log('name = ' + this.identifer);
 				
 				case "addswimmer":
 				
-			lanelist = ': <select id="thelaneoptionsnew">';
+			lanelist = ': <select id="thelaneoptionsnew" class="lanewidthnew">';
 			lanelist +=	'<option  selected="-" value="-1">-</option>';
 			lanelist +=	'<option value="1">1</option>';
 			lanelist +=	'<option value="2">2</option>';
@@ -129,9 +129,12 @@ console.log('name = ' + this.identifer);
 			lanelist +=	'<option value="5">5</option>';
 			lanelist +=	'<option value="6">6</option>';
 			lanelist +=	'<option value="7">7</option>';
+			lanelist +=	'<option value="8">8</option>';
+			lanelist +=	'<option value="9">9</option>';
+			lanelist +=	'<option value="10">10</option>';
 			lanelist +=	'</select>';
 				
-				addswimform = '<form class="menu-text" method="post" action="#" id="newmasteradd" >Name<input type="text" id="newmastid" name="swimmername"  size="12" />' + lanelist +'<input type="submit" value="Add" id="newmasteradd" /></form>';
+				addswimform = '<form class="menu-text" method="post" action="#" id="newmasteradd" >Name<input type="text" id="newmastid" name="swimmername"  size="20" />' + lanelist +'<input type="submit" value="Add" id="newmasteradd" class="newmasterwidth"  /></form>';
 				$("#newmaster").html(addswimform);
 				$("#newmaster").show();
 				//$("#loadlaneselect").show();
@@ -141,12 +144,28 @@ console.log('name = ' + this.identifer);
 				case "loadlane":
 				
 					setsavedallowed = '';
-					setsaveallowed = $.cookie("traintimer");
-//console.log('has cookie been set?' + setsaveallowed);		
-				$("#thelaneoptions").val(-1);
-				$("#loadlaneselect").show();
-				$("#loadswimmers").show();
-				
+					loadname = '';
+					//setsaveallowed = $.cookie("traintimer");
+//console.log('has cookie been set?' + setsaveallowed);
+					loadname = $("#loadlane").attr("name");
+console.log('loadlane on off::::' + loadname );
+					if(loadname == 'on') {
+						$("#loadlane").attr("name", "off");
+						$("#thelaneoptions").val(-1);
+						$("#theswimmeroptions").val(-1);
+						$("#loadlaneselect").show();
+						$("#loadswimmers").show();
+						$("#loadclearswimmers").html('<a href="" id="loadclearallswimmers">Clear all swimmers</a>');
+					}
+					else
+					{
+					// close the load	
+						$("#loadlaneselect").hide();
+						$("#loadlaneselect").hide();
+						$("#loadswimmers").hide();
+						$("#loadclearswimmers").empty();
+						$("#loadlane").attr("name", "on");
+					}
 				break;
 				
 				case "startsort":
@@ -249,33 +268,62 @@ console.log('name = ' + this.identifer);
 		*/
 			case "viewdata":
 			// needs swimmerids and names
-		  $("#sortable1").empty();
-		
-			function localDatacall(selectedlanenow, callback) {  
-				livepouch.mapQueryname(selectedlanenow, callback);
-			}  
-      selectedlanenow = $("#thelaneoptions").val();
-			localDatacall(selectedlanenow, function(rtmap) {  
-
-				presentswimmerlist = {};
-									
-				rtmap["rows"].forEach(function(rowswimrs){
-//console.log(rowswimrs);
-					if(rowswimrs['key'] == selectedlanenow )
-					{
-				
-						//pass the lane data to get html ready
-						presentswimmerlist[rowswimrs['value'][0]] = rowswimrs['value'][1];
+				$("#sortable1").empty();
 							
+				analysisname = $("#viewdata").attr("name");
+console.log('analysislane on off::::' + analysisname );
+					if(analysisname == 'on') {
+						
+						$("#viewdata").attr("name", "off");
+		
+							// lane selected (make swimmers that are live? TODO)
+						// if lane do this, if alpha added do ..  or get list of live TODO.
+							selectedlanenow = $("#thelaneoptions").val();  // lane
+							if(selectedlanenow == -1 ) {
+								
+									 // individual swimmer
+								// form array id and swimmer name
+								alphaswimmerin = {};
+								alphaswimmerin[swimidalpha] = swimnamealpha;	
+								datahead = liveHTML.viewdataHeader(alphaswimmerin);
+								$("#viewdatalive").html(datahead);
+						
+							}
+							else {
+								
+								function localDatacall(selectedlanenow, callback) {  
+								livepouch.mapQueryname(selectedlanenow, callback);
+								}  
+
+								localDatacall(selectedlanenow, function(rtmap) {  
+
+								presentswimmerlist = {};
+												
+								rtmap["rows"].forEach(function(rowswimrs){
+			//console.log(rowswimrs);
+									if(rowswimrs['key'] == selectedlanenow )
+									{	
+							
+									//pass the lane data to get html ready
+										presentswimmerlist[rowswimrs['value'][0]] = rowswimrs['value'][1];
+										
+									}
+								});
+								// pass along for html formatting
+								datahead = liveHTML.viewdataHeader(presentswimmerlist);
+								$("#viewdatalive").html(datahead);
+								});
+								
+							
+							}
+						
 					}
-				});
-				// pass along for html formatting
-				datahead = liveHTML.viewdataHeader(presentswimmerlist);
-				$("#viewdatalive").html(datahead);
-			});
-
-
-
+						else {
+							$("#viewdatalive").empty();
+							$("#visualisedata").empty();
+							$("#viewdata").attr("name", "on");
+							
+						}
 
 			break;
 				
@@ -908,8 +956,9 @@ console.log('callback from sync to couchdb via node is complete');
 					
 	});
 		
-
-// add swimmer form produced after default layout therefore need to delegate to existing DOM element		
+/*
+* add swimmer form produced after default layout therefore need to delegate to existing DOM element	
+*/	
 			$("#newmaster").click(function (e) {
 				
 					e.preventDefault(e);
@@ -1041,6 +1090,7 @@ console.log('letter in ' + selectedswimmernow );
 					localDatacall(selectedswimmernow, function(rtmap) {  
 
 						presentswimmer = '';
+						presentswimmer = '<form id="alphaswimmeradd" class="menu-text" action="#" method="post">';
 //console.log(rtmap);								
 					rtmap["rows"].forEach(function(rowswimrs){
 						getfirstletter = rowswimrs['value'][1].charAt(0);
@@ -1048,25 +1098,21 @@ console.log('letter in ' + selectedswimmernow );
 						
 							if(makelettersmall == selectedswimmernow )
 							{
+								// prepare list box  select and append HTML
+								presentswimmer += liveHTML.checkboxswimmers(rowswimrs['value'][1], rowswimrs['value'][0]);
 								//pass the lane data to get html ready
-								presentswimmer += liveHTML.fromswimmers(rowswimrs['value'][1], rowswimrs['value'][0]);
+								//presentswimmer += liveHTML.fromswimmers(rowswimrs['value'][1], rowswimrs['value'][0]);
 							
 								}
-						});
-
-				$("#sortable1").html(presentswimmer);	
-
-	// test splits data recall						
-	function localDataSPcall(dataspin, callback) {  
-						livepouch.mapQuerySplits(dataspin, callback);
-
-					}  
-      
-					localDataSPcall('1', function(spmap) {  
-//console.log('how splits data look after save');
-//console.log(spmap);						
-						});						
-						
+								
+					});
+				presentswimmer += '</form>';
+					//presentswimmer += '<a href="" id="aaselectswimmer" >add alpha</a>';
+					
+				$("#addalpha").html(presentswimmer);					
+				
+					presentclose = '<a href="" id="closealphalist" >Close</a>';
+					$("#addalphatwo").html(presentclose);
 
     });  
 							
@@ -1076,7 +1122,64 @@ console.log('letter in ' + selectedswimmernow );
 				$("#loadswimmers").hide();
 			});	
 
+/*
+*
+* Add swimmer to active live list
+*/
+	$("#addalpha").change(function (e) {
+		
+			var $tgt = $(e.target);
+console.log('what tgt look like?');
+console.log($tgt.is);	
+console.log($tgt.attr("value"));	
+		// which name checked?
+		swimnamealpha = $tgt.attr("value");
+		swimidalpha = $tgt.attr("id");
+		// prepare list box  select and append HTML
+		presentswimmeralpha = liveHTML.fromswimmers(swimnamealpha, swimidalpha);
+		$("#sortable1").append(presentswimmeralpha);
+		
+		
+	});
 			
+/*
+* Close alphalist
+*/
+	$("#addalphatwo").click(function (e) {
+		e.preventDefault(e);
+		$("#addalpha").empty();
+		$("#addalphatwo").empty();
+		
+	});
+
+/*
+* Clear all swimmer from sort div
+*/
+	$("loadclearallswimmers").click(function (e) {
+		e.preventDefault(e);
+		$("#sortable1").empty();
+		$("#loadclearswimmers").empty();
+		
+	});	
+			
+/*
+* delgation of add alpha swimmer
+*/
+	$("#aselectswimmer").click(function (e) {
+
+					e.preventDefault(e);
+console.log('alpha add start');			
+				 var $tgt = $(e.target);
+//console.log('what tgt look like?');
+//console.log($tgt.attr("name"));				
+        if ($tgt.is("#aselectswimmer")) {
+					
+					aselectswimmerlist = $(".demo input#aselectswimmer ").val();			
+console.log('alpha add swimmers');
+console.log(aselectswimmerlist);
+				}
+	});					
+		
 // drag and drop
 		$("ul.droptrue").sortable({
 			connectWith: 'ul',

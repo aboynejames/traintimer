@@ -19,23 +19,41 @@ var ttHTML = function() {
 */	
 ttHTML.prototype.fromswimmers = function(swname, swid) {
 				
-				var swimstarters = '<li class="ui-state-default"  id="' + swid + '">' + swname + ' HR';
-				swimstarters += '<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
-				swimstarters +=	'<ul id="controls">';
+				var swimstarters = '<li class="ui-state-default"  id="' + swid + '">';
+			//	swimstarters += ' HR' + '<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
+				swimstarters +=	'<div id="perswimmerset" >';
+				swimstarters +=	'<ul id="percontrols">';
 				swimstarters +=	'<li><a href="#" id="stop" name="' + swid + '" >Stop</a></li>';
 				swimstarters +=	'<li><a href="#" id="split" name="' + swid + '" >Split</a></li>';
 				swimstarters +=	'</ul>';
+				swimstarters +=  '<div id="pername" >' + swname + '</div>';
+				swimstarters +=	'</div>';
+				swimstarters +=	'<div id="perrealtime" >';
 				swimstarters +=	'<ul id="splits' + swid + '" class="splits" >';
 				swimstarters +=	'<li></li>';
 				swimstarters +=	'</ul>';
 				swimstarters +=	'<ul id="analysis' + swid + '" class="analysis" >';
 				swimstarters +=	'<li></li>';
-				swimstarters +=	'</ul>';
+				swimstarters +=	'</ul>'; 
+				swimstarters +=	'</div>';	
 				swimstarters += '</li>';
 				
 				return swimstarters;
 			}
-			
+
+/*
+* Display checkbox of swimmer
+*/	
+ttHTML.prototype.checkboxswimmers = function(swname, swid) {
+				
+				var swimliststarters =  '<input type = "checkbox"   id = "'+swid+'"  value = "'+swname+'"  />'+swname + ' <br >';
+	
+				return swimliststarters;
+			}			
+
+/*
+* Display analysis
+*/				
 ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 	
 	var viewdatahead = '<br />';
@@ -226,7 +244,7 @@ console.log(thedifflive - lastdifftocompare);
 						
 					var shortsplitreal = thisin.startclock.format(thedifflive).slice(3,11);
 					$($analysislive).show();
-					$('<li><span>' + thisin.startclock.zero(thisin.spid[spidint][2]) + '</span> ' + shortsplitreal + '</li>').appendTo($($analysislive)).slideDown('fast');
+					$('<li><span>' + thisin.startclock.zero(thisin.spid[spidint][2]) + '</span> ' + shortsplitreal + '</li>').appendTo($($analysislive)).css("color", thecolourdiff).slideDown('fast');
 					$($analysislive).find('li').removeClass('first last');
 					$($analysislive).find('li:first').addClass('first').end().find('li:last').addClass('last');
 					//.css("color", thecolourdiff)
@@ -237,8 +255,8 @@ console.log(thedifflive - lastdifftocompare);
 */	
 	ttHTML.prototype.realtimestop = function(thisin, stoploc) {
 		
-				$splitslive = '#splits'+stoploc;
-				$stoplive = '#stop'+stoploc;
+			$splitslive = '#splits'+stoploc;
+			$stoplive = '#stop'+stoploc;
 			$analysislive = '#analysis'+stoploc;
 		
 		// make the total time elasped in ms local to this swimerid
@@ -307,7 +325,7 @@ console.log(thedifflive - lastdifftocompare);
 					
 					var shortsplitreal = thisin.startclock.format(thedifflive).slice(3,11);
 					$($analysislive).show();
-					$('<li><span>' + thisin.startclock.zero(thisin.spid[stoploc][2]) + '</span> ' + shortsplitreal + '</li>').appendTo($($analysislive)).slideDown('fast');
+					$('<li><span>' + thisin.startclock.zero(thisin.spid[stoploc][2]) + '</span> ' + shortsplitreal + '</li>').appendTo($($analysislive)).css("color", thecolourdiff).slideDown('fast');
 					$($analysislive).find('li').removeClass('first last');
 					$($analysislive).find('li:first').addClass('first').end().find('li:last').addClass('last');
 					//.css("color", thecolourdiff)
