@@ -157,7 +157,7 @@ console.log('loadlane on off::::' + loadname );
 						$("#theswimmeroptions").val(-1);
 						$("#loadlaneselect").show();
 						$("#loadswimmers").show();
-						$("#loadclearswimmers").html('<a href="" id="loadclearallswimmers">Clear all swimmers</a>');
+						$("#loadclearswimmers").html('<a href="" id="loadclearallswimmers" >Clear all swimmers</a>');
 					}
 					else
 					{
@@ -1115,7 +1115,7 @@ console.log('letter in ' + selectedswimmernow );
 					
 				$("#addalpha").html(presentswimmer);					
 				
-					presentclose = '<a href="" id="closealphalist" >Close</a>';
+					presentclose = '<a href="" id="closealphalist" class="control-text" >Close</a>';
 					$("#addalphatwo").html(presentclose);
 
     });  

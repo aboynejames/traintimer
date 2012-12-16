@@ -46,7 +46,7 @@ ttHTML.prototype.fromswimmers = function(swname, swid) {
 */	
 ttHTML.prototype.checkboxswimmers = function(swname, swid) {
 				
-				var swimliststarters =  '<input type = "checkbox"   id = "'+swid+'"  value = "'+swname+'"  />'+swname + ' <br >';
+				var swimliststarters =  '<input type = "checkbox"   id = "'+swid+'"  class="check-style" value = "'+swname+'"  />'+swname + ' <br >';
 	
 				return swimliststarters;
 			}			
