@@ -47,6 +47,7 @@
 						<li><a href="#" id="start" alternate="Stop">Start</a></li>
 						<li><a href="#" id="reset">Reset</a></li>
 						<li><a href="/save" id="save">Save</a></li>
+						<li><span id="confirmsave"></span></li>
 		</ul>
 	</div>
 	<br />
@@ -119,7 +120,7 @@
 	<div id="visualisedata"></div>
 	<div id="splittimeshistorical"></div>
 	
-<input type="text" id="postOrder" name="postOrder" value="" size="30"><br /></div>
+<!--<input type="text" id="postOrder" name="postOrder" value="" size="30"><br /></div>-->
 
 <div id="hmtt"></div>
 	<div class="swimsettings">
@@ -132,10 +133,10 @@
 		</div>
 		<div>
 		<label>Interval:</label><select id="swiminterval" class="rightselect" >
-		<option value="0">Race</option>
-		<option value="5">5 secs</option>
-		<option value="10">10 secs</option>
-		<option value="15">15 secs</option>
+			<option value="5">5 secs</option>
+			<option value="0">Race</option>
+			<option value="10">10 secs</option>
+			<option value="15">15 secs</option>
 		</select>
 		</div>
 		<div>

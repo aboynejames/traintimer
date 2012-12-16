@@ -53,7 +53,9 @@ console.log('name = ' + this.identifer);
 				
 			case "save":	
 					setsaveallowed = $.cookie("traintimer");
-		
+									$("#confirmsave").show();
+									$("#confirmsave").text('Saved');
+									$("#confirmsave").fadeOut(1000);
 									// prepare the data TODO abstract out to a function
 									var sptoday = new Date();
 									datesplitnumber = Date.parse(sptoday);//Date.parse(cleandata["swimstatus"]['swimdate']);
@@ -274,7 +276,7 @@ console.log('loadlane on off::::' + loadname );
 console.log('analysislane on off::::' + analysisname );
 					if(analysisname == 'on') {
 						
-						$("#viewdata").attr("name", "off");
+						$("#viewdata").attr("name", "on");
 		
 							// lane selected (make swimmers that are live? TODO)
 						// if lane do this, if alpha added do ..  or get list of live TODO.
@@ -1028,6 +1030,7 @@ console.log('callback from sync to couchdb via node is complete');
 				$("#viewdatalive").empty();
 				$("#visualisedata").empty();
 				$("#splittimeshistorical").empty();
+				$("#loadlane").attr("name", "on");
 				selectedlanenow = $("#thelaneoptions").val();
 console.log('yes lane' + selectedlanenow );
 				//first check local
@@ -1080,6 +1083,7 @@ console.log('yes lane' + selectedlanenow );
 				$("#viewdatalive").empty();
 				$("#visualisedata").empty();
 				$("#splittimeshistorical").empty();
+				$("#loadlane").attr("name", "on");
 				selectedswimmernow = $("#theswimmeroptions").val();
 console.log('letter in ' + selectedswimmernow );
 				//first check local
