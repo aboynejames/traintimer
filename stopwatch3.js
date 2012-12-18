@@ -121,26 +121,41 @@ console.log('name = ' + this.identifer);
 			break;
 				
 				case "addswimmer":
-				
-			lanelist = ': <select id="thelaneoptionsnew" class="lanewidthnew">';
-			lanelist +=	'<option  selected="-" value="-1">-</option>';
-			lanelist +=	'<option value="1">1</option>';
-			lanelist +=	'<option value="2">2</option>';
-			lanelist +=	'<option value="3">3</option>';
-			lanelist +=	'<option value="4">4</option>';
-			lanelist +=	'<option value="5">5</option>';
-			lanelist +=	'<option value="6">6</option>';
-			lanelist +=	'<option value="7">7</option>';
-			lanelist +=	'<option value="8">8</option>';
-			lanelist +=	'<option value="9">9</option>';
-			lanelist +=	'<option value="10">10</option>';
-			lanelist +=	'</select>';
-				
-				addswimform = '<form class="menu-text" method="post" action="#" id="newmasteradd" >Name<input type="text" id="newmastid" name="swimmername"  size="20" />' + lanelist +'<input type="submit" value="Add" id="newmasteradd" class="newmasterwidth"  /></form>';
-				$("#newmaster").html(addswimform);
-				$("#newmaster").show();
-				//$("#loadlaneselect").show();
-					
+								
+					addswimmerstatus = $("#addswimmer").attr("name");
+console.log(addswimmerstatus);
+					if(addswimmerstatus == 'on') {
+										
+						lanelist = '<select id="thelaneoptionsnew" class="lanewidthnew">';
+						lanelist +=	'<option  selected="-" value="-1">-</option>';
+						lanelist +=	'<option value="1">1</option>';
+						lanelist +=	'<option value="2">2</option>';
+						lanelist +=	'<option value="3">3</option>';
+						lanelist +=	'<option value="4">4</option>';
+						lanelist +=	'<option value="5">5</option>';
+						lanelist +=	'<option value="6">6</option>';
+						lanelist +=	'<option value="7">7</option>';
+						lanelist +=	'<option value="8">8</option>';
+						lanelist +=	'<option value="9">9</option>';
+						lanelist +=	'<option value="10">10</option>';
+						lanelist +=	'</select>';
+							
+						addswimform = '<form class="addswimmer-form" method="post" action="#" id="newmasteradd" >';
+						addswimform += '<ul><li>Enter name and allocate to a lane</li>';
+						addswimform += '<li><label for="name">Name:</label><input type="text"  id="newmastid" name="swimmername" required /><span class="form_hint">Please enter a name</span></li>';
+
+						addswimform += '<li><label for="lane">Lane:</label>' + lanelist + '<span class="form_hint">Set a lane number</span></li>';
+						addswimform += '<li><button class="submit" type="submit"  id="newmasteradd" >Add swimmer</button></li></ul></form>';
+						addswimform += '<div id="newswimerror"></div>';						
+						$("#newmaster").html(addswimform);
+						$("#newmaster").show();						
+						$("#addswimmer").attr("name", "off");
+					}
+					else
+					{
+						$("#newmaster").hide();
+						$("#addswimmer").attr("name", "on");
+					}			
 				break;
 				
 				case "loadlane":
@@ -329,6 +344,23 @@ console.log('analysislane on off::::' + analysisname );
 
 			break;
 				
+			case "setshow":
+			// hide or show the set settings
+					setshowstatus = $("#setshow").attr("name");
+console.log(setshowstatus);
+					if(setshowstatus == 'on') {
+						$(".swimsettings").show();
+						$("#setshow").attr("name", "off");
+					}
+					else
+					{
+						$(".swimsettings").hide();
+						$("#setshow").attr("name", "on");
+					}
+						
+	
+			break;
+						
 			} // closes switch		
 			
  } // closes id function
@@ -751,6 +783,7 @@ $(document).ready(function(){
 	
 	$("#loadlaneselect").hide();
 	$("#loadswimmers").hide();
+	$(".swimsettings").hide();
 	$("#syncdata").hide();
 	$("#clearpouchdb").hide();
 	//fire up the classes
@@ -961,7 +994,7 @@ console.log('callback from sync to couchdb via node is complete');
 /*
 * add swimmer form produced after default layout therefore need to delegate to existing DOM element	
 */	
-			$("#newmaster").click(function (e) {
+	$("#newmaster").click(function (e) {
 				
 					e.preventDefault(e);
 					// has the user signed in?
@@ -974,7 +1007,13 @@ console.log('callback from sync to couchdb via node is complete');
 //console.log($tgt.attr("name"));				
         if ($tgt.is("#newmasteradd")) {
 					
+					// need to be both a name and a lane number validation
 					newmastnameis = $("#newmasteradd input#newmastid ").val();
+					newlane = $("#thelaneoptionsnew").val();
+//console.log('what are we validatig on' + newmastnameis + 'lane' + newlane );					
+					if(newmastnameis.length > 0 && (newlane.length > 0 && newlane != -1) )
+					{
+console.log('form validation passed');
 					//newmastidis = $("#newmasteradd input#newmidid ").val();
 												hashCode = function(str){
 												var hash = 0;
@@ -990,12 +1029,11 @@ console.log('callback from sync to couchdb via node is complete');
 												var newidnumberstart = new Date();
 												newswimmerguid = Date.parse(newidnumberstart);
 //console.log('date string' + newswimmerguid)	;									
-					newmastidish = hashCode(newmastnameis);
-					newmastidisrand = Math.floor((Math.random()*10000000)+1);
+						newmastidish = hashCode(newmastnameis);
+						newmastidisrand = Math.floor((Math.random()*10000000)+1);
 //console.log(newmastidisrand + 'randon number');												
-					newmastidis = newmastidisrand + '-' + newmastidish;												
-//console.log('new GUID' + newmastidis);					
-					newlane = $("#thelaneoptionsnew").val();
+						newmastidis = newmastidisrand + '-' + newmastidish;												
+//console.log('new GUID' + newmastidis);				
 					
 // need to save new master to couch, name and masters id,  validate unique ID number
 					firstsavenewmaster = {};
@@ -1020,10 +1058,26 @@ console.log('callback from sync to couchdb via node is complete');
 				$("#saveconfirmswimmer").text('new master added');
 				$("#saveconfirmswimmer").show();
 				$("#saveconfirmswimmer").fadeOut("slow");
+				$("#addswimmer").attr("name", "on");
 
 				}
+				else
+				{
+					// need to prompt to add name or select lane number
+					adderrormessage = 'Please ';
+					if(newmastnameis.length == 0 )
+					{ 
+						adderrormessage += 'add a name ';
+					}
+					if(newlane == -1 )
+					{
+							adderrormessage += 'select a lane ';
+					}
+					$("#newswimerror").html(adderrormessage);
+				}
+			}
 			
-			});
+	});
 		
 			$("#thelaneoptions").change(function () {
 	//livepouch.deletePouch();
@@ -1165,7 +1219,7 @@ console.log($tgt.attr("value"));
 		$("#loadclearswimmers").empty();
 		
 	});	
-			
+	
 /*
 * delgation of add alpha swimmer
 */
@@ -1183,7 +1237,7 @@ console.log('alpha add swimmers');
 console.log(aselectswimmerlist);
 				}
 	});					
-		
+
 // drag and drop
 		$("ul.droptrue").sortable({
 			connectWith: 'ul',

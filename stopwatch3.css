@@ -40,10 +40,18 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 */
 .menu-text {
 	
-	font-size: 1.8em;
-	padding-left: 0px;
-	margin: 10px;
+	font-size: 2.4em;
+	padding-top: 20px;
+	margin-left: 20px;
+
+}
+
+.inmenu-text {
 	
+	font-size: 2.4em;
+	padding-top: 20px;
+	margin-top: 120px;
+
 }
 
 .control-text {
@@ -53,11 +61,146 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 	
 }
 
-input.check-style {
-	height: 40px;
-	
+.addswimmer-form {
+	font-size: 2.0em;
 	
 }
+
+.addswimmer-form ul {
+    width:100%;
+    list-style-type:none;
+    list-style-position:outside;
+    margin:0px;
+    padding:0px;
+}
+
+.addswimmer-form li{
+    padding:18px;
+    border-bottom:1px solid #eee;
+    position:relative;
+}
+
+.addswimmer-form li:first-child, .addswimmer-form li:last-child {
+    border-bottom:1px solid #777;
+}
+
+.form_hint {
+	font-size: 0.7em;	
+	background: #d45252;
+    border-radius: 3px 3px 3px 3px;
+    color: white;
+    margin-left:8px;
+    padding: 1px 6px;
+    z-index: 999; /* hints stay above all other elements */
+    position: absolute; /* allows proper formatting if hint is two lines */
+    display: none;
+	
+}
+
+.form_hint::before {
+    content: "\25C0"; /* left point triangle in escaped unicode */
+    color:#d45252;
+    position: absolute;
+    top:1px;
+    left:-6px;
+}
+
+.addswimmer-form input:focus + .form_hint {display: inline;}
+.addswimmer-form input:required:valid + .form_hint {background: #28921f;} /* change form hint color when valid */
+.addswimmer-form input:required:valid + .form_hint::before {color:#28921f;} /* change form hint arrow color when valid */
+
+.addswimmer-form label {
+    width:80px;
+    margin-top: 3px;
+    display:inline-block;
+    float:left;
+    padding:3px;
+}
+.addswimmer-form input {
+    height:20px;
+    width:220px;
+    padding:5px 8px;
+}
+
+/* Button Style */
+button.submit {
+	margin-left:90px;
+    background-color: #68b12f;
+    background: -webkit-gradient(linear, left top, left bottom, from(#68b12f), to(#50911e));
+    background: -webkit-linear-gradient(top, #68b12f, #50911e);
+    background: -moz-linear-gradient(top, #68b12f, #50911e);
+    background: -ms-linear-gradient(top, #68b12f, #50911e);
+    background: -o-linear-gradient(top, #68b12f, #50911e);
+    background: linear-gradient(top, #68b12f, #50911e);
+    border: 1px solid #509111;
+    border-bottom: 1px solid #5b992b;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    box-shadow: inset 0 1px 0 0 #9fd574;
+    -webkit-box-shadow: 0 1px 0 0 #9fd574 inset ;
+    -moz-box-shadow: 0 1px 0 0 #9fd574 inset;
+    -ms-box-shadow: 0 1px 0 0 #9fd574 inset;
+    -o-box-shadow: 0 1px 0 0 #9fd574 inset;
+    color: white;
+    font-weight: bold;
+    padding: 6px 20px;
+    text-align: center;
+    text-shadow: 0 -1px 0 #396715;
+}
+
+button.submit:hover {
+    opacity:.85;
+    cursor: pointer;
+}
+button.submit:active {
+    border: 1px solid #20911e;
+    box-shadow: 0 0 10px 5px #356b0b inset;
+    -webkit-box-shadow:0 0 10px 5px #356b0b inset ;
+    -moz-box-shadow: 0 0 10px 5px #356b0b inset;
+    -ms-box-shadow: 0 0 10px 5px #356b0b inset;
+    -o-box-shadow: 0 0 10px 5px #356b0b inset;
+}
+
+.addswimmer-form input  {
+    padding-right:30px;
+}
+
+input:required {
+   /* background: #fff url(images/red_asterisk.png) no-repeat 98% center;*/
+}
+
+#newswimerror {
+	margin-left:90px;
+	color:red;
+	font-size:1.4em;
+	
+}
+
+/*
+* SignIn formatting
+*/
+.onlinemode {
+	font-size: 1.0em;
+	
+}
+
+.onlinemode ul {
+    width:100%;
+    list-style-type:none;
+    list-style-position:outside;
+    margin:0px;
+    padding:0px;
+}
+
+.onlinemode li{
+    padding:18px;
+    border-bottom:1px solid #eee;
+    position:relative;
+}
+
 
 #swimdate {
 		font-size: 0.8em;
@@ -195,11 +338,6 @@ input.check-style {
 	
 }
 
-	.newmasterwidth {
-	width:40px;
-	font-size: 0.8em;		
-		
-	}
 
 	.selectswimmer {
 	font-size: 0.8em;	
@@ -218,6 +356,23 @@ input.check-style {
 
 
 @media screen and (min-width: 600px) {
+	
+	.menu-text {
+	
+	font-size: 2.0em;
+	padding-top: 10px;
+	margin-left: 40px;
+
+	}
+	
+	.inmenu-text {
+	
+	font-size: 1.4em;
+	padding-top: 20px;
+	margin-top: 20px;
+
+	}
+	
      .swimsettings {
 
 		font-size: 2.4em;
@@ -238,12 +393,6 @@ input.check-style {
 	
 	}
 
-input.check-style {
-	height: 24px;
-	width: 24px;
-	
-	
-}
 
 	label {
 	float: left;
@@ -311,13 +460,6 @@ input.check-style {
 	width:50px;
 	font-size: 1.4em;
 	
-	}
-
-	.newmasterwidth {
-	width:200px;
-	font-size: 1.4em;
-	margin-left:40px;
-		
 	}
 	
 	.selectswimmer {

@@ -122,6 +122,7 @@
 	
 <!--<input type="text" id="postOrder" name="postOrder" value="" size="30"><br /></div>-->
 
+<div id="setsettings" ><a href="" id="setshow" class="control-text" name="on" >Set Settings</a><br /><br /><br /></div>
 <div id="hmtt"></div>
 	<div class="swimsettings">
 		<div id="swimdate"></div>
@@ -193,13 +194,13 @@
 
 	</div>
 <div id="swimadmin">
-					<a class="menu-text" href="/addswimmer" id="addswimmer" >Add swimmer</a><span id="newmaster"></span><span id="saveconfirmswimmer" ></span>
-<span id="startsortdiv" >
+					<a class="menu-text" href="/addswimmer" id="addswimmer" name="on" >Add swimmer</a><span id="newmaster"></span><span id="saveconfirmswimmer" ></span>
 	<br />				
 	<br />
-	<header>
+	<header class="onlinemode">
 		<nav>
-			<li class="">
+			<li></li>
+			<li>
 			<a class="menu-text" text="Signin" title="signin" href="/signin"  id="signinopener" >Sign-in</a>
 			<div id="ifsignedin"></div>
 	<div id="siginform" >
@@ -210,9 +211,9 @@
 	<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"> <div class="ui-dialog-buttonset"><button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button" role="button" aria-disabled="false"><span class="ui-button-text">Sign me in</span></button></div></div><div id="responsemessage"></div>
 	</div>
 			</li>
-			<li class="">
-				<a class="menu-text" text="Sync data" title="syncdata" href="/sync"  id="syncdata" >Sync &amp Clear data</a>
-				<a class="menu-text" text="Clear Pouchdb" title="clearpouchdb" href="#"  id="clearpouchdb" >Clear Database</a>
+			<li class="inmenu-text">
+				<a class="inmenu-text" text="Sync data" title="syncdata" href="/sync"  id="syncdata" >Sync &amp Clear data</a>
+				<a class="inmenu-text" text="Clear Pouchdb" title="clearpouchdb" href="#"  id="clearpouchdb" >Clear Database</a>
 			</li>
 		</nav>
 	</header>
