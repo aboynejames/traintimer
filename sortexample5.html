@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" manifest="traintimer.appcache" > <!--manifest="traintimer.appcache"--> 
+<html lang="en" > <!--manifest="traintimer.appcache"--> 
 <head>
 <meta charset="utf-8">
 <title>Train Timer - an open sport project</title>
@@ -30,99 +30,91 @@
 	<body>
 	<div class="container">
 
-	<style>
-			.demo {clear: both;}
-        #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-        #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
-        #sortable li span { position: absolute; margin-left: -1.3em; }
-	
-	#bluebox {background-color: lightblue;}
-	#sortable2 li{ cursor: move; margin: 5px; padding: 5px; font-size: 1.2em; width: 250px;  background: none; background-color: white;}
-        </style> 
 	<div id="masterclock">	
-		<ul id="controls">
-		<h2 id="timer">00:00:00.00</h2>
-		<small id="labels">HOUR<span>MIN</span><span>SEC</span><span>1/100</span></small>
-		<br />
+		<div id="thecontrols">
+			<ul id="controls">
 						<li><a href="#" id="start" alternate="Stop">Start</a></li>
 						<li><a href="#" id="reset">Reset</a></li>
 						<li><a href="/save" id="save">Save</a></li>
 						<li><span id="confirmsave"></span></li>
-		</ul>
+			</ul>
+		</div>
+		<div id="theclock">
+			<h2 id="timer">00:00:00.00</h2>
+			<small id="labels">HOUR<span>MIN</span><span>SEC</span><span>1/100</span></small>
+		</div>
 	</div>
-	<br />
 
 		<div class="demo">
 			<h2>
 				<a class="control-text" text="viewsplits" title="viewsplits" href="/viewsplits" id="viewdata" name="on" >Analysis</a>
 				<a class="control-text" href="#"  id="startsort">reorder</a></span><span id="loadlanediv" >
-					<a class="control-text" href="#" id="loadlane" name="on" >Load</a></span>
-					<div id="loadlaneselect" class="control-text" >
-						<label>Lane:</label>
-						<select id="thelaneoptions" class="selectswimmer" >'
-							<option  selected="-" value="-1">-</option>
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-							<option value="6">6</option>
-							<option value="7">7</option>
-							<option value="8">8</option>
-							<option value="9">9</option>
-							<option value="10">10</option>
-						</select>
-					</div>
-					<div id="loadswimmers" class="control-text" >
-						<label>Swimmer</label>
+				<a class="control-text" href="#" id="loadlane" name="on" >Load</a></span>
+			</h2> 
+				<div id="loadlaneselect" class="load-text" >
+					<label>Lane:</label>
+					<select id="thelaneoptions" class="selectswimmer" >'
+						<option  selected="-" value="-1">-</option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+					</select>
+				</div>
+				<div id="loadswimmers" class="load-text" >
+					<label>Swimmer</label>
 					<select id="theswimmeroptions" class="selectswimmer">'
-							<option  selected="-" value="-1">-</option>
-							<option value="a">A</option>
-							<option value="b">B</option>
-							<option value="c">C</option>
-							<option value="d">D</option>
-							<option value="e">E</option>
-							<option value="f">F</option>
-							<option value="g">G</option>
-							<option value="h">H</option>
-							<option value="i">I</option>
-							<option value="j">J</option>
-							<option value="k">K</option>
-							<option value="l">L</option>
-							<option value="m">M</option>
-							<option value="n">N</option>
-							<option value="o">O</option>
-							<option value="p">P</option>
-							<option value="q">Q</option>
-							<option value="r">R</option>
-							<option value="s">S</option>
-							<option value="t">T</option>
-							<option value="u">U</option>
-							<option value="v">V</option>
-							<option value="w">W</option>
-							<option value="x">X</option>
-							<option value="y">Y</option>
-							<option value="z">Z</option>
-						</select>
-					<div>
-					<div id="loadclearswimmers" class="control-text"></div>
-</div>
-</div>
-				</h2> 
+						<option  selected="-" value="-1">-</option>
+						<option value="a">A</option>
+						<option value="b">B</option>
+						<option value="c">C</option>
+						<option value="d">D</option>
+						<option value="e">E</option>
+						<option value="f">F</option>
+						<option value="g">G</option>
+						<option value="h">H</option>
+						<option value="i">I</option>
+						<option value="j">J</option>
+						<option value="k">K</option>
+						<option value="l">L</option>
+						<option value="m">M</option>
+						<option value="n">N</option>
+						<option value="o">O</option>
+						<option value="p">P</option>
+						<option value="q">Q</option>
+						<option value="r">R</option>
+						<option value="s">S</option>
+						<option value="t">T</option>
+						<option value="u">U</option>
+						<option value="v">V</option>
+						<option value="w">W</option>
+						<option value="x">X</option>
+						<option value="y">Y</option>
+						<option value="z">Z</option>
+					</select>
+			</div>
+			<div id="loadclearswimmers" class="load-text" >
+				<label><a href="" id="clearallswimmers">Clear</a></label>
+			</div>
 	<div id="addalpha"></div>
 	<div id="addalphatwo"></div>
 			<ul id="sortable1" class='droptrue'>
 			</ul>
-		</div>
-			<br />
 
-	<div id="viewdatalive"></div>
-	<div id="visualisedata"></div>
-	<div id="splittimeshistorical"></div>
-	
+<br />
+	<div id="viewdatalive">one</div>
+	<div id="visualisedata">two</div>
+	<div id="splittimeshistorical">three</div>
+</div> <!-- closes demo class -->
 <!--<input type="text" id="postOrder" name="postOrder" value="" size="30"><br /></div>-->
 
-<div id="setsettings" ><a href="" id="setshow" class="control-text" name="on" >Set Settings</a><br /><br /><br /></div>
+<div id="setsettings" ><a href="" id="setshow" class="control-text" name="on" >Set Settings</a><br />
 <div id="hmtt"></div>
 	<div class="swimsettings">
 		<div id="swimdate"></div>
@@ -193,10 +185,11 @@
 	<br />
 
 	</div>
+</div>
+	<!-- swimmer add and sign in-->
 <div id="swimadmin">
 					<a class="menu-text" href="/addswimmer" id="addswimmer" name="on" >Add swimmer</a><span id="newmaster"></span><span id="saveconfirmswimmer" ></span>
 	<br />				
-	<br />
 	<header class="onlinemode">
 		<nav>
 			<li></li>
@@ -217,7 +210,8 @@
 			</li>
 		</nav>
 	</header>
-<footer id="contentinfo" class="body">
+</div>	
+<footer id="footer" class="body">
       <p>2012- <a href="">Train Timer - open sport project</a></p>
     </footer><!-- /#contentinfo -->
   </body>

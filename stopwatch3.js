@@ -172,7 +172,7 @@ console.log('loadlane on off::::' + loadname );
 						$("#theswimmeroptions").val(-1);
 						$("#loadlaneselect").show();
 						$("#loadswimmers").show();
-						$("#loadclearswimmers").html('<a href="" id="loadclearallswimmers" >Clear all swimmers</a>');
+						$("#loadclearswimmers").show();
 					}
 					else
 					{
@@ -180,7 +180,7 @@ console.log('loadlane on off::::' + loadname );
 						$("#loadlaneselect").hide();
 						$("#loadlaneselect").hide();
 						$("#loadswimmers").hide();
-						$("#loadclearswimmers").empty();
+						$("#loadclearswimmers").hide();
 						$("#loadlane").attr("name", "on");
 					}
 				break;
@@ -779,10 +779,11 @@ $(document).ready(function(){
 			$.cookie("traintimer", null);
       alert("You haved signed out of TrainTimer");
 
-		} );
+		});
 	
 	$("#loadlaneselect").hide();
 	$("#loadswimmers").hide();
+	$("#loadclearswimmers").hide();
 	$(".swimsettings").hide();
 	$("#syncdata").hide();
 	$("#clearpouchdb").hide();
@@ -1126,6 +1127,7 @@ console.log('yes lane' + selectedlanenow );
 				//$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow + '/' + setsaveallowed);
 				$("#loadlaneselect").hide();
 				$("#loadswimmers").hide();
+				$("#loadclearswimmers").hide();
 			});	
 			
 /*
@@ -1178,6 +1180,7 @@ console.log('letter in ' + selectedswimmernow );
 				//$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow + '/' + setsaveallowed);
 				$("#loadlaneselect").hide();
 				$("#loadswimmers").hide();
+				$("#loadclearswimmers").hide();
 			});	
 
 /*
@@ -1213,26 +1216,29 @@ console.log($tgt.attr("value"));
 /*
 * Clear all swimmer from sort div
 */
-	$("loadclearallswimmers").click(function (e) {
+	$("#clearallswimmers").click(function (e) {
 		e.preventDefault(e);
-		$("#sortable1").empty();
-		$("#loadclearswimmers").empty();
-		
+console.log('clearswimmer click call');		
+
+			$("#sortable1").empty();
+			$("#loadlaneselect").hide();
+			$("#loadswimmers").hide();
+			$("#loadclearswimmers").hide();
+			$("#loadlane").attr("name", "on");
+
 	});	
 	
 /*
 * delgation of add alpha swimmer
 */
 	$("#aselectswimmer").click(function (e) {
-
-					e.preventDefault(e);
+		e.preventDefault(e);
 console.log('alpha add start');			
-				 var $tgt = $(e.target);
+			var $tgt = $(e.target);
 //console.log('what tgt look like?');
 //console.log($tgt.attr("name"));				
-        if ($tgt.is("#aselectswimmer")) {
-					
-					aselectswimmerlist = $(".demo input#aselectswimmer ").val();			
+			if ($tgt.is("#aselectswimmer")) {
+				aselectswimmerlist = $(".demo input#aselectswimmer ").val();			
 console.log('alpha add swimmers');
 console.log(aselectswimmerlist);
 				}
