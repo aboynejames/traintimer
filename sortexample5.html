@@ -47,9 +47,9 @@
 
 		<div class="demo">
 			<h2>
-				<a class="control-text" text="viewsplits" title="viewsplits" href="/viewsplits" id="viewdata" name="on" >Analysis</a>
-				<a class="control-text" href="#"  id="startsort">reorder</a></span><span id="loadlanediv" >
-				<a class="control-text" href="#" id="loadlane" name="on" >Load</a></span>
+				<a class="control-text" text="viewsplits" href="/viewsplits" id="viewdata" title="on" >Analysis</a>
+				<a class="control-text" href="#"  id="startsort">reorder</a>
+				<a class="control-text" href="#" id="loadlane" title="on" >Load</a><span id="loadlanediv" ></span>
 			</h2> 
 				<div id="loadlaneselect" class="load-text" >
 					<label>Lane:</label>
@@ -114,7 +114,7 @@
 </div> <!-- closes demo class -->
 <!--<input type="text" id="postOrder" name="postOrder" value="" size="30"><br /></div>-->
 
-<div id="setsettings" ><a href="" id="setshow" class="control-text" name="on" >Set Settings</a><br />
+<div id="setsettings" ><a href="" id="setshow" class="control-text" title="on" >Set Settings</a><br />
 <div id="hmtt"></div>
 	<div class="swimsettings">
 		<div id="swimdate"></div>
@@ -188,32 +188,35 @@
 </div>
 	<!-- swimmer add and sign in-->
 <div id="swimadmin">
-					<a class="menu-text" href="/addswimmer" id="addswimmer" name="on" >Add swimmer</a><span id="newmaster"></span><span id="saveconfirmswimmer" ></span>
+					<a class="menu-text" href="/addswimmer" id="addswimmer" title="on" >Add swimmer</a><span id="newmaster"></span><span id="saveconfirmswimmer" ></span>
 	<br />				
 	<header class="onlinemode">
 		<nav>
-			<li></li>
-			<li>
-			<a class="menu-text" text="Signin" title="signin" href="/signin"  id="signinopener" >Sign-in</a>
+			<ul>
+				<li></li>
+				<li>
+				<a class="menu-text" text="Signin" title="signin" href="/signin"  id="signinopener" >Sign-in</a>
 			<div id="ifsignedin"></div>
-	<div id="siginform" >
+	<div id="siginformarea" >
 	<div>Welcome, to Train Timer </div>
 	<form method="post" action="#" id="siginform" >
-	<div><label for="name">Username</label><input id="name" class="text ui-widget-content ui-corner-all" type="text" name="name" size="16" ></div>
-	<div><label for="password">Password</label><input id="password" class="text ui-widget-content ui-corner-all" type="password" value="" name="password" size="16" ></div></form>
+	<div><label for="name">Username</label><input id="name" class="text ui-widget-content ui-corner-all" type="text" title="name" size="16" ></div>
+	<div><label for="password">Password</label><input id="password" class="text ui-widget-content ui-corner-all" type="password" value="" title="password" size="16" ></div></form>
 	<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"> <div class="ui-dialog-buttonset"><button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button" role="button" aria-disabled="false"><span class="ui-button-text">Sign me in</span></button></div></div><div id="responsemessage"></div>
 	</div>
-			</li>
-			<li class="inmenu-text">
-				<a class="inmenu-text" text="Sync data" title="syncdata" href="/sync"  id="syncdata" >Sync &amp Clear data</a>
+				</li>
+				<li class="inmenu-text">
+				<a class="inmenu-text" text="Sync data" title="syncdata" href="/sync"  id="syncdata" >Sync &amp; Clear data</a>
 				<a class="inmenu-text" text="Clear Pouchdb" title="clearpouchdb" href="#"  id="clearpouchdb" >Clear Database</a>
-			</li>
+				</li>
+			</ul>	
 		</nav>
 	</header>
 </div>	
 <footer id="footer" class="body">
       <p>2012- <a href="">Train Timer - open sport project</a></p>
     </footer><!-- /#contentinfo -->
-  </body>
-  </html>
+</div> <!-- closes container -->		
+</body>
+</html>
   

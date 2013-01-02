@@ -26,7 +26,7 @@
 		this.identifer = swimid;
 		this.clicktype = clickid;
 console.log('clickid= ' + this.clicktype);
-console.log('name = ' + this.identifer);		
+console.log('type = ' + this.identifer);		
 		this.activetimeclock.startclock.load();	
 			
 		if(clickid != "start" || clickid != "rest" || clickid != "save" ){
@@ -122,8 +122,8 @@ console.log('name = ' + this.identifer);
 				
 				case "addswimmer":
 								
-					addswimmerstatus = $("#addswimmer").attr("name");
-console.log(addswimmerstatus);
+					addswimmerstatus = $("#addswimmer").attr("title");
+//console.log(addswimmerstatus);
 					if(addswimmerstatus == 'on') {
 										
 						lanelist = '<select id="thelaneoptionsnew" class="lanewidthnew">';
@@ -142,19 +142,19 @@ console.log(addswimmerstatus);
 							
 						addswimform = '<form class="addswimmer-form" method="post" action="#" id="newmasteradd" >';
 						addswimform += '<ul><li>Enter name and allocate to a lane</li>';
-						addswimform += '<li><label for="name">Name:</label><input type="text"  id="newmastid" name="swimmername" required /><span class="form_hint">Please enter a name</span></li>';
+						addswimform += '<li><label for="name">Name:</label><input type="text"  id="newmastid" title="swimmername" required /><span class="form_hint">Please enter a name</span></li>';
 
 						addswimform += '<li><label for="lane">Lane:</label>' + lanelist + '<span class="form_hint">Set a lane number</span></li>';
 						addswimform += '<li><button class="submit" type="submit"  id="newmasteradd" >Add swimmer</button></li></ul></form>';
 						addswimform += '<div id="newswimerror"></div>';						
 						$("#newmaster").html(addswimform);
 						$("#newmaster").show();						
-						$("#addswimmer").attr("name", "off");
+						$("#addswimmer").attr("title", "off");
 					}
 					else
 					{
 						$("#newmaster").hide();
-						$("#addswimmer").attr("name", "on");
+						$("#addswimmer").attr("title", "on");
 					}			
 				break;
 				
@@ -164,10 +164,10 @@ console.log(addswimmerstatus);
 					loadname = '';
 					//setsaveallowed = $.cookie("traintimer");
 //console.log('has cookie been set?' + setsaveallowed);
-					loadname = $("#loadlane").attr("name");
-console.log('loadlane on off::::' + loadname );
+					loadname = $("#loadlane").attr("title");
+//console.log('loadlane on off::::' + loadname );
 					if(loadname == 'on') {
-						$("#loadlane").attr("name", "off");
+						$("#loadlane").attr("title", "off");
 						$("#thelaneoptions").val(-1);
 						$("#theswimmeroptions").val(-1);
 						$("#loadlaneselect").show();
@@ -181,7 +181,7 @@ console.log('loadlane on off::::' + loadname );
 						$("#loadlaneselect").hide();
 						$("#loadswimmers").hide();
 						$("#loadclearswimmers").hide();
-						$("#loadlane").attr("name", "on");
+						$("#loadlane").attr("title", "on");
 					}
 				break;
 				
@@ -287,11 +287,11 @@ console.log('loadlane on off::::' + loadname );
 			// needs swimmerids and names
 				$("#sortable1").empty();
 							
-				analysisname = $("#viewdata").attr("name");
-console.log('analysislane on off::::' + analysisname );
+				analysisname = $("#viewdata").attr("title");
+//console.log('analysislane on off::::' + analysisname );
 					if(analysisname == 'on') {
 						
-						$("#viewdata").attr("name", "on");
+						$("#viewdata").attr("title", "on");
 		
 							// lane selected (make swimmers that are live? TODO)
 						// if lane do this, if alpha added do ..  or get list of live TODO.
@@ -338,7 +338,7 @@ console.log('analysislane on off::::' + analysisname );
 						else {
 							$("#viewdatalive").empty();
 							$("#visualisedata").empty();
-							$("#viewdata").attr("name", "on");
+							$("#viewdata").attr("title", "on");
 							
 						}
 
@@ -346,16 +346,16 @@ console.log('analysislane on off::::' + analysisname );
 				
 			case "setshow":
 			// hide or show the set settings
-					setshowstatus = $("#setshow").attr("name");
-console.log(setshowstatus);
+					setshowstatus = $("#setshow").attr("title");
+//console.log(setshowstatus);
 					if(setshowstatus == 'on') {
 						$(".swimsettings").show();
-						$("#setshow").attr("name", "off");
+						$("#setshow").attr("title", "off");
 					}
 					else
 					{
 						$(".swimsettings").hide();
-						$("#setshow").attr("name", "on");
+						$("#setshow").attr("title", "on");
 					}
 						
 	
@@ -686,7 +686,7 @@ var PerSwimmer = function() {
 		this.t[2] = 1;		
 			if (this.t[2] !== 0) {
 				this.spid[spidin][2]++;
-console.log(this);				
+//console.log(this);				
 				liveHTML.realtimesplitsdiff(this, spidin);
 /*							
 				// what order did this swimmer go off?
@@ -794,7 +794,7 @@ $(document).ready(function(){
 	var today = new Date();
 
 	$("#swimdate").text(today);
-	$("#siginform").hide();
+	$("#siginformarea").hide();
 		
 	$("#signinopener").click(function(e) {
 //console.log('time to distroy the cookie please');
@@ -806,11 +806,11 @@ $(document).ready(function(){
 	loginhtml = '';
 	loginhtml += '<div>Welcome, to Train Timer </div>';
 	loginhtml += '<form method="post" action="#" id="siginform" >';
-	loginhtml += '<div><label for="name">Username</label><input id="name" class="text ui-widget-content ui-corner-all" type="text" name="name" size="16" ></div>';
+	loginhtml += '<div><label for="name">Username</label><input id="name" class="text ui-widget-content ui-corner-all" type="text" title="name" size="16" ></div>';
 	loginhtml += '<div><label for="password">Password</label><input id="password" class="text ui-widget-content ui-corner-all" type="password" value="" name="password" size="16" ></div></form>';
 	loginhtml += '<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"> <div class="ui-dialog-buttonset"><button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button" role="button" aria-disabled="false"><span class="ui-button-text">Sign me in</span></button></div></div><div id="responsemessage"></div>';
 
-	$("#siginform").dialog({
+	$("#siginformarea").dialog({
 			autoOpen: false,
 			height: 340,
 			width: 260, 
@@ -846,7 +846,7 @@ $(document).ready(function(){
 												$.cookie("traintimer", cookieidhash,  { expires: 7 });
 												$("#ifsignedin").show();	
 												$("#ifsignedin").html('<a class="menu-text" text="SignOut" title="signout" href="#"  id="signincloser" >Sign-out</a> ' + usernamein );
-												$("#siginform").dialog( "close" );
+												$("#siginformarea").dialog( "close" );
 												$("#signinopener").hide();
 												$("#sortable1").empty();
 												$("#syncdata").show();
@@ -876,8 +876,8 @@ $(document).ready(function(){
 			},
 
 		});
-	$("#siginform").show();
-	$("#siginform").dialog('open');
+	$("#siginformarea").show();
+	$("#siginformarea").dialog('open');
 
 		// prevent the default action, e.g., following a link
 		return false;
@@ -1014,7 +1014,7 @@ console.log('callback from sync to couchdb via node is complete');
 //console.log('what are we validatig on' + newmastnameis + 'lane' + newlane );					
 					if(newmastnameis.length > 0 && (newlane.length > 0 && newlane != -1) )
 					{
-console.log('form validation passed');
+//console.log('form validation passed');
 					//newmastidis = $("#newmasteradd input#newmidid ").val();
 												hashCode = function(str){
 												var hash = 0;
@@ -1059,7 +1059,7 @@ console.log('form validation passed');
 				$("#saveconfirmswimmer").text('new master added');
 				$("#saveconfirmswimmer").show();
 				$("#saveconfirmswimmer").fadeOut("slow");
-				$("#addswimmer").attr("name", "on");
+				$("#addswimmer").attr("title", "on");
 
 				}
 				else
@@ -1085,9 +1085,9 @@ console.log('form validation passed');
 				$("#viewdatalive").empty();
 				$("#visualisedata").empty();
 				$("#splittimeshistorical").empty();
-				$("#loadlane").attr("name", "on");
+				$("#loadlane").attr("title", "on");
 				selectedlanenow = $("#thelaneoptions").val();
-console.log('yes lane' + selectedlanenow );
+//console.log('yes lane' + selectedlanenow );
 				//first check local
 					function localDatacall(selectedlanenow, callback) {  
 						livepouch.mapQueryname(selectedlanenow, callback);
@@ -1139,9 +1139,9 @@ console.log('yes lane' + selectedlanenow );
 				$("#viewdatalive").empty();
 				$("#visualisedata").empty();
 				$("#splittimeshistorical").empty();
-				$("#loadlane").attr("name", "on");
+				$("#loadlane").attr("title", "on");
 				selectedswimmernow = $("#theswimmeroptions").val();
-console.log('letter in ' + selectedswimmernow );
+//console.log('letter in ' + selectedswimmernow );
 				//first check local
 					function localDatacall(selectedswimmernow, callback) {  
 						livepouch.mapQueryname(selectedswimmernow, callback);
@@ -1190,9 +1190,9 @@ console.log('letter in ' + selectedswimmernow );
 	$("#addalpha").change(function (e) {
 		
 			var $tgt = $(e.target);
-console.log('what tgt look like?');
-console.log($tgt.is);	
-console.log($tgt.attr("value"));	
+//console.log('what tgt look like?');
+//console.log($tgt.is);	
+//console.log($tgt.attr("value"));	
 		// which name checked?
 		swimnamealpha = $tgt.attr("value");
 		swimidalpha = $tgt.attr("id");
@@ -1218,13 +1218,13 @@ console.log($tgt.attr("value"));
 */
 	$("#clearallswimmers").click(function (e) {
 		e.preventDefault(e);
-console.log('clearswimmer click call');		
+//console.log('clearswimmer click call');		
 
 			$("#sortable1").empty();
 			$("#loadlaneselect").hide();
 			$("#loadswimmers").hide();
 			$("#loadclearswimmers").hide();
-			$("#loadlane").attr("name", "on");
+			$("#loadlane").attr("title", "on");
 
 	});	
 	
@@ -1233,14 +1233,14 @@ console.log('clearswimmer click call');
 */
 	$("#aselectswimmer").click(function (e) {
 		e.preventDefault(e);
-console.log('alpha add start');			
+//console.log('alpha add start');			
 			var $tgt = $(e.target);
 //console.log('what tgt look like?');
 //console.log($tgt.attr("name"));				
 			if ($tgt.is("#aselectswimmer")) {
 				aselectswimmerlist = $(".demo input#aselectswimmer ").val();			
-console.log('alpha add swimmers');
-console.log(aselectswimmerlist);
+//console.log('alpha add swimmers');
+//console.log(aselectswimmerlist);
 				}
 	});					
 
@@ -1267,7 +1267,7 @@ console.log(aselectswimmerlist);
 			e.preventDefault(e);
 			var resultord = $('#sortable1').sortable('toArray');
 			idclick = $(this).attr("id");
-			idname = $(this).attr("name");	
+			idname = $(this).attr("title");	
 			// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
 			starttiming.identifyswimmer(idname, idclick);
 		
@@ -1280,7 +1280,7 @@ console.log(aselectswimmerlist);
 		 var $swtgt = $(e.target);
 		 if ($swtgt.is("a")) {
 			idclick = $swtgt.attr("id");
-			idname =$swtgt.attr("name");	
+			idname =$swtgt.attr("title");	
 			// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
 			starttiming.identifyswimmer(idname, idclick);
 		 }

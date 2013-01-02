@@ -23,8 +23,8 @@ ttHTML.prototype.fromswimmers = function(swname, swid) {
 			//	swimstarters += ' HR' + '<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
 				swimstarters +=	'<div id="perswimmerset" >';
 				swimstarters +=	'<ul id="percontrols">';
-				swimstarters +=	'<li><a href="#" id="stop" name="' + swid + '" >Stop</a></li>';
-				swimstarters +=	'<li><a href="#" id="split" name="' + swid + '" >Split</a></li>';
+				swimstarters +=	'<li><a href="#" id="stop" title="' + swid + '" >Stop</a></li>';
+				swimstarters +=	'<li><a href="#" id="split" title="' + swid + '" >Split</a></li>';
 				swimstarters +=	'</ul>';
 				swimstarters +=  '<div id="pername" >' + swname + '</div>';
 				swimstarters +=	'</div>';

@@ -34,7 +34,7 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 	
  #start {background:#090;}
  #stop {background:#F7F;}
- #split {background:#069; }
+ #split {/*background:#069; */}
  #reset {background:#C00;}
  #save {background:#C50;}
 			 
