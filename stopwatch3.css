@@ -4,8 +4,8 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 .clear {clear:both;}
 
 #container {position:relative; z-index:100; width:265px; padding:20px; margin:20px auto 0; border:8px solid rgba(0, 0, 0, 0.5); border-radius:8px; -moz-border-radius:8px; -webkit-border-radius:8px; background:#EEE;}
-#masterclock {display:block; height: 100px;  text-align:left; color:#999; text-decoration:none; outline:1; margin-bottom:2px; border:2px solid black;}	
-#swimadmin {display:block; clear: both; text-align:left; color:#999; text-decoration:none; outline:0; margin-top:20px; border:2px solid black;}	
+#masterclock {display:block; height: 100px;  text-align:left; color:#999; text-decoration:none; outline:1; margin-bottom:2px; border:0px solid black;}	
+#swimadmin {display:block; clear: both; text-align:left; color:#999; text-decoration:none; outline:0; margin-top:20px; border:0px solid black;}	
 #swimsettings {display:block; text-align:left; color:#999; text-decoration:none; outline:2;}	
 #ifsignedin {display:inline; text-align:left;}	
 
@@ -14,7 +14,7 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 */
 #thecontrols {
 	float:left;
-	border:2px solid blue;
+	border:0px solid blue;
 }
 
 #theclock {
@@ -22,7 +22,7 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 	float:left;
 	margin:0px;
 	padding-top:40px;
-	border:2px solid green;
+	border:0px solid green;
 	min-height:48px;
 }
 
@@ -34,14 +34,14 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 	
  #start {background:#090;}
  #stop {background:#F7F;}
- #split {/*background:#069; */}
+ #split {background:#069;}
  #reset {background:#C00;}
  #save {background:#C50;}
 			 
 /*#controls li a:hover {background:#333;}*/
-#controls li a:active {position:relative; top:1px;}
+/*#controls li a:active {position:relative; top:1px;}*/
 
-#labels { float:left; color:#666; text-shadow:#FFF 0 1px 0; padding-left:10px; padding-top:16px; border:2px solid red;}
+#labels { float:left; color:#666; text-shadow:#FFF 0 1px 0; padding-left:10px; padding-top:16px; border:0px solid red;}
 #labels span {margin-left:48px;}
 
 /*
@@ -57,8 +57,8 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 /*
 * Drag and Drop area
 */
-.demo {clear: both; border:2px solid black; }
-#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; border:2px solid black; }
+.demo {clear: both; border:0px solid black; }
+#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; border:0px solid black; }
 #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
 #sortable li span { position: absolute; margin-left: -1.3em; }
 	
@@ -72,12 +72,12 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 */
 #setsettings {
 	margin-top:20px;
-	border:2px solid red;
+	border:0px solid red;
 	clear:both;
 }
 
 .swimsettings {
-		border:2px solid pink;
+		border:0px solid pink;
 		font-size: 1.6em;
 		clear:both;
      }
@@ -101,6 +101,20 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 /*
 * load swimmer area
 */
+
+#controloptions {
+	display:block;
+	border:0px solid black;
+	
+}	
+	
+#clearallswimmers {
+	display:block;
+	border:0px solid black;
+	margin-bottom: 40px;
+	clear:both;
+	
+}	
 
 .control-text {
 	padding-top: 10px;
@@ -339,7 +353,7 @@ input:required {
 
 
 /* Analysis */
-.analysis {display:none; margin:5px 0 0 20px; padding:0; list-style:none; border:1px solid #666; -moz-box-shadow:inset rgba(0, 0, 0, 0.3) 0 0 5px; -webkit-box-shadow:inset rgba(0, 0, 0, 0.3) 0 0 5px; border-radius:8px; -moz-border-radius:8px; -webkit-border-radius:8px; background:#F9F9F9;}
+.analysis {display:none; margin:5px 0 0 20px; padding:0; list-style:none; border:0px solid #666; -moz-box-shadow:inset rgba(0, 0, 0, 0.3) 0 0 5px; -webkit-box-shadow:inset rgba(0, 0, 0, 0.3) 0 0 5px; border-radius:8px; -moz-border-radius:8px; -webkit-border-radius:8px; background:#F9F9F9;}
 .analysis li {display:inline; padding-left:10px; font-size:18px; text-shadow:#FFF 0 1px 0; line-height:30px; border-bottom:1px solid #CCC; border-top:1px solid #FFF;}
 .analysis li span {margin-right:10px; padding:0 2px; color:#FFF; text-shadow:#666 0 -1px 0; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; background:#999;}
 .analysis li:first-child, .analysis  li.first {border-top:none;}
@@ -413,7 +427,7 @@ input:required {
 * Footer
 */
 #footer {
-	border:2px solid black;
+	border:0px solid black;
 	margin-top: 10px;
 }
 
