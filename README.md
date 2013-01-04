@@ -9,8 +9,26 @@ Browser & Devices  (not fully tested)
 
 Works on Firefox and Chrome Browsers only PC and tablet.   Android mobile with firefox beta browser.
 
+
+Install
+---------
+
+Requirements:  Node.js  NPM  Couchdb (for online sync back)
+
+1.  Download code from github
+2.  On console type:   install npm   (installation directory)
+3.  On console start node application file:    node index.js
+4.  Go to "yourdomaindirectoryofinstall.com:8822    (port can be changed by editing the server.js file)
+
+Non-Node.js install
+
+1. Upload files to server
+2. Got to url for sortexample5.html 
+
+
 Usage
 ---------
+
 
 1.  There is no need to log in at this stage, the site works locally to your computer or tablet.
 
