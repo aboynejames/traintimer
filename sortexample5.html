@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" manifest="traintimer.appcache"> <!--manifest="traintimer.appcache"--> 
+<html lang="en" > <!--manifest="traintimer.appcache"--> 
 <head>
 <meta charset="utf-8">
 <title>Train Timer - an open sport project</title>
@@ -19,9 +19,6 @@
 
 	<script type="text/javascript" src="pouchdb.js"></script>
 	<!--<script type="text/javascript" src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script>-->
-
-
-
 	<script type="text/javascript" src="stopwatch3.js"></script>
 	<script type="text/javascript" src="ttHTML.js"></script>
 		<script src="/socket.io/socket.io.js"></script>
@@ -47,9 +44,37 @@
 
 		<div class="demo">
 			<h2>
-				<a class="control-text"  href="/viewsplits" id="viewdata" title="on" >Analysis</a>
-				<a class="control-text" href="#"  id="startsort">reorder</a>
+				<a class="control-text"  href="/viewsplits" id="viewdata" title="on" >Analysis/Edit</a>
+				<!--<a class="control-text" href="#"  id="startsort">reorder</a>-->
 				<a class="control-text" href="#" id="loadlane" title="on" >Load</a><span id="loadlanediv" ></span>
+				<span id="analysistype" class="analysislabel">
+					<form>
+							<fieldset>
+							 <legend></legend>
+							 <p>
+									<label></label>            
+									<input type = "radio"
+												 name = "radSize"
+												 id = "sizeSmall"
+												 value = "small"
+												 checked = "checked" />
+									<label for = "sizeSmall" id="analysislabel">simple</label>
+									
+									<input type = "radio"
+												 name = "radSize"
+												 id = "sizeMed"
+												 value = "medium" />
+									<label for = "sizeMed" id="analysislabel">basic</label>
+				 
+									<input type = "radio"
+												 name = "radSize"
+												 id = "sizeLarge"
+												 value = "large" />
+									<label for = "sizeLarge" id="analysislabel">advanced</label>
+								</p>       
+							</fieldset>     
+						</form>
+					</span>
 			</h2> 
 			<div id="controloptions">
 				<div id="loadlaneselect" class="load-text" >
@@ -110,9 +135,9 @@
 			</ul>
 
 <br />
-	<div id="viewdatalive"></div>
+	<!--<div id="viewdatalive"></div>
 	<div id="visualisedata"></div>
-	<div id="splittimeshistorical"></div>
+	<div id="splittimeshistorical"></div>-->
 </div> <!-- closes demo class -->
 <!--<input type="text" id="postOrder" name="postOrder" value="" size="30"><br /></div>-->
 

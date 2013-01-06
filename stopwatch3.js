@@ -21,12 +21,12 @@
 		this.activetimeclock = new PerSwimmer();
 	 
 // need to set id of the swimmer thats split or stop has been click on the UI
-	 	this.identifyswimmer = function(swimid, clickid) {
+	 	this.identifyswimmer = function(swimtitle, clickid) {
 			
-		this.identifer = swimid;
+		this.identifer = swimtitle;
 		this.clicktype = clickid;
 console.log('clickid= ' + this.clicktype);
-console.log('type = ' + this.identifer);		
+console.log('title = ' + this.identifer);		
 		this.activetimeclock.startclock.load();	
 			
 		if(clickid != "start" || clickid != "rest" || clickid != "save" ){
@@ -285,29 +285,40 @@ console.log('type = ' + this.identifer);
 		*/
 			case "viewdata":
 			// needs swimmerids and names
-				$("#sortable1").empty();
-							
+				//$("#sortable1").empty();
+				$("#sortable1").sortable( "option", "disabled", false );	
+				$("#analysistype").show();
+				
 				analysisname = $("#viewdata").attr("title");
 //console.log('analysislane on off::::' + analysisname );
 					if(analysisname == 'on') {
+						// need to make live all the edit / analysis feature options
+							$("#perrealtime").show();
+							$(".peredit").show();
+							$(".historicalplace").show();
+							$("#viewdata").attr("title", "off");
 						
+							
+						
+					/*
 						$("#viewdata").attr("title", "on");
-		
-							// lane selected (make swimmers that are live? TODO)
-						// if lane do this, if alpha added do ..  or get list of live TODO.
-							selectedlanenow = $("#thelaneoptions").val();  // lane
-							if(selectedlanenow == -1 ) {
-								
-									 // individual swimmer
+							//if lane do this, if alpha added do ..  or get list of live TODO.
+							//selectedlanenow = $("#thelaneoptions").val();  // lane
+							if(selectedlanenow == -1 )
+							{
 								// form array id and swimmer name
-								alphaswimmerin = {};
-								alphaswimmerin[swimidalpha] = swimnamealpha;	
-								datahead = liveHTML.viewdataHeader(alphaswimmerin);
-								$("#viewdatalive").html(datahead);
+								//alphaswimmerin = {};
+								//alphaswimmerin[swimidalpha] = swimnamealpha;	
+								//datahead = liveHTML.viewdataHeader(alphaswimmerin);
+								//$("#viewdatalive").html(datahead);
 						
 							}
-							else {
+							else 
+							{
+								// no need for this anymore
 								
+								
+			
 								function localDatacall(selectedlanenow, callback) {  
 								livepouch.mapQueryname(selectedlanenow, callback);
 								}  
@@ -332,16 +343,49 @@ console.log('type = ' + this.identifer);
 								});
 								
 							
-							}
+							}*/
 						
 					}
-						else {
+					else
+					{
+							$("#analysistype").hide();
+							$(".peredit").hide();
+							$(".historicalplace").hide();
 							$("#viewdatalive").empty();
 							$("#visualisedata").empty();
+							$(".splitviewrep").remove();
+							$(".splitview").remove();
+							$(".splitviewcompare").remove();
+						
 							$("#viewdata").attr("title", "on");
+							$("[class^='pereditid']").attr("data-statusanalysis", "on");
 							
-						}
+					}
 
+			break;
+					
+			case "pereditid":
+				// get the swimmer id and then load up historical data
+				historicalanalysisid = this.identifer; //$("#pereditid").attr("title");
+//console.log('ananlysis id caught' + historicalanalysisid);		
+				analysisstatus = $(".pereditid"+ historicalanalysisid).attr("data-statusanalysis");
+//console.log('ananlysis status caught' + analysisstatus);		
+					
+					if(analysisstatus == 'on')
+					{
+						datacall = livepouch.returndatacallback(idname);
+						$(".pereditid" + historicalanalysisid ).attr("data-statusanalysis", "off");
+						
+					}
+					else
+					{
+						//$(".splitviewrep").remove();
+						//$(".splitview").remove();
+						//$(".splitviewcompare").remove();
+						$("#historicalanalysis" + historicalanalysisid).empty();
+						$(".pereditid" + historicalanalysisid).attr("data-statusanalysis", "on");
+					}
+					
 			break;
 				
 			case "setshow":
@@ -787,6 +831,10 @@ $(document).ready(function(){
 	$(".swimsettings").hide();
 	$("#syncdata").hide();
 	$("#clearpouchdb").hide();
+	$("#analysistype").hide();
+	$(".peredit").hide();
+	$(".historicalplace").hide();		
+
 	//fire up the classes
 	starttiming = new SwimtimeController();
 	livepouch = new pouchdbSettings;	
@@ -1108,7 +1156,8 @@ console.log('callback from sync to couchdb via node is complete');
 						});
 
 				$("#sortable1").html(presentswimmer);	
-
+				$(".peredit").hide();
+				$(".historicalplace").hide();	
 	// test splits data recall						
 	function localDataSPcall(dataspin, callback) {  
 						livepouch.mapQuerySplits(dataspin, callback);
@@ -1267,9 +1316,9 @@ console.log('callback from sync to couchdb via node is complete');
 			e.preventDefault(e);
 			var resultord = $('#sortable1').sortable('toArray');
 			idclick = $(this).attr("id");
-			idname = $(this).attr("title");	
+			idtitle = $(this).attr("title");	
 			// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
-			starttiming.identifyswimmer(idname, idclick);
+			starttiming.identifyswimmer(idtitle, idclick);
 		
 	});	
 
@@ -1286,6 +1335,7 @@ console.log('callback from sync to couchdb via node is complete');
 		 }
 	});
 	
+	/*
 	$("#viewdatalive").change(function (ec) {
 		
 		ec.preventDefault(ec);
@@ -1306,7 +1356,7 @@ console.log('callback from sync to couchdb via node is complete');
 		}
 		
 	});
-	
+	*/
 //console.log('start whole app');		
-console.log(starttiming);	
+//console.log(starttiming);	
 });

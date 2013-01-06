@@ -20,7 +20,7 @@ var ttHTML = function() {
 ttHTML.prototype.fromswimmers = function(swname, swid) {
 				
 				var swimstarters = '<li class="ui-state-default"  id="' + swid + '">';
-			//	swimstarters += ' HR' + '<input type="number" name="heartrate"  size="4" />SC<input type="number" name="strokecount"  size="4" />';
+
 				swimstarters +=	'<div id="perswimmerset" >';
 				swimstarters +=	'<ul id="percontrols">';
 				swimstarters +=	'<li><a href="#" id="stop" title="' + swid + '" >Stop</a></li>';
@@ -35,8 +35,18 @@ ttHTML.prototype.fromswimmers = function(swname, swid) {
 				swimstarters +=	'<ul id="analysis' + swid + '" class="analysis" >';
 				swimstarters +=	'<li></li>';
 				swimstarters +=	'</ul>'; 
-				swimstarters +=	'</div>';	
-				swimstarters += '</li>';
+				swimstarters +=	'</div>';
+
+				swimstarters += '<div class="peredit">';
+				swimstarters += '<a href="" id="pereditid" class="pereditid'+ swid + '" title="' + swid + '" data-statusanalysis="on">Analysis</a>';// HR' + '<input type="number" title="heartrate"  size="4" />SC<input type="number" title="strokecount"  size="4" />';
+				swimstarters += '</div><div style="clear:both;"></div>';
+	
+				swimstarters +=	'<div id="historicalanalysis' + swid + '" class="historicalplace" >';
+				//swimstarters +=	 '<div class="splitview" id="splittimeshistorical' + swid + '"></div>';
+				//swimstarters +=	 '<div class="splitviewcompare" id="lastcomparesession' + swid + '"></div>';
+				swimstarters +=	 '</div>';
+		
+				swimstarters += '<div style="clear:both;"></div></li> ';
 				
 				return swimstarters;
 			}
@@ -62,7 +72,7 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 	
 	var swimids = Object.keys(swimmerlist);
 	swimids.forEach(function(swlist) {
-console.log(swlist);
+//console.log(swlist);
 		viewdatahead += '<option value="'+ swlist +'">'+ swimmerlist[swlist] +'</option>';
 	
 	});
@@ -81,47 +91,52 @@ console.log(swlist);
 /*
 * Display of Analysis post real time
 */	
-ttHTML.prototype.visualiseme = function(livepouch, swimidin) {
-console.log(swimidin);	
-	
+ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
+//console.log(swimidin);	
+//console.log(historicaldata);	
 	var lastdataid = {};
+	var perswimmerdata = {};
+	perswimmersort = {};
 	// give back all data capture locally for now
-	var perswimmerdata = Object.keys(swimidin);
+	var perswimmerdata = Object.keys(historicaldata);
 	perswimmersort = perswimmerdata.sort(function(a,b){return a-b});
+	
+	var repcounter = '';
+	repcounter = 0;
+	
 	perswimmersort.forEach(function(perswimmersp) {
-		
+//console.log(perswimmersp);		
+		repcounter ++;
 		// setout new divs
 		visualnewdiv = '';
-		visualnewdiv += '<div class="splitview" id="splittimeshistorical' + perswimmersp + '"></div>';
 		visualnewdiv += '<div class="splitviewcompare" id="lastcomparesession' + perswimmersp + '"></div>';
-		$("#visualisedata").prepend(visualnewdiv);
+		visualnewdiv += '<div class="splitviewrep" id="lastrep' + perswimmersp + '">' + repcounter +'</div>';
+		visualnewdiv += '<div class="splitview" id="splittimeshistorical' + perswimmersp + '"></div>';
+//console.log('swimmer id coming through' + perswimmersp);		
+		$("#historicalanalysis" + swimidin).prepend(visualnewdiv);
 		
-		var visualdata = 'Date of Swim:' ;
-		visualdata += swimidin[perswimmersp]['swiminfo']['swimdate'];
+		var visualdata = '';
+		var visualdata = 'Date:' ;
+		visualdata += historicaldata[perswimmersp]['swiminfo']['swimdate'];
 		visualdata += ' '; 
-		visualdata += swimidin[perswimmersp]['swiminfo']['swimstroke'];
+		visualdata += historicaldata[perswimmersp]['swiminfo']['swimstroke'];
 		visualdata += ' ';
-		visualdata += swimidin[perswimmersp]['swiminfo']['swimtechnique'];
+		visualdata += historicaldata[perswimmersp]['swiminfo']['swimtechnique'];
 		visualdata += ' ';
-		visualdata += swimidin[perswimmersp]['swiminfo']['swimstyle'];
+		visualdata += historicaldata[perswimmersp]['swiminfo']['swimstyle'];
 		visualdata += ' ';			
-		visualdata += swimidin[perswimmersp]['swiminfo']['swimdistance'];
+		visualdata += historicaldata[perswimmersp]['swiminfo']['swimdistance'];
 		visualdata += ' ';		
-		visualdata += swimidin[perswimmersp]['swiminfo']['swimsplit'];
+		visualdata += historicaldata[perswimmersp]['swiminfo']['swimsplit'];
 		visualdata += '<br />';
-		//visualdata += '<div class="splitview" id="splittimeshistorical' + perswimmersp + '"></div>';
-		//visualdata += '<div class="splitviewcompare" id="lastcomparesession' + perswimmersp + '"></div>';
-			// now build the splits color coded
 	
-
-			
 		thesplitdiff = '';
 		lastsplitforcompare = '';
 		lasttimefornextcalc = '';
 		actualsplitdiff = '';
 					
 		// itterate over each array split and format
-			swimidin[perswimmersp]['splittimes'].forEach(function (speratesplit) {
+			historicaldata[perswimmersp]['splittimes'].forEach(function (speratesplit) {
 
 			// do some maths to get difference, if higher colour red, lower colour green
 			// if not first number
@@ -141,10 +156,13 @@ console.log(swimidin);
 			lasttimefornextcalc = speratesplit;
 			
 			var shortsplit = starttiming.activetimeclock.startclock.format(actualsplitdiff).slice(4,11);
-			visualdatasph = '<li>' + starttiming.activetimeclock.startclock.format(speratesplit) + ' ' + 'split ' + shortsplit + '</li>';
+			var shortactualtime = starttiming.activetimeclock.startclock.format(speratesplit).slice(3,11);
+			visualdatasph = '<li>' + shortactualtime + ' ' + 'split ' + shortsplit + '</li>';
 			$(visualdatasph).css("color", thecolourdiff).prependTo($(" #splittimeshistorical" + perswimmersp));
 				
 			thecolourdiff = '';
+			visualdatasph = '';
+			shortsplit = '';
 				
 			});
 			
@@ -156,22 +174,24 @@ console.log(swimidin);
 				// do some analaysis  
 				netsetcompare =  lasttimefornextcalc - lastdataid['splitlasttime'];
 				if(netsetcompare > 0 ) {
-					lasttimegetting = 'slower'; 
-					var compareshortsplit = starttiming.activetimeclock.startclock.format(netsetcompare).slice(4,11);	
+					lasttimegetting = 'slower';
+					comparecolor = 'red';					
+					var compareshortsplit = starttiming.activetimeclock.startclock.format(netsetcompare).slice(3,11);	
 					}
 				else {
 					lasttimegetting = 'faster';
+					comparecolor = 'green';
 					var compareshortsplit = (netsetcompare/1000) + ' seconds';
 					}
 				
 				
-			$(" #lastcomparesession" + perswimmersp ).html('Getting: ' +lasttimegetting + ' by ' + compareshortsplit);
+			$(" #lastcomparesession" + perswimmersp ).html(' ' +lasttimegetting + ' by ' + compareshortsplit).css("color", comparecolor);
 			
 			}	
 			else
 			{
 				
-			$(" #lastcomparesession" + perswimmersp).html('last entry can only compare itself');
+			$(" #lastcomparesession" + perswimmersp).html('can only compare itself');
 			
 			}
 			
@@ -204,11 +224,11 @@ console.log(swimidin);
 				lastsplitpers = thisin.sparray[thisin.splitidlive].slice(-1)[0];
 				if(lastsplitpers == undefined)
 				{
-	console.log('if bein called');				
+	//console.log('if bein called');				
 					lastsplitpers = splittimelive;
 				}
-console.log('previous split time');				
-console.log(lastsplitpers);
+//console.log('previous split time');				
+//console.log(lastsplitpers);
 				
 				thisin.sparray[thisin.splitidlive].push(thisin.spid[thisin.splitidlive][1]);
 				// display splits
@@ -220,8 +240,8 @@ console.log(lastsplitpers);
 				// perform analysis & display
 
 				lastsplitper = thisin.sparray[thisin.splitidlive].slice(-1)[0];
-console.log('current split time');				
-console.log(lastsplitper);				
+//console.log('current split time');				
+//console.log(lastsplitper);				
 
 
 					lastdifftocompare = thisin.spdiffarray[thisin.splitidlive].slice(-1)[0];
@@ -229,13 +249,13 @@ console.log(lastsplitper);
 				{
 					lastdifftocompare = 0;
 				}
-console.log('last live diff');
-console.log(lastdifftocompare);
+//console.log('last live diff');
+//console.log(lastdifftocompare);
 
 				thedifflive = splittimelive - lastsplitpers;
-console.log('now diff');
-console.log(thedifflive);
-console.log(thedifflive - lastdifftocompare);				
+//console.log('now diff');
+//console.log(thedifflive);
+//console.log(thedifflive - lastdifftocompare);				
 				thisin.spdiffarray[thisin.splitidlive].push(thedifflive);
 				if(thedifflive > lastdifftocompare ) {
 						thecolourdiff = 'red'; }
@@ -282,11 +302,11 @@ console.log(thedifflive - lastdifftocompare);
 
 				if(lastsplitpers == undefined)
 				{
-	console.log('if bein called');				
+	//console.log('if bein called');				
 					lastsplitpers = splittimelive;
 				}
-console.log('previous split time');				
-console.log(lastsplitpers);
+//console.log('previous split time');				
+//console.log(lastsplitpers);
 				//thisin.sparray[thisin.splitidlive].push(thisin.spid[thisin.splitidlive][1]);		
 		
 	//console.log('t2 not equal to zero in stop');
@@ -301,8 +321,8 @@ console.log(lastsplitpers);
 				thisin.startclock.display();
 				
 								lastsplitper = thisin.sparray[stoploc].slice(-1)[0];
-console.log('current split time');				
-console.log(lastsplitper);				
+//console.log('current split time');				
+//console.log(lastsplitper);				
 
 
 					lastdifftocompare = thisin.spdiffarray[stoploc].slice(-1)[0];
@@ -310,13 +330,13 @@ console.log(lastsplitper);
 				{
 					lastdifftocompare = 0;
 				}
-console.log('last live diff');
-console.log(lastdifftocompare);
+//console.log('last live diff');
+//console.log(lastdifftocompare);
 
 				thedifflive = stoptimelive - lastsplitpers;
-console.log('now diff');
-console.log(thedifflive);
-console.log(thedifflive - lastdifftocompare);				
+//console.log('now diff');
+//console.log(thedifflive);
+//console.log(thedifflive - lastdifftocompare);				
 				thisin.spdiffarray[stoploc].push(thedifflive);
 				if(thedifflive > lastdifftocompare ) {
 						thecolourdiff = 'red'; }

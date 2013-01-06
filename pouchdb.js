@@ -57,7 +57,7 @@ pouchdbSettings.prototype.allDocs = function() {
 		Pouch(this.account['pouchdbname'], function(err, db) {
 			
 					db.allDocs(function(err, response) {
-console.log(response);	
+//console.log(response);	
 						
 					});
 		});
@@ -71,11 +71,11 @@ pouchdbSettings.prototype.getDoc = function(docid) {
 			
 			db.get(docid, function(err, doc) {
 
-console.log(doc);	
+//console.log(doc);	
 				syncdataforsave =  JSON.stringify(doc);
 				$.post("/sync/", syncdataforsave ,function(result){
 					// put a message back to UI to tell of a successful sync
-console.log('callback from sync to couchdb via node is complete');	
+//console.log('callback from sync to couchdb via node is complete');	
 			
 				});
 			});
@@ -89,7 +89,7 @@ pouchdbSettings.prototype.putDoc = function(designdoc) {
 			
 			db.put( designdoc ,  function(err, doc) {
 
-console.log(doc);	
+//console.log(doc);	
 				
 			});
 		});
@@ -98,7 +98,7 @@ console.log(doc);
 
 
 pouchdbSettings.prototype.mapQueryname = function(lanein, callbackin) {
-console.log('lane number in' + lanein);		
+//console.log('lane number in' + lanein);		
 		Pouch(this.account['pouchdbname'], function(err, db) {
 //console.log('lane number in pouch' + lanein);				
 				function map(lanequery) {
@@ -138,13 +138,13 @@ pouchdbSettings.prototype.mapQuerySplits = function(lanein, callbackin) {
 pouchdbSettings.prototype.deleteDoc = function(docid) {
 	
 		Pouch(this.account['pouchdbname'], function(err, db) {
-console.log(docid);		
+//console.log(docid);		
 		db.get(docid, function(err, docout) {
-console.log('docid returned');
-console.log(docout);			
+//console.log('docid returned');
+//console.log(docout);			
 			db.remove(docout, function(err, response) {
-console.log('remove response');
-console.log(response);				
+//console.log('remove response');
+//console.log(response);				
 				
 			});
 		});
@@ -172,7 +172,7 @@ pouchdbSettings.prototype.filterchangeLog = function(callbackin) {
 		Pouch(this.account['pouchdbname'], function(err, db) {
 			
 		db.changes( {filter : 'swimmers/justname'}, function(err, response) {
-console.log(response);
+//console.log(response);
 			callbackin(response);
 			
 			
@@ -184,10 +184,10 @@ console.log(response);
 
 
 pouchdbSettings.prototype.replicate = function() {
-console.log('replication started ouside');	
+//console.log('replication started ouside');	
 			Pouch.replicate(this.account['pouchdbname'], 'http://localhost:5984/traintimer/', function(err, changes) {
   //
-console.log('replication started');				
+//console.log('replication started');				
 			});			
 
 };
@@ -222,7 +222,7 @@ historicalswimdata = {};
 						swimsetlive["swimstroke"] = $("#swimstroke").val();
 						swimsetlive["swimtechnique"] = $("#swimtechnique").val();
 						swimsetlive["swimdistance"] = $("#swimdistance").val();
-							
+//console.log(spmap);							
 					// itterate over results and pick out the one required	
 						spmap['rows'].forEach(function(rowswimrs){
 //console.log(rowswimrs['key']);
@@ -231,20 +231,17 @@ historicalswimdata = {};
 								// need a set of filters for time period and swim setting e.g. stroke distance etc
 								if(swimsetlive["swimstyle"] ==  rowswimrs['value']['swiminfo']['swimstyle'] && swimsetlive["swimstroke"] ==  rowswimrs['value']['swiminfo']['swimstroke']  && swimsetlive["swimtechnique"] ==  rowswimrs['value']['swiminfo']['swimtechnique'] && swimsetlive["swimdistance"] ==  rowswimrs['value']['swiminfo']['swimdistance'] )
 								{
-								
-								
-								//stringswnames += rowswimrs['value'][1];
-								//pass the lane data to get html ready
-								historicalswimdata[rowswimrs['value']['sessionid']] = rowswimrs['value'];
+									//pass the lane data to get html ready
+									historicalswimdata[rowswimrs['value']['sessionid'] + rowswimrs['key'] ] = rowswimrs['value'];
 									
 								}
-					
-								}
+							}
 						});
 
 //console.log(historicalswimdata);	
 						//return historicalswimdata;
-				visthedata = liveHTML.visualiseme(livepouch, historicalswimdata);
-			
+							visthedata = liveHTML.visualiseme(livepouch, swimidin, historicalswimdata);
+							swimidin = '';
+							historicalswimdata = '';
 						});	
 };
