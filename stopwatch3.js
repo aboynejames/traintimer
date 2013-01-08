@@ -29,8 +29,9 @@ console.log('clickid= ' + this.clicktype);
 console.log('title = ' + this.identifer);		
 		this.activetimeclock.startclock.load();	
 			
-		if(clickid != "start" || clickid != "rest" || clickid != "save" ){
-	  this.activetimeclock.splitswimmerid(this.identifer);
+		//if(clickid != "start" || clickid != "reset" || clickid != "save" ){
+		if(clickid == "split" || clickid == "stop" || clickid == "pereditid" || clickid =="pereditidremove" ){
+			this.activetimeclock.splitswimmerid(this.identifer);
 		}
 						
 			switch(this.clicktype){
@@ -293,57 +294,10 @@ console.log('title = ' + this.identifer);
 //console.log('analysislane on off::::' + analysisname );
 					if(analysisname == 'on') {
 						// need to make live all the edit / analysis feature options
-							$("#perrealtime").show();
-							$(".peredit").show();
-							$(".historicalplace").show();
-							$("#viewdata").attr("title", "off");
-						
-							
-						
-					/*
-						$("#viewdata").attr("title", "on");
-							//if lane do this, if alpha added do ..  or get list of live TODO.
-							//selectedlanenow = $("#thelaneoptions").val();  // lane
-							if(selectedlanenow == -1 )
-							{
-								// form array id and swimmer name
-								//alphaswimmerin = {};
-								//alphaswimmerin[swimidalpha] = swimnamealpha;	
-								//datahead = liveHTML.viewdataHeader(alphaswimmerin);
-								//$("#viewdatalive").html(datahead);
-						
-							}
-							else 
-							{
-								// no need for this anymore
-								
-								
-			
-								function localDatacall(selectedlanenow, callback) {  
-								livepouch.mapQueryname(selectedlanenow, callback);
-								}  
-
-								localDatacall(selectedlanenow, function(rtmap) {  
-
-								presentswimmerlist = {};
-												
-								rtmap["rows"].forEach(function(rowswimrs){
-			//console.log(rowswimrs);
-									if(rowswimrs['key'] == selectedlanenow )
-									{	
-							
-									//pass the lane data to get html ready
-										presentswimmerlist[rowswimrs['value'][0]] = rowswimrs['value'][1];
-										
-									}
-								});
-								// pass along for html formatting
-								datahead = liveHTML.viewdataHeader(presentswimmerlist);
-								$("#viewdatalive").html(datahead);
-								});
-								
-							
-							}*/
+						$("#perrealtime").show();
+						$(".peredit").show();
+						$(".historicalplace").show();
+						$("#viewdata").attr("title", "off");
 						
 					}
 					else
@@ -359,6 +313,7 @@ console.log('title = ' + this.identifer);
 						
 							$("#viewdata").attr("title", "on");
 							$("[class^='pereditid']").attr("data-statusanalysis", "on");
+							$("#sortable1").sortable( "option", "disabled", true );	
 							
 					}
 
@@ -375,6 +330,7 @@ console.log('title = ' + this.identifer);
 					{
 						datacall = livepouch.returndatacallback(idname);
 						$(".pereditid" + historicalanalysisid ).attr("data-statusanalysis", "off");
+						$(".pereditidremove" + historicalanalysisid).hide();
 						
 					}
 					else
@@ -384,10 +340,20 @@ console.log('title = ' + this.identifer);
 						//$(".splitviewcompare").remove();
 						$("#historicalanalysis" + historicalanalysisid).empty();
 						$(".pereditid" + historicalanalysisid).attr("data-statusanalysis", "on");
+						$(".pereditidremove" + historicalanalysisid).show
+						();
 					}
 					
 			break;
 				
+			case "pereditidremove":
+					// remove swimmer from active list
+console.log('remove is being called');
+					removeid = this.identifer;
+					$("#sortable1 li#" + removeid + ".ui-state-default").remove();
+					
+			break;
+					
 			case "setshow":
 			// hide or show the set settings
 					setshowstatus = $("#setshow").attr("title");
@@ -486,6 +452,7 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 				starttiming.activetimeclock.spid[restswimid][1] = 0;
 				starttiming.activetimeclock.spid[restswimid][2] = 0;
 				starttiming.activetimeclock.sparray[restswimid] = [];
+				starttiming.activetimeclock.spdiffarray[restswimid] = [];
 				
 		
 				$splivereset = $('#splits'+restswimid);
@@ -1220,7 +1187,7 @@ console.log('callback from sync to couchdb via node is complete');
 					
 				$("#addalpha").html(presentswimmer);					
 				
-					presentclose = '<a href="" id="closealphalist" class="control-text" >Close</a>';
+					presentclose = '<br /><br /><a href="" id="closealphalist" class="control-text" >Close</a>';
 					$("#addalphatwo").html(presentclose);
 
     });  
@@ -1230,6 +1197,7 @@ console.log('callback from sync to couchdb via node is complete');
 				$("#loadlaneselect").hide();
 				$("#loadswimmers").hide();
 				$("#loadclearswimmers").hide();
+
 			});	
 
 /*
@@ -1248,7 +1216,7 @@ console.log('callback from sync to couchdb via node is complete');
 		// prepare list box  select and append HTML
 		presentswimmeralpha = liveHTML.fromswimmers(swimnamealpha, swimidalpha);
 		$("#sortable1").append(presentswimmeralpha);
-		
+		$(".peredit").hide();
 		
 	});
 			
@@ -1358,5 +1326,5 @@ console.log('callback from sync to couchdb via node is complete');
 	});
 	*/
 //console.log('start whole app');		
-//console.log(starttiming);	
+console.log(starttiming);	
 });

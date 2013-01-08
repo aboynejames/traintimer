@@ -38,7 +38,7 @@ ttHTML.prototype.fromswimmers = function(swname, swid) {
 				swimstarters +=	'</div>';
 
 				swimstarters += '<div class="peredit">';
-				swimstarters += '<a href="" id="pereditid" class="pereditid'+ swid + '" title="' + swid + '" data-statusanalysis="on">Analysis</a>';// HR' + '<input type="number" title="heartrate"  size="4" />SC<input type="number" title="strokecount"  size="4" />';
+				swimstarters += '<a href="" id="pereditid" class="pereditid'+ swid + '" title="' + swid + '" data-statusanalysis="on">Analysis</a> <a href="" id="pereditidremove" title="' + swid + '" class="pereditidremove'+ swid + '">Remove</a>';// HR' + '<input type="number" title="heartrate"  size="4" />SC<input type="number" title="strokecount"  size="4" />';
 				swimstarters += '</div><div style="clear:both;"></div>';
 	
 				swimstarters +=	'<div id="historicalanalysis' + swid + '" class="historicalplace" >';
@@ -207,7 +207,7 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 * Display of splilt and diffence color coded
 */	
 	ttHTML.prototype.realtimesplitsdiff = function(thisin, spidint) {
-
+console.log(thisin);
 				$splive = '#splits'+spidint;
 				$analysislive = '#analysis'+spidint;
 		
@@ -232,7 +232,7 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 				
 				thisin.sparray[thisin.splitidlive].push(thisin.spid[thisin.splitidlive][1]);
 				// display splits
-					var shortsplitreal = thisin.startclock.format(splittimelive).slice(3,11);
+				var shortsplitreal = thisin.startclock.format(splittimelive).slice(3,11);
 				$($splive).show();
 				$('<li><span>' + thisin.startclock.zero(thisin.spid[spidint][2]) + '</span> ' + shortsplitreal + '</li>').appendTo($($splive)).slideDown('fast');
 				$($splive).find('li').removeClass('first last');
@@ -240,14 +240,16 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 				// perform analysis & display
 
 				lastsplitper = thisin.sparray[thisin.splitidlive].slice(-1)[0];
-//console.log('current split time');				
-//console.log(lastsplitper);				
+console.log('current split time');				
+console.log(lastsplitper);				
 
 
 					lastdifftocompare = thisin.spdiffarray[thisin.splitidlive].slice(-1)[0];
+console.log('last diff what are we seeing' + 	lastdifftocompare);				
 				if(lastdifftocompare == undefined)
 				{
-					lastdifftocompare = 0;
+console.log('yes if passed');					
+					lastsplitpers = 0;
 				}
 //console.log('last live diff');
 //console.log(lastdifftocompare);

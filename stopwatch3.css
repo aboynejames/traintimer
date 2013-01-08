@@ -5,7 +5,7 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 
 #container {position:relative; z-index:100; width:265px; padding:20px; margin:20px auto 0; border:8px solid rgba(0, 0, 0, 0.5); border-radius:8px; -moz-border-radius:8px; -webkit-border-radius:8px; background:#EEE;}
 #masterclock {display:block; height: 100px;  text-align:left; color:#999; text-decoration:none; outline:1; margin-bottom:2px; border:0px solid black;}	
-#swimadmin {display:block; clear: both; text-align:left; color:#999; text-decoration:none; outline:0; margin-top:20px; border:0px solid black;}	
+#swimadmin {display:block; clear: both; text-align:left; color:#999; text-decoration:none; outline:0; margin-top:20px; border-top:1px solid #EEEEEE; padding-top:20px; }	
 #swimsettings {display:block; text-align:left; color:#999; text-decoration:none; outline:2;}	
 #ifsignedin {display:inline; text-align:left;}	
 
@@ -357,6 +357,15 @@ label {
 
 }
 
+#pereditidremove {
+	color:red;
+	font-size:0.6em;
+	margin-left: 120px;
+	
+	
+}
+
+
 .historicalanalysis {
 	float:left;
 	border:0px solid green;
@@ -579,7 +588,6 @@ margin-top: 20px;
 	}
 
 	#theswimmerview {
-	
 	font-size: 2em;
 	width:20%;
 	
