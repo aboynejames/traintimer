@@ -232,7 +232,7 @@ historicalswimdata = {};
 								if(swimsetlive["swimstyle"] ==  rowswimrs['value']['swiminfo']['swimstyle'] && swimsetlive["swimstroke"] ==  rowswimrs['value']['swiminfo']['swimstroke']  && swimsetlive["swimtechnique"] ==  rowswimrs['value']['swiminfo']['swimtechnique'] && swimsetlive["swimdistance"] ==  rowswimrs['value']['swiminfo']['swimdistance'] )
 								{
 									//pass the lane data to get html ready
-									historicalswimdata[rowswimrs['value']['sessionid'] + rowswimrs['key'] ] = rowswimrs['value'];
+									historicalswimdata[rowswimrs['value']['sessionid']] = rowswimrs['value'];
 									
 								}
 							}

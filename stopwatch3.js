@@ -1075,6 +1075,8 @@ console.log('callback from sync to couchdb via node is complete');
 				$("#saveconfirmswimmer").show();
 				$("#saveconfirmswimmer").fadeOut("slow");
 				$("#addswimmer").attr("title", "on");
+				$(".peredit").hide();
+				$(".pereditremove").hide();		
 
 				}
 				else
