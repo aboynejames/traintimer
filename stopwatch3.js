@@ -25,8 +25,8 @@
 			
 		this.identifer = swimtitle;
 		this.clicktype = clickid;
-console.log('clickid= ' + this.clicktype);
-console.log('title = ' + this.identifer);		
+//console.log('clickid= ' + this.clicktype);
+//console.log('title = ' + this.identifer);		
 		this.activetimeclock.startclock.load();	
 			
 		//if(clickid != "start" || clickid != "reset" || clickid != "save" ){
@@ -348,7 +348,7 @@ console.log('title = ' + this.identifer);
 				
 			case "pereditidremove":
 					// remove swimmer from active list
-console.log('remove is being called');
+//console.log('remove is being called');
 					removeid = this.identifer;
 					$("#sortable1 li#" + removeid + ".ui-state-default").remove();
 					
@@ -1328,5 +1328,5 @@ console.log('callback from sync to couchdb via node is complete');
 	});
 	*/
 //console.log('start whole app');		
-console.log(starttiming);	
+//console.log(starttiming);	
 });

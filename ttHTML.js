@@ -92,7 +92,7 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 * Display of splilt and diffence color coded
 */	
 	ttHTML.prototype.realtimesplitsdiff = function(thisin, spidint) {
-console.log(thisin);
+//console.log(thisin);
 				$splive = '#splits'+spidint;
 				$analysislive = '#analysis'+spidint;
 		
@@ -125,15 +125,15 @@ console.log(thisin);
 				// perform analysis & display
 
 				lastsplitper = thisin.sparray[thisin.splitidlive].slice(-1)[0];
-console.log('current split time');				
-console.log(lastsplitper);				
+//console.log('current split time');				
+//console.log(lastsplitper);				
 
 
 					lastdifftocompare = thisin.spdiffarray[thisin.splitidlive].slice(-1)[0];
-console.log('last diff what are we seeing' + 	lastdifftocompare);				
+//console.log('last diff what are we seeing' + 	lastdifftocompare);				
 				if(lastdifftocompare == undefined)
 				{
-console.log('yes if passed');					
+//console.log('yes if passed');					
 					lastsplitpers = 0;
 				}
 //console.log('last live diff');
@@ -170,7 +170,7 @@ console.log('yes if passed');
 				// what order did this swimmer go off?
 				swimpos = thisin.startclock.activeswimmers.indexOf(stoploc);
 	
-		
+				lastsplitpers = '';
 				lastsplitpers = thisin.sparray[stoploc].slice(-1)[0];
 				// order position times interval time period
 				stoplag = swimpos * (thisin.startclock.swiminterval * 1000);
@@ -190,7 +190,7 @@ console.log('yes if passed');
 				if(lastsplitpers == undefined)
 				{
 	//console.log('if bein called');				
-					lastsplitpers = splittimelive;
+					lastsplitpers = stoptimelive;
 				}
 //console.log('previous split time');				
 //console.log(lastsplitpers);
@@ -215,12 +215,12 @@ console.log('yes if passed');
 					lastdifftocompare = thisin.spdiffarray[stoploc].slice(-1)[0];
 				if(lastdifftocompare == undefined)
 				{
-					lastdifftocompare = 0;
+					lastdifftocompare = stoptimelive;
 				}
 //console.log('last live diff');
 //console.log(lastdifftocompare);
 
-				thedifflive = stoptimelive - lastsplitpers;
+				 thedifflive = stoptimelive - lastsplitpers;
 //console.log('now diff');
 //console.log(thedifflive);
 //console.log(thedifflive - lastdifftocompare);				
@@ -229,7 +229,10 @@ console.log('yes if passed');
 						thecolourdiff = 'red'; }
 				else {
 						thecolourdiff = 'green'; }
-					
+					if(thisin.spid[stoploc][2] == 1 )
+					{
+						thedifflive = stoptimelive;
+					}
 					var shortsplitreal = thisin.startclock.format(thedifflive).slice(3,11);
 					$($analysislive).show();
 					$('<li><span>' + thisin.startclock.zero(thisin.spid[stoploc][2]) + '</span> ' + shortsplitreal + '</li>').appendTo($($analysislive)).css("color", thecolourdiff).slideDown('fast');
@@ -245,15 +248,15 @@ console.log('yes if passed');
 */	
 ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 //console.log(swimidin);	
-console.log(historicaldata);	
+//console.log(historicaldata);	
 	var lastdataid = {};
 	var perswimmerdata = {};
 	perswimmersort = {};
 	// give back all data capture locally for now
 	var perswimmerdata = Object.keys(historicaldata);
 	perswimmersort = perswimmerdata.sort(function(a,b){return a-b});
-console.log('the order of time data???order right');
-console.log(perswimmersort);	
+//console.log('the order of time data???order right');
+//console.log(perswimmersort);	
 	var repcounter = '';
 	repcounter = 0;
 	
