@@ -23,8 +23,8 @@ ttHTML.prototype.fromswimmers = function(swname, swid) {
 
 				swimstarters +=	'<div id="perswimmerset" >';
 				swimstarters +=	'<ul id="percontrols">';
-				swimstarters +=	'<li><a href="#" id="stop" title="' + swid + '" >Stop</a></li>';
-				swimstarters +=	'<li><a href="#" id="split" title="' + swid + '" >Split</a></li>';
+				//swimstarters +=	'<li><a href="#" id="stop" title="' + swid + '" >Stop</a></li>';
+				swimstarters +=	'<li><a href="#" id="split" title="' + swid + '" class="splitbutton' + swid +'" >Split</a></li>';
 				swimstarters +=	'</ul>';
 				swimstarters +=  '<div id="pername" >' + swname + '</div>';
 				swimstarters +=	'</div>';
@@ -128,7 +128,6 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 //console.log('current split time');				
 //console.log(lastsplitper);				
 
-
 					lastdifftocompare = thisin.spdiffarray[thisin.splitidlive].slice(-1)[0];
 //console.log('last diff what are we seeing' + 	lastdifftocompare);				
 				if(lastdifftocompare == undefined)
@@ -155,6 +154,8 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 					$($analysislive).find('li').removeClass('first last');
 					$($analysislive).find('li:first').addClass('first').end().find('li:last').addClass('last');
 					//.css("color", thecolourdiff)
+						
+
 }
 
 /*

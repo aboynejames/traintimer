@@ -228,14 +228,23 @@ historicalswimdata = {};
 //console.log(rowswimrs['key']);
 							if(rowswimrs['key'] == swimidin )
 							{
-								// need a set of filters for time period and swim setting e.g. stroke distance etc
-								if(swimsetlive["swimstyle"] ==  rowswimrs['value']['swiminfo']['swimstyle'] && swimsetlive["swimstroke"] ==  rowswimrs['value']['swiminfo']['swimstroke']  && swimsetlive["swimtechnique"] ==  rowswimrs['value']['swiminfo']['swimtechnique'] && swimsetlive["swimdistance"] ==  rowswimrs['value']['swiminfo']['swimdistance'] )
+								// need to set time interval to retrieve
+								var timerightnow = new Date();
+								startswimdate = Date.parse(timerightnow); // current time/date
+								endswimdateperiod = startswimdate - 10800000;  //go back 3 hours
+//console.log(endswimdateperiod + 'go back three hours' + startswimdate + 'current time' + 'saveactual time' + rowswimrs['value']['sessionid']);								
+								if( rowswimrs['value']['sessionid'] < startswimdate && rowswimrs['value']['sessionid'] > endswimdateperiod)
 								{
+//console.log('time filter passed');								
+									// need a set of filters for time period and swim setting e.g. stroke distance etc
+									if(swimsetlive["swimstyle"] ==  rowswimrs['value']['swiminfo']['swimstyle'] && swimsetlive["swimstroke"] ==  rowswimrs['value']['swiminfo']['swimstroke']  && swimsetlive["swimtechnique"] ==  rowswimrs['value']['swiminfo']['swimtechnique'] && swimsetlive["swimdistance"] ==  rowswimrs['value']['swiminfo']['swimdistance'] )
+									{
 									//pass the lane data to get html ready
-									historicalswimdata[rowswimrs['value']['sessionid']] = rowswimrs['value'];
+										historicalswimdata[rowswimrs['value']['sessionid']] = rowswimrs['value'];
 									
+									}
 								}
-							}
+							}	
 						});
 
 //console.log(historicalswimdata);	
