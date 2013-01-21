@@ -521,7 +521,7 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 	*  Master stopwatch START
 	*/
 	this.startStop = function() {
-				
+	/*			
 		// disable drag and drop removed on pressing start.
 		$("#sortable1").sortable( "option", "disabled", true );
 		this.itp = 1;  // clear touchpad counter
@@ -560,14 +560,14 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		
 
 			this.display();
-		}
-		else {
+			}
+			else {
 
 			this.$start.text(this.stopText);
 						
 			this.t[4] =  setInterval(this.displaymaster, 43);
 	
-		}
+			}
 		
 		return false;
 	}
@@ -581,6 +581,66 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		return false;
 	}
 	
+};
+*/
+
+		this.itp = 1;  // clear touchpad counter
+
+	// set starting time
+			this.t[this.t[2]] = (+new Date()).valueOf();
+//console.log(this.t);
+
+		this.t[2] = 1 - this.t[2];
+//console.log(this.t);
+			if (this.t[2] == 0) {
+	// a split time being set
+			clearInterval(this.t[4]);
+			this.t[3] += this.t[1] - this.t[0];
+
+			this.$start.text(this.startText);
+			this.t[7]++;
+			this.display();
+		}
+		else
+		{
+			this.$start.text(this.stopText);
+			this.t[4] =  setInterval(this.displaymaster, 43);
+
+		}
+
+		// disable drag and drop when start press, then reset when stopped.
+		$("#sortable1").sortable( "option", "disabled", true );			
+		this.swiminterval = '';
+		this.swiminterval = $("#swiminterval").val();
+		this.swimdistance = '';
+		this.swimdistance = $("#swimdistance").val();
+		this.swimsplit = '';
+		this.swimsplit = $("#swimsplit").val();
+console.log('dist' + this.swimdistance + 'and split' + this.swimsplit);
+		this.stopsplitstatus = (this.swimdistance/this.swimsplit);
+		// if the swim distance is 50m and split is 50m  change split button to also say stop
+		if(this.stopsplitstatus == 1)
+		{
+			$("[class^='splitbutton']").text("STOP");
+		}
+		else
+		{
+			$("[class^='splitbutton']").text("Split");
+		}
+		// need to identify active swimmers from UI
+		// what order did the swimmers go off 
+		this.activeswimmers = [];
+		var noswimmerlive = $("a#stop").length;
+
+		var listactives = [];
+		var listactives = $('#sortable1').sortable('toArray');
+
+		countswimmers = listactives.length;
+		this.activeswimmers = listactives;
+
+		return false;
+	}
+
 };
 	
 	
