@@ -368,8 +368,24 @@
 						$("#setshow").attr("title", "on");
 					}
 						
-	
 			break;
+					
+			case "touchpadmode":
+			// show the touchpad status as on or OFF
+					currenttpstatus = $("#touchpadmode").attr("title");
+//console.log(setshowstatus);
+					if(currenttpstatus == 'on') {
+						$("#touchpadstatus").text('On');
+						$("#touchpadmode").attr("title", "off");
+					}
+					else
+					{
+						$("#touchpadstatus").text('Off');
+						$("#touchpadmode").attr("title", "on");
+					}
+					
+			break;			
+
 						
 			} // closes switch		
 			
@@ -427,7 +443,9 @@ var MasterWatch = function() {
 		return num;
 	},
 	
-
+	/*
+	* reset the master stopwatch to ZERO
+	*/
 	this.reset = function() {
 		// re enable the drag and drop sorting
 $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disabled", false );	
@@ -444,8 +462,7 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		
 		this.$start.text(this.startText);
 		
-//	needs moving to per swimmer splits function
-
+		// resets all the split arrays  (NB if NIL will break TODO)
 		starttiming.activetimeclock.activesplitter.forEach(function(restswimid)
 			{
 				starttiming.activetimeclock.spid[restswimid][0] = 1;
@@ -499,10 +516,15 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		this.display();
 	},
 	
+	/*
+	*  Master stopwatch START
+	*/
 	this.startStop = function() {
 				
-// disable drag and drop when start press, then reset when stopped.
-		$("#sortable1").sortable( "option", "disabled", true );			
+		// disable drag and drop removed on pressing start.
+		$("#sortable1").sortable( "option", "disabled", true );
+		this.itp = 1;  // clear touchpad counter
+		
 		this.swiminterval = '';
 		this.swiminterval = $("#swiminterval").val();
 		
@@ -527,7 +549,7 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		this.t[2] = 1 - this.t[2];
 //console.log(this.t);
 			if (this.t[2] == 0) {
-	// a split time being set
+			// a split time being set
 			clearInterval(this.t[4]);
 			this.t[3] += this.t[1] - this.t[0];
 		
@@ -547,13 +569,8 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		}
 		
 		return false;
-	},
-	
-	
-	this.savetocouch = function () {
-		
-	
 	}
+	
 	
 };
 	
@@ -699,63 +716,8 @@ var PerSwimmer = function() {
 				this.spid[spidin][2]++;
 //console.log(this);				
 				liveHTML.realtimesplitsdiff(this, spidin);
-/*							
-				// what order did this swimmer go off?
-				swimpos = this.startclock.activeswimmers.indexOf(spidin);
-		
-				// order position times interval time period
-				splitlag = swimpos * (this.startclock.swiminterval * 1000);
-		
-				splittimelive = this.t[3] + this.t[1] - this.t[0] - splitlag;
-				
-				this.spid[this.splitidlive][1] = splittimelive;
-				
-				lastsplitpers = this.sparray[this.splitidlive].slice(-1)[0];
-				if(lastsplitpers == undefined)
-				{
-	console.log('if bein called');				
-					lastsplitpers = splittimelive;
+
 				}
-console.log('previous split time');				
-console.log(lastsplitpers);
-				
-				this.sparray[this.splitidlive].push(this.spid[this.splitidlive][1]);
-				// display splits
-				$($splive).show();
-				$('<li><span>' + this.startclock.zero(this.spid[spidin][2]) + '</span> ' + this.startclock.format(splittimelive) + '</li>').appendTo($($splive)).slideDown('fast');
-				$($splive).find('li').removeClass('first last');
-				$($splive).find('li:first').addClass('first').end().find('li:last').addClass('last');
-				// perform analysis & display
-
-				lastsplitper = this.sparray[this.splitidlive].slice(-1)[0];
-console.log('current split time');				
-console.log(lastsplitper);				
-
-
-					lastdifftocompare = this.spdiffarray[this.splitidlive].slice(-1)[0];
-				if(lastdifftocompare == undefined)
-				{
-					lastdifftocompare = 0;
-				}
-console.log('last live diff');
-console.log(lastdifftocompare);
-
-				thedifflive = splittimelive - lastsplitpers;
-console.log('now diff');
-console.log(thedifflive);
-console.log(thedifflive - lastdifftocompare);				
-				this.spdiffarray[this.splitidlive].push(thedifflive);
-				if(thedifflive > lastdifftocompare ) {
-						thecolourdiff = 'red'; }
-				else {
-						thecolourdiff = 'green'; }
-					
-					$($analysislive).show();
-					$('<li><span>' + this.startclock.zero(this.spid[spidin][2]) + '</span> ' + this.startclock.format(thedifflive) + '</li>').appendTo($($analysislive)).slideDown('fast');
-					$($analysislive).find('li').removeClass('first last');
-					$($analysislive).find('li:first').addClass('first').end().find('li:last').addClass('last');
-					//.css("color", thecolourdiff)
-*/			}
 			
 			return false;
 	
@@ -807,6 +769,9 @@ $(document).ready(function(){
 	livepouch = new pouchdbSettings;	
 	liveHTML = new ttHTML;	
 	var today = new Date();
+		
+	// connect to socket.io
+  var socket = io.connect('http://localhost');		
 
 	$("#swimdate").text(today);
 	$("#siginformarea").hide();
@@ -1327,6 +1292,35 @@ console.log('callback from sync to couchdb via node is complete');
 		
 	});
 	*/
+	
+/*
+* Touchpad listening socket
+*/
+ // when you get a serialdata event, do this:
+socket.on('serialEvent', function (data) {
+
+// whatever the 'value' property of the received data is:
+	if(data.value == 1)
+	{
+	// need to identify which swimmer id from the order pattern e.g. click two will be first click swimmer 2
+	// in case of two every second will be split to second swimmer. 3 every third ( assuming order maintained)
+	  thetime = new Date();
+		//startswimmers.push(i);
+		// get swimmer id
+		//thisswimmerid = totalsplitarray[i];
+//console.log('the swimmerid is' + thisswimmerid);
+		$("#teststart").append(data.value + 'rep' + starttiming.activetimeclock.startclock.itp + 'swimmerid=' + thetime + '<br />');
+			starttiming.activetimeclock.startclock.itp++; 
+	}
+console.log(starttiming.activetimeclock.startclock.itp);
+	// figureout id from button press sequence
+	buttonidserial = '4449463--1256701539';
+	// call the split function
+	starttiming.activetimeclock.split(buttonidserial);
+console.log('after split class called');
+	
+});	
+	
 //console.log('start whole app');		
-//console.log(starttiming);	
+console.log(starttiming);	
 });
