@@ -471,7 +471,7 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 				starttiming.activetimeclock.spid[restswimid][2] = 0;
 				starttiming.activetimeclock.sparray[restswimid] = [];
 				starttiming.activetimeclock.spdiffarray[restswimid] = [];
-				
+				starttiming.activetimeclock.activesplitter[restswimid] = [];
 		
 				$splivereset = $('#splits'+restswimid);
 				$splivereset.empty();
@@ -522,7 +522,7 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 	*/
 	this.startStop = function() {
 
-		this.itp = 1;  // clear touchpad counter
+		this.itp = 0;  // clear touchpad counter
 
 	// set starting time
 			this.t[this.t[2]] = (+new Date()).valueOf();
@@ -555,7 +555,7 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		this.swimdistance = $("#swimdistance").val();
 		this.swimsplit = '';
 		this.swimsplit = $("#swimsplit").val();
-console.log('dist' + this.swimdistance + 'and split' + this.swimsplit);
+//console.log('dist' + this.swimdistance + 'and split' + this.swimsplit);
 		this.stopsplitstatus = (this.swimdistance/this.swimsplit);
 		// if the swim distance is 50m and split is 50m  change split button to also say stop
 		if(this.stopsplitstatus == 1)
@@ -576,6 +576,45 @@ console.log('dist' + this.swimdistance + 'and split' + this.swimsplit);
 
 		countswimmers = listactives.length;
 		this.activeswimmers = listactives;
+//console.log('the starting list');
+//console.log(this.activeswimmers);		
+		// if in touchpad mode
+		starttpstatus = $("#touchpadmode").attr("title");
+//console.log('in master start fuction status of touchpad' + starttpstatus);
+		if(starttpstatus == 'on')
+		{
+			// setup split time capture arrays
+			this.activeswimmers.forEach(function(livetbswimmers) {	
+				// need to setup split arrays/objects to hold data
+				//starttiming.activetimeclock.splitswimmerid(livetbswimmers);
+			});
+
+
+			// need to build swimmer/order array
+			this.totalsplitarray = [];
+			notimesperswimmer = this.swimdistance/this.swimsplit;
+			totalnosplits = (this.activeswimmers.length * notimesperswimmer) -1;
+//console.log(notimesperswimmer + 'the no splits per swimer' );
+//console.log(totalnosplits + 'the total no. spliters' );
+			si = 0;
+			countswi = 0;
+			for (si=0;si<=totalnosplits;si++)
+			{
+//console.log(si + 'the info');
+				this.totalsplitarray[si] = this.activeswimmers[countswi];
+				countswi++
+				
+				if(countswi == (this.activeswimmers.length ))
+				{
+					countswi = 0;
+				}
+			}
+//console.log(this.totalsplitarray);
+//console.log('the order above');
+				
+				
+			}  // closes if touchpad on
+			
 
 		return false;
 	};
@@ -685,6 +724,7 @@ var PerSwimmer = function() {
 */	
 	this.split = function(spidin) {
 //console.log('split clicked');	
+//console.log(spidin + 'incoming splitid');
 	// contorl logic, has the main timer been started? If yes proceed if not do nothing.		
 	if(this.startclock.t[1] == 0) {
 		// nothing start do nothing.
@@ -1327,23 +1367,20 @@ socket.on('serialEvent', function (data) {
 
 // whatever the 'value' property of the received data is:
 	if(data.value == 1)
-	{
-	// need to identify which swimmer id from the order pattern e.g. click two will be first click swimmer 2
-	// in case of two every second will be split to second swimmer. 3 every third ( assuming order maintained)
-	  thetime = new Date();
-		//startswimmers.push(i);
-		// get swimmer id
-		//thisswimmerid = totalsplitarray[i];
-//console.log('the swimmerid is' + thisswimmerid);
-		$("#teststart").append(data.value + 'rep' + starttiming.activetimeclock.startclock.itp + 'swimmerid=' + thetime + '<br />');
-			starttiming.activetimeclock.startclock.itp++; 
+	{		
+//console.log(starttiming.activetimeclock.startclock.itp);
+//console.log('touchpad ingredients');		
+//console.log(starttiming.activetimeclock.startclock.totalsplitarray);		
+
+		//buttonidserial = '8959315--1256701539';  // test data
+		// call the split function
+		starttiming.activetimeclock.splitswimmerid(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
+		starttiming.activetimeclock.split(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
+		starttiming.activetimeclock.startclock.itp++; 
+
 	}
-console.log(starttiming.activetimeclock.startclock.itp);
-	// figureout id from button press sequence
-	buttonidserial = '4449463--1256701539';
-	// call the split function
-	starttiming.activetimeclock.split(buttonidserial);
-console.log('after split class called');
+	
+//console.log('after split class called');
 	
 });	
 	

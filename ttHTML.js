@@ -93,6 +93,7 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 */	
 	ttHTML.prototype.realtimesplitsdiff = function(thisin, spidint) {
 //console.log(thisin);
+//console.log('comin into realtiemsplit HTML function' + spidint)		
 				$splive = '#splits'+spidint;
 				$analysislive = '#analysis'+spidint;
 		
