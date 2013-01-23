@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"  > <!--manifest="traintimer.appcache"--> 
+<html lang="en"  manifest="traintimer.appcache" > <!--manifest="traintimer.appcache"--> 
 <head>
 <meta charset="utf-8">
 <title>Train Timer - an open sport project</title>
@@ -77,72 +77,84 @@
 					</span>
 			</h2> 
 			<div id="controloptions">
-				<div id="loadlaneselect" class="load-text" >
-					<label>Lane:</label>
-					<select id="thelaneoptions" class="selectswimmer" >'
-						<option value="-1" selected >-</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-						<option value="5">5</option>
-						<option value="6">6</option>
-						<option value="7">7</option>
-						<option value="8">8</option>
-						<option value="9">9</option>
-						<option value="10">10</option>
-					</select>
+				<ul class="controlspanel">
+					<li>
+						<div id="loadlaneselect" >
+						<label>By Lane:</label>
+						<select id="thelaneoptions" class="selectswimmer" >'
+							<option value="-1" selected >-</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+							<option value="6">6</option>
+							<option value="7">7</option>
+							<option value="8">8</option>
+							<option value="9">9</option>
+							<option value="10">10</option>
+						</select>
+					</div>
+				</li>
+				<li>	
+					<div id="loadswimmers">
+						<label>By name</label>
+						<select id="theswimmeroptions" class="selectswimmer">
+							<option value="-1" selected >-</option>
+							<option value="a">A</option>
+							<option value="b">B</option>
+							<option value="c">C</option>
+							<option value="d">D</option>
+							<option value="e">E</option>
+							<option value="f">F</option>
+							<option value="g">G</option>
+							<option value="h">H</option>
+							<option value="i">I</option>
+							<option value="j">J</option>
+							<option value="k">K</option>
+							<option value="l">L</option>
+							<option value="m">M</option>
+							<option value="n">N</option>
+							<option value="o">O</option>
+							<option value="p">P</option>
+							<option value="q">Q</option>
+							<option value="r">R</option>
+							<option value="s">S</option>
+							<option value="t">T</option>
+							<option value="u">U</option>
+							<option value="v">V</option>
+							<option value="w">W</option>
+							<option value="x">X</option>
+							<option value="y">Y</option>
+							<option value="z">Z</option>
+						</select>
 				</div>
-				<div id="loadswimmers" class="load-text" >
-					<label>Swimmer</label>
-					<select id="theswimmeroptions" class="selectswimmer">'
-						<option value="-1" selected >-</option>
-						<option value="a">A</option>
-						<option value="b">B</option>
-						<option value="c">C</option>
-						<option value="d">D</option>
-						<option value="e">E</option>
-						<option value="f">F</option>
-						<option value="g">G</option>
-						<option value="h">H</option>
-						<option value="i">I</option>
-						<option value="j">J</option>
-						<option value="k">K</option>
-						<option value="l">L</option>
-						<option value="m">M</option>
-						<option value="n">N</option>
-						<option value="o">O</option>
-						<option value="p">P</option>
-						<option value="q">Q</option>
-						<option value="r">R</option>
-						<option value="s">S</option>
-						<option value="t">T</option>
-						<option value="u">U</option>
-						<option value="v">V</option>
-						<option value="w">W</option>
-						<option value="x">X</option>
-						<option value="y">Y</option>
-						<option value="z">Z</option>
-					</select>
-			</div>
-			<div id="loadclearswimmers" class="load-text" >
-				<label><a href="" id="clearallswimmers">Clear</a></label>
-			</div>
+			</li>
+			<li>
+				<div id="addnewswimmer" >
+					<label><a href="/addswimmer" id="addswimmer" title="on" >Add new</a></label>
+					<span id="newmaster"></span>
+					<div style="clear:both;"></div>
+				</div>
+			</li>
+			<li>
+				<div id="loadclearswimmers" >
+					<label><a href="" id="clearallswimmers">Clear</a></label>
+				</div>
+			</li>
+		</ul>
 			<div style="clear:both;"></div>
 		<div id="addalpha"></div>
 		<div id="addalphatwo"></div>
-	</div>
+	</div>   <!--closes control panel div-->
 			<ul id="sortable1" class='droptrue'>
 			</ul>
 
 <br />
-	<!--<div id="viewdatalive"></div>
-	<div id="visualisedata"></div>
-	<div id="splittimeshistorical"></div>-->
 </div> <!-- closes demo class -->
 <!--<input type="text" id="postOrder" name="postOrder" value="" size="30"><br /></div>-->
 
-<div id="setsettings" ><a href="" id="setshow" class="control-text" title="on" >Set Settings</a><br />
+<div id="setsettings" ><a href="" id="setshow" class="control-text" title="on" >Edit set/race</a><span id="liveswimset"></span><br />
 <div id="hmtt"></div>
 	<div class="swimsettings">
 		<div id="swimdate"></div>
@@ -216,9 +228,6 @@
 </div>
 	<!-- swimmer add and sign in-->
 <div id="swimadmin">
-					<a class="menu-text" href="/addswimmer" id="addswimmer" title="on" >New swimmer</a><span id="newmaster"></span><span id="saveconfirmswimmer" ></span>
-	<br />
-	<br />	
 						<a class="menu-text" href="" id="touchpadmode" title="on" >TouchPad</a><span id="touchpadstatus">Off</span>
 	<br />
 

@@ -173,22 +173,52 @@
 						$("#theswimmeroptions").val(-1);
 						$("#loadlaneselect").show();
 						$("#loadswimmers").show();
+						$("#addnewswimmer").show();
 						$("#loadclearswimmers").show();
+						$("#controloptions").show();
 					}
 					else
 					{
 					// close the load	
 						$("#loadlaneselect").hide();
-						$("#loadlaneselect").hide();
 						$("#loadswimmers").hide();
+						$("#addnewswimmer").hide();
 						$("#loadclearswimmers").hide();
+						$("#controloptions").hide();
 						$("#loadlane").attr("title", "on");
 					}
 				break;
 				
 				case "startsort":
 				
-				$("#sortable1").sortable( "option", "disabled", false );	
+					$("#sortable1").sortable( "option", "disabled", false );	
+					editname = $("#startsort").attr("title");
+//console.log('edit on off::::' + editname );
+					if(editname == 'on') {
+						// need to make live all the edit 
+						$(".peredit").show();
+						$("[class^='pereditid']").hide();
+						$("[class^='pereditidremove']").show();
+						$("#startsort").attr("title", "off");
+						$("#viewdata").attr("title", "on");
+											
+						$("#analysistype").hide();
+						$(".historicalplace").hide();
+						$("#viewdatalive").empty();
+						$("#visualisedata").empty();
+						$(".splitviewrep").remove();
+						$(".splitview").remove();
+						$(".splitviewcompare").remove();
+						$("[class^='pereditid']").attr("data-statusanalysis", "on");
+					}
+					else
+					{
+						$(".peredit").hide();
+						$("#startsort").attr("title", "on");
+						$("[class^='pereditid']").attr("data-statusanalysis", "on");
+						$("#sortable1").sortable( "option", "disabled", true );	
+
+					}
 				
 				break;
 				/*
@@ -286,24 +316,25 @@
 		*/
 			case "viewdata":
 			// needs swimmerids and names
-				//$("#sortable1").empty();
-				$("#sortable1").sortable( "option", "disabled", false );	
 				$("#analysistype").show();
 				
 				analysisname = $("#viewdata").attr("title");
 //console.log('analysislane on off::::' + analysisname );
 					if(analysisname == 'on') {
 						// need to make live all the edit / analysis feature options
-						$("#perrealtime").show();
 						$(".peredit").show();
+						$("[class^='pereditid']").show();
+						$("[class^='pereditidremove']").hide();
+						$("#perrealtime").show();
 						$(".historicalplace").show();
 						$("#viewdata").attr("title", "off");
+						$("#startsort").attr("title", "on");
 						
 					}
 					else
 					{
-							$("#analysistype").hide();
 							$(".peredit").hide();
+							$("#analysistype").hide();
 							$(".historicalplace").hide();
 							$("#viewdatalive").empty();
 							$("#visualisedata").empty();
@@ -313,7 +344,8 @@
 						
 							$("#viewdata").attr("title", "on");
 							$("[class^='pereditid']").attr("data-statusanalysis", "on");
-							$("#sortable1").sortable( "option", "disabled", true );	
+							$("[class^='pereditidremove']").attr("data-statusanalysis", "on");
+							//$("#sortable1").sortable( "option", "disabled", true );	
 							
 					}
 
@@ -330,7 +362,7 @@
 					{
 						datacall = livepouch.returndatacallback(idname);
 						$(".pereditid" + historicalanalysisid ).attr("data-statusanalysis", "off");
-						$(".pereditidremove" + historicalanalysisid).hide();
+						//$(".pereditidremove" + historicalanalysisid).hide();
 						
 					}
 					else
@@ -340,8 +372,7 @@
 						//$(".splitviewcompare").remove();
 						$("#historicalanalysis" + historicalanalysisid).empty();
 						$(".pereditid" + historicalanalysisid).attr("data-statusanalysis", "on");
-						$(".pereditidremove" + historicalanalysisid).show
-						();
+						//$(".pereditidremove" + historicalanalysisid).show();
 					}
 					
 			break;
@@ -366,6 +397,8 @@
 					{
 						$(".swimsettings").hide();
 						$("#setshow").attr("title", "on");
+						currentsetset = $("#swimstyle").val() + ' ' + $("#swimstroke").val() + ' ' + $("#swimtechnique").val() + ' ' + $("#swimdistance").val() + ' ' + $("#swimsplit").val();
+$("#liveswimset").text('live set: ' + currentsetset);
 					}
 						
 	
@@ -830,6 +863,7 @@ $(document).ready(function(){
 			passwordin = '';
 			$("#loadlaneselect").hide();
 			$("#loadswimmers").hide();
+			$("#addnewswimmer").hide();
 			$("#syncdata").hide();
 			$("#clearpouchdb").hide();
 			$("#sortable1").empty();
@@ -845,6 +879,7 @@ $(document).ready(function(){
 	
 	$("#loadlaneselect").hide();
 	$("#loadswimmers").hide();
+	$("#addnewswimmer").hide();
 	$("#loadclearswimmers").hide();
 	$(".swimsettings").hide();
 	$("#syncdata").hide();
@@ -1129,8 +1164,14 @@ console.log('callback from sync to couchdb via node is complete');
 				$("#saveconfirmswimmer").show();
 				$("#saveconfirmswimmer").fadeOut("slow");
 				$("#addswimmer").attr("title", "on");
-				$(".peredit").hide();
+				//$(".peredit").hide();
 				$(".pereditremove").hide();		
+				
+				$("#controloptions").hide();
+				$(".peredit").hide();
+				$("#viewdata").attr("title", "on");
+				$("#startsort").attr("title", "on");
+				$("#loadlane").attr("title", "on");
 
 				}
 				else
@@ -1180,7 +1221,9 @@ console.log('callback from sync to couchdb via node is complete');
 
 				$("#sortable1").html(presentswimmer);	
 				$(".peredit").hide();
-				$(".historicalplace").hide();	
+				$(".historicalplace").hide();
+				$("#analysistype").hide();
+				$("#viewdata").attr("title", "on");						
 	// test splits data recall						
 	function localDataSPcall(dataspin, callback) {  
 						livepouch.mapQuerySplits(dataspin, callback);
@@ -1197,9 +1240,11 @@ console.log('callback from sync to couchdb via node is complete');
 							
 				// make post request to get swimmer for this lane and dispaly
 				//$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow + '/' + setsaveallowed);
-				$("#loadlaneselect").hide();
-				$("#loadswimmers").hide();
-				$("#loadclearswimmers").hide();
+				//$("#loadlaneselect").hide();
+				//$("#loadswimmers").hide();
+				//$("#loadclearswimmers").hide();
+				$("#controloptions").hide();
+
 			});	
 			
 /*
@@ -1211,6 +1256,7 @@ console.log('callback from sync to couchdb via node is complete');
 				$("#viewdatalive").empty();
 				$("#visualisedata").empty();
 				$("#splittimeshistorical").empty();
+		
 				$("#loadlane").attr("title", "on");
 				selectedswimmernow = $("#theswimmeroptions").val();
 //console.log('letter in ' + selectedswimmernow );
@@ -1253,6 +1299,9 @@ console.log('callback from sync to couchdb via node is complete');
 				$("#loadlaneselect").hide();
 				$("#loadswimmers").hide();
 				$("#loadclearswimmers").hide();
+				$("#addnewswimmer").hide();
+
+
 
 			});	
 
@@ -1273,6 +1322,8 @@ console.log('callback from sync to couchdb via node is complete');
 		presentswimmeralpha = liveHTML.fromswimmers(swimnamealpha, swimidalpha);
 		$("#sortable1").append(presentswimmeralpha);
 		$(".peredit").hide();
+		$("#viewdata").attr("title", "on");
+		$("#startsort").attr("title", "on");
 		
 	});
 			
@@ -1296,6 +1347,7 @@ console.log('callback from sync to couchdb via node is complete');
 			$("#sortable1").empty();
 			$("#loadlaneselect").hide();
 			$("#loadswimmers").hide();
+			$("#addnewswimmer").hide();
 			$("#loadclearswimmers").hide();
 			$("#loadlane").attr("title", "on");
 
@@ -1383,7 +1435,10 @@ socket.on('serialEvent', function (data) {
 //console.log('after split class called');
 	
 });	
-	
+		
+currentsetset = $("#swimstyle").val() + ' ' + $("#swimstroke").val() + ' ' + $("#swimtechnique").val() + ' ' + $("#swimdistance").val() + ' ' + $("#swimsplit").val();
+$("#liveswimset").text('live set: ' + currentsetset);
+
 //console.log('start whole app');		
 console.log(starttiming);	
 });

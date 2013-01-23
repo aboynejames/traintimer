@@ -110,14 +110,6 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 	
 }	
 	
-#clearallswimmers {
-	display:block;
-	border:0px solid black;
-	margin-bottom: 40px;
-	clear:both;
-	
-}	
-
 .control-text {
 	padding-top: 10px;
 	font-size: 1.4em;
@@ -125,12 +117,49 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 	
 }
 
-.load-text {
-	padding-top: 10px;
-	font-size: 2em;
-	margin: 6px;
+.controlspanel {
+	width:100%;
 	
 }
+
+.controlspanel li {
+	padding-top:0.4em;
+	width:70%;
+	margin-left:20px;
+	font-size: 2em;
+	list-style-type:none;
+	border: 0px solid green;
+}
+
+.load-text {
+
+	
+}
+
+.load-text label {
+
+}
+
+#addnewswimmer {
+
+	width:100%;
+	border:0px solid pink;
+}
+
+#aaaddswimmer {
+
+	width:70%;
+	border:0px solid red;
+}
+
+#clearallswimmers {
+	float:left;
+	width:100%;
+	border:0px solid blue;
+	margin-top:20px;
+	margin-bottom:30px;
+	clear:both;
+}	
 
 .clearswimmers-text {
 	font-size: 0.1em;
@@ -138,13 +167,6 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 	font-size: 2em;
 	margin: 6px;
 	
-}
-
-.load-text label {
-	float: left;
-	padding-top:0.4em;
-	margin-left:20px;
-	width:120px;
 }
 
 .analysislabel label {
@@ -155,7 +177,7 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 * Add new swimmer
 */
 .addswimmer-form {
-	font-size: 2.0em;
+	font-size: 0.5em;
 	
 }
 
@@ -168,6 +190,7 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 }
 
 .addswimmer-form li{
+	width:100%;
     padding:18px;
     border-bottom:1px solid #eee;
     position:relative;
