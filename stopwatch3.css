@@ -72,10 +72,16 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 * formatting of settings
 *
 */
+
 #setsettings {
 	margin-top:20px;
 	border:0px solid red;
+	font-size:1.4em;
 	clear:both;
+}
+
+#liveswimset {
+	font-size:1em;
 }
 
 .swimsettings {
@@ -111,11 +117,71 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 }	
 	
 .control-text {
-	padding-top: 10px;
-	font-size: 1.4em;
-	margin: 6px;
-	
+    -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #d1d1d1) );
+    background:-moz-linear-gradient( center top, #ffffff 5%, #d1d1d1 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#d1d1d1');
+    background-color:#ffffff;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    color:#777777;
+    font-family:arial;
+    font-size:15px;
+    font-weight:bold;
+    padding:6px 24px;
+    text-decoration:none;
+    text-shadow:1px 1px 0px #ffffff;
 }
+.control-text:hover {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #d1d1d1), color-stop(1, #ffffff) );
+    background:-moz-linear-gradient( center top, #d1d1d1 5%, #ffffff 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d1d1d1', endColorstr='#ffffff');
+    background-color:#d1d1d1;
+}
+.control-text:active {
+    position:relative;
+    top:1px;
+}
+
+/*when setting button is pressed */
+.control-textpressed {
+    -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #ffffff) );
+    background:-moz-linear-gradient( center top, #ffffff 5%, #ffffff 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ffffff');
+    background-color:#003300;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:6px;
+    border:1px solid #dcdcdc;
+    display:inline-block;
+    color:#090;
+    font-family:arial;
+    font-size:15px;
+    font-weight:bold;
+    padding:6px 24px;
+    text-decoration:none;
+    text-shadow:1px 1px 0px #003300;
+}
+
+.control-textpressed:hover {
+    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #d1d1d1), color-stop(1, #ffffff) );
+    background:-moz-linear-gradient( center top, #d1d1d1 5%, #ffffff 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#d1d1d1', endColorstr='#ffffff');
+    background-color:#d1d1d1;
+}
+.control-textpressed:active {
+    position:relative;
+    top:1px;
+}
+
 
 .controlspanel {
 	width:100%;
@@ -141,37 +207,82 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 }
 
 #addnewswimmer {
-
+	display:block;
 	width:100%;
+	min-height:60px;
+	padding-top:25px;
 	border:0px solid pink;
 }
 
-#aaaddswimmer {
-
-	width:70%;
-	border:0px solid red;
+#addswimmer {
+	display:block;
+	width:66px;
+	margin-left:160px;
+	padding-top: 0.4em;
 }
 
 #clearallswimmers {
 	float:left;
-	width:100%;
-	border:0px solid blue;
+	width:86px;
 	margin-top:20px;
 	margin-bottom:30px;
-	clear:both;
 }	
 
 .clearswimmers-text {
-	font-size: 0.1em;
 	padding-top: 10px;
 	font-size: 2em;
 	margin: 6px;
 	
 }
 
+.check-style {
+	font-size: 2em;
+	margin: 12px;
+}
+
+/*
+* PerAnalysis
+*/
+.peranalysis {
+	float:left;
+	width: 100%;
+	font-size:1.5em;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	border:1px solid blue;
+	clear:both;
+}
+
 .analysislabel label {
 
-	}
+}
+
+/*
+* Add biostatistic  HR & SC 
+*/
+.biostats-form {
+	font-size: 1em;
+	
+}
+
+.biostats-form label {
+    width:38px;
+    margin-top: 3px;
+    display:inline-block;
+    float:left;
+    padding:3px;
+}
+
+.biostats-form input {
+    height:20px;
+    width:20px;
+	display:inline-block;
+	float:left;
+    padding:5px 8px;
+}
+
+
+
 
 /*
 * Add new swimmer
@@ -291,7 +402,8 @@ input:required {
 #newswimerror {
 	margin-left:90px;
 	color:red;
-	font-size:1.4em;
+	font-size:1em;
+	padding-top:10px;
 	
 }
 
@@ -375,19 +487,31 @@ label {
 
 .peredit {
 	float:left;
-	border:0px solid green;
+	width: 100%;
+	border:1px solid blue;
 	clear:both;
 
+}
+
+.perdetails {
+	float:right;
+	border:1px solid green;
+	margin-bottom: 10px;
+	margin-top: 10px;
 }
 
 #pereditidremove {
 	color:red;
 	font-size:0.6em;
-	margin-left: 120px;
-	
-	
+	/*margin-left: 30px;*/
+
 }
 
+#pereditiddelete {
+	color:red;
+	font-size:0.6em;
+	margin-left: 30px;
+}
 
 .historicalanalysis {
 	float:left;
@@ -478,7 +602,7 @@ margin-top: 20px;
 .selectswimmer {
 	font-size: 0.8em;	
 	width:100px;
-	margin-top:10px;	
+	margin-top:4px;	
 	margin-left:20px;	
 }
 	
@@ -519,7 +643,7 @@ margin-top: 20px;
 	
 	.swimsettings {
 
-		font-size: 2.4em;
+		font-size: 1.6em;
 		clear:both;
 
      }
@@ -537,7 +661,13 @@ margin-top: 20px;
 	
 	}
 
-
+	.control-textpressed {
+	padding-top:0.4em;
+	font-size: 1.4em;
+	margin: 6px;
+	
+	}
+	
 	label {
 	float: left;
 	padding-top:0.4em;
@@ -640,5 +770,10 @@ margin-top: 20px;
 	width:100px;
 		
 	}
+	
+	#liveswimset {
+	font-size:1.4em;
+	}
+
 
 }

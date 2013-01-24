@@ -37,15 +37,26 @@ ttHTML.prototype.fromswimmers = function(swname, swid) {
 				swimstarters +=	'</ul>'; 
 				swimstarters +=	'</div>';
 
+				swimstarters += '<div class="peranalysis">';
+				// call function to prepare all links now to 30 days and chart icon
+	
+				swimstarters += '<a href="" id="peranalysisid" class="peranalysisid'+ swid + '" title="' + swid + '" data-statusanalysis="on">Now</a>';
+				swimstarters += '</div>';
+	
 				swimstarters += '<div class="peredit">';
-				swimstarters += '<a href="" id="pereditid" class="pereditid'+ swid + '" title="' + swid + '" data-statusanalysis="on">Analysis</a> <a href="" id="pereditidremove" title="' + swid + '" class="pereditidremove'+ swid + '">Remove</a>';// HR' + '<input type="number" title="heartrate"  size="4" />SC<input type="number" title="strokecount"  size="4" />';
+				swimstarters += '<form class="biostats-form" id="' + swid + '" ><label>HR</label><input id="hrin' + swid + '" type="number" title="heartrate"  size="4" /><label>SC</label><input id="scin' + swid + '" type="number" title="strokecount"  size="4" /><label>Lane</label><input id="lanein' + swid + '" type="number" title="changelane"  size="4" /></form>';
+				
+				swimstarters +=	'<div class="perdetails" >';
+				swimstarters += '<a href="" id="pereditidremove" title="' + swid + '" class="pereditidremove'+ swid + '">Remove</a>';
+swimstarters += '<a href="" id="pereditiddelete" title="' + swid + '" class="pereditiddelete'+ swid + '">Delete</a>';
+				
+				swimstarters +=	'</div>';
+				
 				swimstarters += '</div><div style="clear:both;"></div>';
 	
 				swimstarters +=	'<div id="historicalanalysis' + swid + '" class="historicalplace" >';
-				//swimstarters +=	 '<div class="splitview" id="splittimeshistorical' + swid + '"></div>';
-				//swimstarters +=	 '<div class="splitviewcompare" id="lastcomparesession' + swid + '"></div>';
 				swimstarters +=	 '</div>';
-		
+
 				swimstarters += '<div style="clear:both;"></div></li> ';
 				
 				return swimstarters;
@@ -78,12 +89,6 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 	});
 	
 	viewdatahead += '</select>';
-		
-	//viewdatahead += '<select id="thedateview">';
-	//viewdatahead += '<option value="0110">1 Oct</option>';
-	//viewdatahead += '<option value="0210">2nd Oct</option>';
-	//viewdatahead += '<option value="0310">3rd Oct</option>';
-	//viewdatahead += '</select>';
 
 	return viewdatahead;
 }
