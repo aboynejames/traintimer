@@ -348,6 +348,7 @@ console.log('title = ' + this.identifer);
 							$(".peranalysis").hide();
 							$(".analysislabel").hide();
 							$(".historicalplace").hide();
+							$(".historicalchart").hide();
 							$("#viewdatalive").empty();
 							$("#visualisedata").empty();
 							$(".splitviewrep").remove();
