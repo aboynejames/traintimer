@@ -25,8 +25,8 @@
 			
 		this.identifer = swimtitle;
 		this.clicktype = clickid;
-//console.log('clickid= ' + this.clicktype);
-//console.log('title = ' + this.identifer);		
+console.log('clickid= ' + this.clicktype);
+console.log('title = ' + this.identifer);		
 		this.activetimeclock.startclock.load();	
 			
 		//if(clickid != "start" || clickid != "reset" || clickid != "save" ){
@@ -171,6 +171,7 @@
 						$("#loadlane").attr("title", "off");
 						$("#thelaneoptions").val(-1);
 						$("#theswimmeroptions").val(-1);
+						$("#welcomesummary").hide();
 						$("#loadlaneselect").show();
 						$("#loadswimmers").show();
 						$("#addnewswimmer").show();
@@ -370,7 +371,7 @@
 					
 					if(analysisstatus == 'on')
 					{
-						datacall = livepouch.returndatacallback(idname);
+						datacall = livepouch.returndatacallback(idname, "splitdatain");
 						$(".peranalysisid" + historicalanalysisid ).attr("data-statusanalysis", "off");
 						//$(".pereditidremove" + historicalanalysisid).hide();
 						
@@ -386,7 +387,32 @@
 					}
 					
 			break;
-				
+					
+			case "perchartid":
+				// gather data per swimmer to build chart from
+				container = 'historicalchart' + this.identifer;
+				chartstatus = $(".perchartid"+ this.identifer).attr("data-statusanalysis");
+//console.log('ananlysis status caught' + analysisstatus);		
+					
+					if(chartstatus == 'on')
+					{
+						
+						livepouch.returndatacallback(this.identifer, "chartdatain");
+						$("#historicalchart" + this.identifer).show();			
+						$(".perchartid" + this.identifer ).attr("data-statusanalysis", "off");
+					
+					}
+					else
+					{
+						$("#historicalchart" + this.identifer).hide();
+						$(".perchartid" + this.identifer).attr("data-statusanalysis", "on");
+		    
+					}
+
+
+			break;
+
+					
 			case "pereditidremove":
 					// remove swimmer from active list
 //console.log('remove is being called');
@@ -889,6 +915,9 @@ $(document).ready(function(){
 
 		});
 	
+	/*
+	*  Hide in place html
+	*/
 	$("#loadlaneselect").hide();
 	$("#loadswimmers").hide();
 	$("#addnewswimmer").hide();
@@ -908,6 +937,29 @@ $(document).ready(function(){
 		
 	// connect to socket.io
   var socket = io.connect('http://localhost');		
+
+	// welcome summary  call pouch get no. active swimmers
+					function welcomeDatacall(callback) {  
+						livepouch.mapQueryswimmers(callback);
+					}  
+      
+						welcomeDatacall(function(wmap) { 
+//console.log('welcome callback');							
+//console.log(wmap.rows.length);
+								if(wmap.rows.length > 0)
+								{
+									welcomedata = wmap.rows.length + " active swimmers";
+									$("#welcomesummary").html(welcomedata);
+								}
+								else
+								{
+									welcomedata = 'No swimmmers present.<br /><br />Please press <b>Swimmers</b> button';
+									$("#welcomesummary").html(welcomedata);
+									
+								}
+					});
+
+
 
 	$("#swimdate").text(today);
 	$("#siginformarea").hide();
@@ -1181,6 +1233,7 @@ console.log('callback from sync to couchdb via node is complete');
 				
 				$("#controloptions").hide();
 				$(".peredit").hide();
+				$(".historicalchart").hide();
 				$("#viewdata").attr("title", "on");
 				$("#startsort").attr("title", "on");
 				$("#loadlane").attr("title", "on");
@@ -1205,6 +1258,9 @@ console.log('callback from sync to couchdb via node is complete');
 			
 	});
 		
+				/*
+				*  load swimmer by lane number
+				*/
 			$("#thelaneoptions").change(function () {
 	//livepouch.deletePouch();
 				$("#viewdatalive").empty();
@@ -1236,6 +1292,7 @@ console.log('callback from sync to couchdb via node is complete');
 				$(".peredit").hide();
 				$(".peranalysis").hide();
 				$(".historicalplace").hide();
+				$(".historicalchart").hide();						
 				$("#analysistype").hide();
 				$("#viewdata").attr("title", "on");
 				$("#loadlane").attr('class', 'control-text');
@@ -1262,6 +1319,23 @@ console.log('callback from sync to couchdb via node is complete');
 				$("#controloptions").hide();
 
 			});	
+
+/*
+* first time start
+*/
+	$("#welcomesummary").on("click", function (e) {
+  //  $("a").click(function(e){
+	   e.preventDefault(e);
+		 var $swtgt = $(e.target);
+		 if ($swtgt.is("a")) {
+			idclick = $swtgt.attr("id");
+			idname =$swtgt.attr("title");
+console.log('first time start' + idclick + idname);			 
+			// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
+			starttiming.identifyswimmer(idname, idclick);
+		 }
+	});
+
 			
 /*
 *
@@ -1342,6 +1416,7 @@ console.log('callback from sync to couchdb via node is complete');
 	
 		$(".peredit").hide();
 		$(".peranalysis").hide();
+		$(".historicalchart").hide();
 		$("#viewdata").attr("title", "on");
 		$("#startsort").attr("title", "on");
 		
@@ -1415,7 +1490,7 @@ console.log('callback from sync to couchdb via node is complete');
 			var resultord = $('#sortable1').sortable('toArray');
 			idclick = $(this).attr("id");
 			idtitle = $(this).attr("title");	
-//console.log(idclick + idtitle);		
+console.log('a link capture' + idclick + idtitle);		
 			// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
 			starttiming.identifyswimmer(idtitle, idclick);
 		

@@ -28,6 +28,7 @@ handle["/ttHTML.js"] = requestHandlers.ttHTML;
 handle["/pouchdb.alpha.js"] = requestHandlers.pouchalpha;
 handle["/IndexedDBShim.min.js"] = requestHandlers.indexedDB;		
 handle["/jquery-1.7.2.min.js"] = requestHandlers.jquery172;	
+handle["/flotr2.min.js"] = requestHandlers.flotr2chart;	
 handle["/pouchdb.js"] = requestHandlers.pouchdb;	
 handle["/save"] = requestHandlers.saveswimtimes;
 handle["/buildswimmers"] = requestHandlers.buildswimmers;

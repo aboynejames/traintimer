@@ -39,8 +39,10 @@ ttHTML.prototype.fromswimmers = function(swname, swid) {
 
 				swimstarters += '<div class="peranalysis">';
 				// call function to prepare all links now to 30 days and chart icon
+				
 	
 				swimstarters += '<a href="" id="peranalysisid" class="peranalysisid'+ swid + '" title="' + swid + '" data-statusanalysis="on">Now</a>';
+				swimstarters += '<a href="" id="perchartid" class="perchartid'+ swid + '" title="' + swid + '" data-statusanalysis="on"> Chart</a>';
 				swimstarters += '</div>';
 	
 				swimstarters += '<div class="peredit">';
@@ -57,6 +59,9 @@ swimstarters += '<a href="" id="pereditiddelete" title="' + swid + '" class="per
 				swimstarters +=	'<div id="historicalanalysis' + swid + '" class="historicalplace" >';
 				swimstarters +=	 '</div>';
 
+				swimstarters +=	'<div id="historicalchart' + swid + '" class="historicalchart" >';
+				swimstarters +=	 '</div>';
+				
 				swimstarters += '<div style="clear:both;"></div></li> ';
 				
 				return swimstarters;
@@ -254,8 +259,9 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 * Display of Analysis post real time
 */	
 ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
-//console.log(swimidin);	
-//console.log(historicaldata);	
+//console.log(swimidin);
+console.log('per sswimmier ananlysis data historical');	
+console.log(historicaldata);	
 	var lastdataid = {};
 	var perswimmerdata = {};
 	perswimmersort = {};
@@ -268,7 +274,7 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 	repcounter = 0;
 	
 	perswimmersort.forEach(function(perswimmersp) {
-//console.log(perswimmersp);		
+console.log(perswimmersp);		
 		repcounter ++;
 		// setout new divs
 		visualnewdiv = '';
@@ -364,4 +370,68 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 	//console.log(lastdataid);
 							
 	});  // closes perswimmer data
+}
+
+
+
+/*
+* Display of chart data
+*/	
+ttHTML.prototype.visualisechart = function(livepouch, swimidin, historicaldata) {
+//console.log(swimidin);
+console.log('per data for CHART');	
+console.log(historicaldata);	
+	
+	// need to form x and y axis data array
+	var d1 = [];
+	var  d22 = [ [0, 3], [4, 8], [8, 5], [9, 44]];
+console.log(d22);
+	var lastdataid = {};
+	var perswimmerdata = {};
+	perswimmersort = {};
+	// give back all data capture locally for now
+	var perswimmerdata = Object.keys(historicaldata);
+	perswimmersort = perswimmerdata.sort(function(a,b){return a-b});
+console.log('the order of time data???order right');
+console.log(perswimmersort);	
+	var repcounter = '';
+	repcounter = 0;
+	
+	perswimmersort.forEach(function(perswimmersp) {
+console.log('chart analysis');
+console.log(perswimmersp);		
+		// extract last time from each split object
+console.log(historicaldata[perswimmersp].splittimes);		
+		lasttimetotal = '';
+		lasttimetotal = historicaldata[perswimmersp].splittimes.pop();
+//console.log(lasttimetotal);		
+		d1[repcounter] = [perswimmersp, (lasttimetotal/1000)];
+		repcounter++;
+	});
+console.log('new d1 array');
+console.log(d1);
+	
+				(function basic(container, d1) {
+
+				console.log(container);
+						// Draw Graph
+						graph = Flotr.draw(container, [d1], {
+								xaxis: {
+										//majorTickFreq: 1
+									mode: 'time',
+									labelsAngle: 45
+								},
+								grid: {
+										//minorVerticalLines: true
+								},
+								yaxis: {
+									min: 0,
+								},
+								title: 'Current Times',
+						});
+						
+console.log(graph);		
+		
+				})(document.getElementById(container), d1);
+	
 }

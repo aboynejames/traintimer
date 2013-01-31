@@ -96,6 +96,28 @@ pouchdbSettings.prototype.putDoc = function(designdoc) {
 
 };
 
+/*
+*  query all swimmer data in pouch
+*/
+pouchdbSettings.prototype.mapQueryswimmers = function(callbackin) {
+//console.log('lane number in' + lanein);		
+		Pouch(this.account['pouchdbname'], function(err, db) {
+//console.log('lane number in pouch' + lanein);				
+				function map(swimquery) {
+					if(swimquery.name) {
+						emit(swimquery.lanetrain, [swimquery.swimmerid, swimquery.name]);
+					}
+				}
+
+				db.query({map: map}, {reduce: false}, function(err, response) {
+//console.log(response);		
+				callbackin(response);
+			});
+		});
+
+};
+
+
 
 pouchdbSettings.prototype.mapQueryname = function(lanein, callbackin) {
 //console.log('lane number in' + lanein);		
@@ -201,7 +223,7 @@ pouchdbSettings.prototype.deletePouch = function() {
 
 };
 
-pouchdbSettings.prototype.returndatacallback = function(swimidin) {
+pouchdbSettings.prototype.returndatacallback = function(swimidin, datatypein) {
 
 historicalswimdata = {};
 	// need to query pouch for the data
@@ -222,7 +244,7 @@ historicalswimdata = {};
 						swimsetlive["swimstroke"] = $("#swimstroke").val();
 						swimsetlive["swimtechnique"] = $("#swimtechnique").val();
 						swimsetlive["swimdistance"] = $("#swimdistance").val();
-//console.log(spmap);							
+console.log(spmap);							
 					// itterate over results and pick out the one required	
 						spmap['rows'].forEach(function(rowswimrs){
 //console.log(rowswimrs['key']);
@@ -246,11 +268,22 @@ historicalswimdata = {};
 								}
 							}	
 						});
+						
+							// what is data for
+							if(datatypein == "splitdatain")
+							{
+							//return historicalswimdata;
+								visthedata = liveHTML.visualiseme(livepouch, swimidin, historicalswimdata);
+								swimidin = '';
+								historicalswimdata = '';
 
-//console.log(historicalswimdata);	
-						//return historicalswimdata;
-							visthedata = liveHTML.visualiseme(livepouch, swimidin, historicalswimdata);
-							swimidin = '';
-							historicalswimdata = '';
-						});	
+							}
+							else
+							{
+								// chart data
+								visthedata = liveHTML.visualisechart(livepouch, swimidin, historicalswimdata);
+								swimidin = '';
+								historicalswimdata = '';
+							}
+					});
 };

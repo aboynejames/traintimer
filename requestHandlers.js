@@ -48,10 +48,21 @@ function dragdrop3(fullpath, response) {
 }
 
 function jquery172(fullpath, response) {
-  console.log("Request handler 'start' was called.");
+  console.log("Request handler 'jquery' was called.");
 	var data  = '';
 	
   fs.readFile('./jquery-1.7.2.min.js', function(err, data) {
+			  response.writeHead(200, {"Content-Type": "text/javascript"});
+	  	  response.end(data);
+	});
+      
+}
+
+function flotr2chart(fullpath, response) {
+  console.log("Request handler 'chart' was called.");
+	var data  = '';
+	
+  fs.readFile('./flotr2.min.js', function(err, data) {
 			  response.writeHead(200, {"Content-Type": "text/javascript"});
 	  	  response.end(data);
 	});
@@ -568,6 +579,7 @@ exports.start = start;
 exports.stopwatch3 = stopwatch3;
 exports.pouchalpha = pouchalpha;		
 exports.jquery172 = jquery172;
+exports.flotr2chart = flotr2chart;
 exports.indexedDB = indexedDB;
 exports.pouchdb = pouchdb;			
 exports.dragdrop3 = dragdrop3;

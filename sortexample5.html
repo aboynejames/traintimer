@@ -17,6 +17,7 @@
 	<!--<script type="text/javascript" src="http://code.jquery.com/ui/1.10.0/jquery-ui.min.js">-->
 	<script type="text/javascript" src="http://www.aboynejames.co.uk/jquery/jquerycookie.js"></script>
 	<script type="text/javascript" src="http://www.aboynejames.co.uk/jquery/punch.js"></script>
+	<script type="text/javascript" src="flotr2.min.js"></script>
 
 	<script type="text/javascript" src="pouchdb.js"></script>
 	<!--<script type="text/javascript" src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script>-->
@@ -49,7 +50,7 @@
 				<a class="control-text" href="#"  id="startsort" title="on" >Edit</a>
 				<a class="control-text" href="#" id="loadlane" title="on" >Swimmers</a><span id="loadlanediv" ></span>
 				<span id="analysistype" class="analysislabel">
-					<form>
+<!--					<form>
 							<fieldset>
 							 <legend></legend>
 							 <p>
@@ -74,7 +75,7 @@
 									<label for = "sizeLarge" id="analysislabel">advanced</label>
 								</p>       
 							</fieldset>     
-						</form>
+						</form>-->
 					</span>
 			</h2> 
 			<div id="controloptions">
@@ -140,11 +141,12 @@
 			</li>
 			<li>
 				<div id="loadclearswimmers" >
-					<label><a href="" id="clearallswimmers" class="control-text" >Clear</a></label>
+					<label>-</label><a href="" id="clearallswimmers" class="control-text" >Clear</a>
 				</div>
 			</li>
 		</ul>
 			<div style="clear:both;"></div>
+		<div id="welcomesummary"></div>
 		<div id="addalpha"></div>
 		<div id="addalphatwo"></div>
 	</div>   <!--closes control panel div-->
@@ -237,7 +239,7 @@
 			<ul>
 				<li></li>
 				<li>
-				<a class="menu-text" title="signin" href="/signin"  id="signinopener" >Sign-in</a>
+				<a class="menu-text" title="signin" href="/signin"  id="signinopener" >Sign-in to store data</a>
 			<div id="ifsignedin"></div>
 	<div id="siginformarea" >
 	<div>Welcome, to Train Timer </div>

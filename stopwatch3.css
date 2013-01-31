@@ -67,6 +67,24 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 #bluebox {background-color: lightblue;}
 #sortable2 li{ cursor: move; margin: 5px; padding: 5px; font-size: 1.2em; width: 250px;  background: none; background-color: white;}
 
+
+
+/*
+*
+* welcome summary
+*
+*/
+
+#welcomesummary {
+	font-size:2em;
+	margin-left: 60px;
+	
+	
+}
+
+
+
+
 /*
 *
 * formatting of settings
@@ -249,8 +267,13 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 	font-size:1.5em;
 	margin-top: 20px;
 	margin-bottom: 10px;
-	border:1px solid blue;
+	border:0px solid blue;
 	clear:both;
+}
+
+#peranalysisid {
+	font-size:1.6em;
+	
 }
 
 .analysislabel label {
@@ -488,16 +511,17 @@ label {
 .peredit {
 	float:left;
 	width: 100%;
-	border:1px solid blue;
+	border:0px solid blue;
 	clear:both;
 
 }
 
 .perdetails {
 	float:right;
-	border:1px solid green;
+	border:0px solid green;
 	margin-bottom: 10px;
 	margin-top: 10px;
+	font-size:1.6em;
 }
 
 #pereditidremove {
@@ -605,6 +629,24 @@ margin-top: 20px;
 	margin-top:4px;	
 	margin-left:20px;	
 }
+
+	
+/*
+* chart
+*/
+.historicalchart {
+	border:2px solid black;
+	margin-top: 10px;
+	height:600px;
+	width:80%;
+}
+
+#perchartid {
+	margin-left:20px;
+	font-size:1.6em;
+	
+}
+
 	
 /*
 * Footer
