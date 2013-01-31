@@ -358,6 +358,7 @@ console.log('title = ' + this.identifer);
 							$("#viewdata").attr("title", "on");
 							$("[class^='peranalysisid']").attr("data-statusanalysis", "on");
 							$("[class^='pereditidremove']").attr("data-statusanalysis", "on");
+							$("[class^='perchartid']").attr("data-statusanalysis", "on");
 							$("#viewdata").attr('class', 'control-text');
 					}
 
