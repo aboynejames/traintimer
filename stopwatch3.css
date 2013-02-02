@@ -1,6 +1,9 @@
 html {overflow:-moz-scrollbars-vertical !important;}
 body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 
+/* === Remove input autofocus webkit === */
+*:focus {outline: none;}
+
 .clear {clear:both;}
 
 #container {position:relative; z-index:100; width:265px; padding:20px; margin:20px auto 0; border:8px solid rgba(0, 0, 0, 0.5); border-radius:8px; -moz-border-radius:8px; -webkit-border-radius:8px; background:#EEE;}
@@ -34,9 +37,9 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 	
 /*#start li a {display:block; width:170px; text-align:center; line-height:60px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none;}*/	
 	
- #start {background:#090; display:block; width:170px; text-align:center; line-height:60px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none;}
+ #start {background:#090; display:block; width:170px;  text-align:center; line-height:80px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none;}
  #stop {background:#F7F;}
- #split {background:#069;}
+ #split {background:#069;  width:120px;  height:70px;}
  #reset {background:#C00; display:block; width:85px; text-align:center; line-height:60px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none;}
  #save {background:#C50; display:block; width:85px; text-align:center; line-height:60px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none;}
 			 
@@ -59,15 +62,19 @@ body {margin:0; padding:0; font:12px/18px Helvetica, Arial, sans-serif;}
 /*
 * Drag and Drop area
 */
-.demo {clear: both; border:0px solid black; }
-#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; border:0px solid black; }
-#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+.demo {clear: both;}
+#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; border:2px solid black; }
+#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 0.5em; font-size: 1.4em; height: 18px; }
 #sortable li span { position: absolute; margin-left: -1.3em; }
 	
 #bluebox {background-color: lightblue;}
 #sortable2 li{ cursor: move; margin: 5px; padding: 5px; font-size: 1.2em; width: 250px;  background: none; background-color: white;}
 
-
+#sortable1 {
+	border: 0px solid purple;
+	margin-left:10px;
+	
+}
 
 /*
 *
@@ -475,10 +482,10 @@ label {
 }
 
 /* Per swimmer boxes */
-#percontrols { float:left; width: 200px; height:60px; margin:0 0 20px; padding:0; list-style:none;}
+#percontrols { float:left; width: 200px; height:60px; margin:0 0 22px; padding:0; list-style:none;}
 #percontrols li {display:inline; float:left; margin:10px;}
 #percontrols li:last-child, #percontrols li.last {margin-right:0;}
-#percontrols li a {display:block; width:85px; text-align:center; line-height:60px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none;}
+#percontrols li a {display:block; width:120px; text-align:center; line-height:60px; color:#FFF; text-shadow:#000 0 -1px 0; text-decoration:none; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; -moz-box-shadow:rgba(0, 0, 0, 0.5) 1px 1px 0; -webkit-box-shadow:rgba(0, 0, 0, 0.5) 0 1px 3px; outline:none; }
 	
 			 #perstart {background:#090;}
 			 #perstop {background:#F7F;}
@@ -646,6 +653,174 @@ margin-top: 20px;
 	font-size:1.6em;
 	
 }
+
+/*
+*  signup form
+*/
+
+#contactspacereply {
+	font-size:1.6em;
+	margin: 20px;
+	line-height:140%;
+	width:90%;
+
+}
+
+/* === Form Typography === */
+
+.contact_form h2, .contact_form label {font-family:Trebuchet MS', Trebuchet, 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif';}
+.form_hint, .required_notification {font-size: 11px;}
+
+/* === List Styles === */
+.contact_form ul {
+    width:750px;
+    list-style-type:none;
+	list-style-position:outside;
+	margin:0px;
+	padding:0px;
+}
+.contact_form li{
+	padding:12px; 
+	border-bottom:1px solid #eee;
+	position:relative;
+} 
+.contact_form li:first-child, .contact_form li:last-child {
+	border-bottom:1px solid #777;
+}
+
+/* === Form Header === */
+.contact_form h2 {
+	margin:0;
+	display: inline;
+}
+.required_notification {
+	color:#d45252; 
+	margin:5px 0 0 0; 
+	display:inline;
+	float:right;
+}
+
+/* === Form Elements === */
+.contact_form label {
+	width:150px;
+	margin-top: 3px;
+	display:inline-block;
+	float:left;
+	padding:3px;
+}
+.contact_form input {
+	height:20px; 
+	width:260px; 
+	padding:5px 8px;
+}
+.contact_form textarea {padding:8px; width:300px;}
+.contact_form button {margin-left:156px;}
+
+	/* form element visual styles */
+	.contact_form input, .contact_form textarea { 
+		border:1px solid #aaa;
+		box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
+		border-radius:2px;
+		padding-right:30px;
+		-moz-transition: padding .25s; 
+		-webkit-transition: padding .25s; 
+		-o-transition: padding .25s;
+		transition: padding .25s;
+	}
+	.contact_form input:focus, .contact_form textarea:focus {
+		background: #fff; 
+		border:1px solid #555; 
+		box-shadow: 0 0 3px #aaa; 
+		padding-right:70px;
+	}
+
+/* === HTML5 validation styles === */	
+.contact_form input:required, .contact_form textarea:required {
+	background: #fff url(images/red_asterisk.png) no-repeat 98% center;
+}
+.contact_form input:required:valid, .contact_form textarea:required:valid {
+	background: #fff url(images/valid.png) no-repeat 98% center;
+	box-shadow: 0 0 5px #5cd053;
+	border-color: #28921f;
+}
+.contact_form input:focus:invalid, .contact_form textarea:focus:invalid {
+	background: #fff url(images/invalid.png) no-repeat 98% center;
+	box-shadow: 0 0 5px #d45252;
+	border-color: #b03535
+}
+
+/* === Form hints === */
+.form_hint {
+	background: #d45252;
+	border-radius: 3px 3px 3px 3px;
+	color: white;
+	margin-left:8px;
+	padding: 1px 6px;
+	z-index: 999; /* hints stay above all other elements */
+	position: absolute; /* allows proper formatting if hint is two lines */
+	display: none;
+}
+.form_hint::before {
+	content: "\25C0";
+	color:#d45252;
+	position: absolute;
+	top:1px;
+	left:-6px;
+}
+.contact_form input:focus + .form_hint {display: inline;}
+.contact_form input:required:valid + .form_hint {background: #28921f;}
+.contact_form input:required:valid + .form_hint::before {color:#28921f;}
+	
+/* === Button Style === */
+button.submit {
+	background-color: #68b12f;
+	background: -webkit-gradient(linear, left top, left bottom, from(#68b12f), to(#50911e));
+	background: -webkit-linear-gradient(top, #68b12f, #50911e);
+	background: -moz-linear-gradient(top, #68b12f, #50911e);
+	background: -ms-linear-gradient(top, #68b12f, #50911e);
+	background: -o-linear-gradient(top, #68b12f, #50911e);
+	background: linear-gradient(top, #68b12f, #50911e);
+	border: 1px solid #509111;
+	border-bottom: 1px solid #5b992b;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	-o-border-radius: 3px;
+	box-shadow: inset 0 1px 0 0 #9fd574;
+	-webkit-box-shadow: 0 1px 0 0 #9fd574 inset ;
+	-moz-box-shadow: 0 1px 0 0 #9fd574 inset;
+	-ms-box-shadow: 0 1px 0 0 #9fd574 inset;
+	-o-box-shadow: 0 1px 0 0 #9fd574 inset;
+	color: white;
+	font-weight: bold;
+	padding: 6px 20px;
+	text-align: center;
+	text-shadow: 0 -1px 0 #396715;
+}
+button.submit:hover {
+	opacity:.85;
+	cursor: pointer; 
+}
+button.submit:active {
+	border: 1px solid #20911e;
+	box-shadow: 0 0 10px 5px #356b0b inset; 
+	-webkit-box-shadow:0 0 10px 5px #356b0b inset ;
+	-moz-box-shadow: 0 0 10px 5px #356b0b inset;
+	-ms-box-shadow: 0 0 10px 5px #356b0b inset;
+	-o-box-shadow: 0 0 10px 5px #356b0b inset;
+	
+}
+
+#formfeedback {
+	font-size: 1.4em;
+	color:red;
+	margin-left:120px;
+	
+}
+
+
+
 
 	
 /*

@@ -6,6 +6,7 @@ var sio = require('socket.io');
 //var Pouch = require('pouchdb');
 var EventEmitter = require('events').EventEmitter;
 var ttSettings = require("./ttSettings");
+var nodemailer = require("nodemailer");
 
 
 function start(fullpath, response) {
@@ -98,6 +99,68 @@ function indexedDB(fullpath, response) {
 	});
       
 }
+
+
+function pouchalpha(fullpath, response) {
+  console.log("Request handler 'pouchdb' was called.");	
+
+  fs.readFile('./pouchdb.alpha.js', function(err, data) {
+			  response.writeHead(200, {"Content-Type": "text/javascript"});
+	  	  response.end(data);
+	  });
+      
+}
+
+function ttHTML(fullpath, response) {
+  console.log("Request handler 'pouchdb' was called.");	
+
+  fs.readFile('./ttHTML.js', function(err, data) {
+			  response.writeHead(200, {"Content-Type": "text/javascript"});
+	  	  response.end(data);
+	  });
+      
+}
+
+function stopwatchcss(fullpath, response) {
+  console.log("Request handler 'start' was called.");
+
+	var data  = '';
+	
+
+  fs.readFile('./stopwatch3.css', function(err, data) {
+			  response.writeHead(200, {"Content-Type": "text/css"});
+	  	  response.end(data);
+	  });
+      
+}
+
+function imagesload(fullpath, response) {
+console.log("Request handler 'images load' was called.");	
+console.log(fullpath);
+	
+	if(fullpath[2] == 'red_asterisk.png')
+	{
+		fs.readFile('./css/images/red_asterisk.png', function(err, data) {
+		response.writeHead(200, {"Content-Type": "image/png"});
+		response.end(data);
+		});
+	}
+	else if(fullpath[2] == 'invalid.png')
+	{
+	  fs.readFile('./css/images/invalid.png', function(err, data) {
+		response.writeHead(200, {"Content-Type": "image/png"});
+		response.end(data);
+		});
+	}
+	else(fullpath[2] == 'valid.png')
+	{
+	  fs.readFile('./css/images/valid.png', function(err, data) {
+		response.writeHead(200, {"Content-Type": "image/png"});
+		response.end(data);
+		});
+	}
+}
+
 
 /**
 * check signin details
@@ -284,38 +347,6 @@ console.log("build the swimmer for this lane");
 }
 
 
-function pouchalpha(fullpath, response) {
-  console.log("Request handler 'pouchdb' was called.");	
-
-  fs.readFile('./pouchdb.alpha.js', function(err, data) {
-			  response.writeHead(200, {"Content-Type": "text/javascript"});
-	  	  response.end(data);
-	  });
-      
-}
-
-function ttHTML(fullpath, response) {
-  console.log("Request handler 'pouchdb' was called.");	
-
-  fs.readFile('./ttHTML.js', function(err, data) {
-			  response.writeHead(200, {"Content-Type": "text/javascript"});
-	  	  response.end(data);
-	  });
-      
-}
-
-function stopwatchcss(fullpath, response) {
-  console.log("Request handler 'start' was called.");
-
-	var data  = '';
-	
-
-  fs.readFile('./stopwatch3.css', function(err, data) {
-			  response.writeHead(200, {"Content-Type": "text/css"});
-	  	  response.end(data);
-	  });
-      
-}
 
 /**
 * view the data capture in real time
@@ -574,6 +605,116 @@ console.log(responseuid);
 			
 }  // closes pouchsync
 
+/**
+* First time storage signup, set unique couchdb and link to login details.
+*
+*/
+function startbackup(fullpath, response, request, emitter, couchin, couchlive) {
+console.log("pouchdb couchdb synup started");
+	if(request.method == 'POST'){
+		
+		var datain = '';
+		var cleandata = '';
+			request.on('data', function(chunk) {
+			datain += chunk;
+			
+		});
+		
+		request.on('end', function() {
+
+			
+				cleanstartdata =  JSON.parse(datain);
+console.log(cleandata);					
+console.log('reply');									
+			
+				// get UUID for new save and perform save to couchdb
+				function startUIDcall(callback) {  
+					couchlive.getUIDfromcouch(callback);
+					
+				}  
+			
+			//syncUIDcall();
+				startUIDcall(function(responseuid) {  
+console.log('stared callback splits');
+console.log(responseuid);
+					//cleandata = {"split":"1334.34"};
+					couchlive.syncsave(cleanstartdata, responseuid);
+					startreply = {"startbackupreply":"An email will be sent to confirm the activation of the backup service along with a password within 24 hours. Thank you."};
+					bakupstartjson = JSON.stringify(startreply);
+					response.writeHead(200, {"Content-Type": "json"});
+					response.end(bakupstartjson);
+					
+					// generate a password and hash it
+					hashCode = function(str){
+												var hash = 0;
+												if (str.length == 0) return hash;
+												for (i = 0; i < str.length; i++) {
+														char = str.charCodeAt(i);
+														hash = ((hash<<5)-hash)+char;
+														hash = hash & hash; // Convert to 32bit integer
+												}
+												return hash;
+										}
+						backuppassword = hashCode(cleanstartdata['email']);
+console.log('backup passowrd' + backuppassword);
+						// next step to save traintimer entry into couchdb
+							// get UUID for new save and perform save to couchdb
+				function trainerUIDcall(callback) {  
+					couchlive.getUIDfromcouch(callback);
+					
+				}  
+			
+			//syncUIDcall();
+				trainerUIDcall(function(responseuid) {  
+				newcoachstart = {};
+				newcoachstart['trainername'] = cleanstartdata['email'];
+				newcoachstart['trainerpassword'] = backuppassword;
+				newcoachtimerdata =  JSON.stringify(newcoachstart );
+				couchlive.syncsave(newcoachstart, responseuid);
+					
+				});
+				
+				// next send an email message with password
+				var smtpTransport = nodemailer.createTransport("SMTP",{
+   service: "Gmail",
+   auth: {
+       user: "aboynejames@gmail.com",
+       pass: "ivytree222"
+   }
+});
+
+emailnewcoach = "james@aboynejames.co.uk";
+newcoachpassword = '111222111222';
+toaddress = "New coach <james@aboynejames.co.uk>";
+
+backupthankyou = "Thank you for signing up to the mepath backup service for the swim train timer.  Your username is " + emailnewcoach + ' Password ' + newcoachpassword;
+
+smtpTransport.sendMail({
+   from: "My Name <swimtraintimer@mepath.co.uk>", // sender address
+   to: toaddress, // comma separated list of receivers
+   subject: "mepath  backup service started", // Subject line
+   text: backupthankyou // plaintext body
+}, function(error, response){
+   if(error)
+	{
+       console.log(error);
+   }
+	 else
+	 {
+       console.log("Message sent: " + response.message);
+   }
+});
+										
+				});
+			
+
+console.log('after reply');					
+				});
+		
+	}
+
+}		
+
 
 exports.start = start;
 exports.stopwatch3 = stopwatch3;
@@ -581,7 +722,8 @@ exports.pouchalpha = pouchalpha;
 exports.jquery172 = jquery172;
 exports.flotr2chart = flotr2chart;
 exports.indexedDB = indexedDB;
-exports.pouchdb = pouchdb;			
+exports.pouchdb = pouchdb;		
+exports.imagesload = imagesload;		
 exports.dragdrop3 = dragdrop3;
 exports.localcache = localcache;
 exports.stopwatchcss = stopwatchcss;
@@ -592,3 +734,4 @@ exports.signincheck =  signincheck;
 exports.signoutcheck =  signoutcheck;
 exports.ttHTML = ttHTML;
 exports.pouchsync = pouchsync;	
+exports.startbackup = startbackup;	

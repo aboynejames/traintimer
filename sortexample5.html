@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" manifest="traintimer.appcache" > <!--manifest="traintimer.appcache"--> 
+<html lang="en"  > <!--manifest="traintimer.appcache"--> 
 <head>
 <meta charset="utf-8">
 <title>Train Timer - an open sport project</title>
@@ -150,8 +150,8 @@
 		<div id="addalpha"></div>
 		<div id="addalphatwo"></div>
 	</div>   <!--closes control panel div-->
-			<ul id="sortable1" class='droptrue'>
-			</ul>
+			<div id="sortable1" class='droptrue'>
+			</div>
 
 <br />
 </div> <!-- closes demo class -->
@@ -239,7 +239,45 @@
 			<ul>
 				<li></li>
 				<li>
-				<a class="menu-text" title="signin" href="/signin"  id="signinopener" >Sign-in to store data</a>
+					<a class="menu-text" href=""  id="signupstart" title="on" >Sign-up to data storage</a>
+					<div id="signupform"></div>
+	<div id="signupspace">
+	<form class="contact_form" action="#" method="post" name="contact_form">
+    <ul>
+        <li>
+             <h2>Sign-up to data storage</h2>
+             <span class="required_notification">* Denotes Required Field</span>
+        </li>
+        <li>
+            <label for="name">Name:</label>
+            <input type="text"  placeholder="name" required id="namein"/>
+        </li>
+        <li>
+            <label for="email">Email:</label>
+            <input type="email" name="email" placeholder="mail@gmail.com" required id="emailin" />
+            <span class="form_hint">Proper format "name@something.com"</span>
+        </li>
+        <li>
+            <label for="website">Website:</label>
+            <input type="url" name="website" placeholder="http://www.mepath.com" id="websitein" />
+            <span class="form_hint">Proper format "http://www.someaddress.com"</span>
+        </li>
+        <li>
+            <label for="message">Swim Club:</label>
+            <textarea name="message" cols="40" rows="6" required id="messagein" ></textarea>
+        </li>
+        <li>
+        	<button id="contactin" class="submit" type="submit">Submit Form</button>
+        </li>
+    </ul>
+</form>
+	<div id="formfeedback"></div>
+
+	</div>
+		<div id="signupspacereply"></div>
+				</li>
+				<li>
+					<a class="menu-text" title="signin" href="/signin"  id="signinopener" >Sign-in to store data</a>
 			<div id="ifsignedin"></div>
 	<div id="siginformarea" >
 	<div>Welcome, to Train Timer </div>

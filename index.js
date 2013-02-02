@@ -30,10 +30,12 @@ handle["/IndexedDBShim.min.js"] = requestHandlers.indexedDB;
 handle["/jquery-1.7.2.min.js"] = requestHandlers.jquery172;	
 handle["/flotr2.min.js"] = requestHandlers.flotr2chart;	
 handle["/pouchdb.js"] = requestHandlers.pouchdb;	
+handle["/images"] = requestHandlers.imagesload;	
 handle["/save"] = requestHandlers.saveswimtimes;
 handle["/buildswimmers"] = requestHandlers.buildswimmers;
 handle["/viewswimtimes"] = requestHandlers.viewswimtimes;	
 handle["/sync"] = requestHandlers.pouchsync;	
+handle["/signupstart"] = requestHandlers.startbackup;		
 
 //console.log(util.inspect(router));	
 

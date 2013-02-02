@@ -115,6 +115,7 @@ console.log('waiting for couch to responed . . . .');
 			responsec.on('end', function() {
 console.log('any response data from couch??');	
 console.log(rec_data);
+
 			});
 		});
 					
