@@ -15,6 +15,9 @@ var ttSettings = function() {
 	this.account['couchuser'] = '';
 	this.account['couchpwd'] = '';
 	this.account['cookieset'] = '';
+		
+	this.account['smtpemail'] = '';  // smtp email account
+	this.account['smtppassword'] = '';	
 };
 
 

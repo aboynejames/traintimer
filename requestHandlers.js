@@ -136,7 +136,7 @@ function stopwatchcss(fullpath, response) {
 
 function imagesload(fullpath, response) {
 console.log("Request handler 'images load' was called.");	
-console.log(fullpath);
+//console.log(fullpath);
 	
 	if(fullpath[2] == 'red_asterisk.png')
 	{
@@ -172,7 +172,8 @@ function signincheck (fullpath, response, request, emitter, couchin, couchlive) 
 	checkusercouch (response, fullpath); 
 
 	function checkusercouch ( response, fullpath) {
-console.log('train details in from client ui');
+//console.log('train details in from client ui');
+//console.log(fullpath[4]);		
 		checktpassdata = '';
 		var  trainertocheck = '';
 		
@@ -200,19 +201,41 @@ console.log('train details in from client ui');
 					checktpassdata = tpassdata;	
 			
 				});	
-	console.log('train user details');
-	console.log(checktpassdata);
+//console.log('train user details');
+//console.log(checktpassdata);
+				
+				// need to form back hash using salt and userdetails
+									hashCode = function(str){
+												var hash = 0;
+												if (str.length == 0) return hash;
+												for (i = 0; i < str.length; i++) {
+														char = str.charCodeAt(i);
+														hash = ((hash<<5)-hash)+char;
+														hash = hash & hash; // Convert to 32bit integer
+												}
+												return hash;
+										}
+										runhashin = fullpath[4] + checktpassdata['id'];
+//console.log(runhashin);										
+						inbackuppassword = hashCode(runhashin);
+//console.log('IN backup passowrd' + inbackuppassword);
+				
+				
 		
 			checkvalue =checktpassdata.hasOwnProperty("value");
-	console.log('check value of true or false' + checkvalue);						
-				if(checkvalue == 1) {
-					stringone = checktpassdata['value'].toString();
-					stringtwo = fullpath[4].toString();
+//console.log('check value of true or false' + checktpassdata['value']);						
+				if(checktpassdata['value'] == inbackuppassword) {
+					//stringone = checktpassdata['value'].toString();
+					//stringtwo = fullpath[4].toString();
+					stringone = checktpassdata['value'];
+					stringtwo = inbackuppassword;
+
 					correctpwd = '';
 						if(stringone === stringtwo) {
 							correctpwd = {"signin":"passed"};
-					// save sessioncookie id for testing/validation TODO
-					
+					// set the couchdb for this account
+							couchlive.couchdbname = 'swimclub' + stringone;
+//console.log(couchin.account['couchdbname']);					
 						}
 						else
 						{
@@ -246,11 +269,12 @@ console.log('train details in from client ui');
 * Signout
 *
 */
-function signoutcheck (fullpath, response, request, emitter, couchin) {
+function signoutcheck (fullpath, response, request, emitter, couchin, couchlive) {
 
 	if((couchin.account['cookieset'] == fullpath[2]) && (fullpath[2] != null)) {
 		
 		couchin.account['cookieset'] = '';
+		couchlive.couchdbname = couchin.account['couchdbname'];;
 		response.end();
 	}
 
@@ -262,7 +286,7 @@ function signoutcheck (fullpath, response, request, emitter, couchin) {
 *
 */
 function buildswimmers(firstpath, response, request, emitter, couchin) {
-console.log("build the swimmer for this lane");
+//console.log("build the swimmer for this lane");
 //console.log('at hander filelllllllleelle' + util.inspect(couchin));
 	// only allow lane load if signedin ie cookie set
 	if((couchin.account['cookieset'] == firstpath[4]) && (firstpath[4] != null))  {
@@ -402,7 +426,7 @@ console.log("Request handler 'saveswimtimes' was called" );
 						cleandatasw = cleandata;
 						// we can now get this data out to display live splits/times anywhere on the web
 						emitter.emit('splitscall', cleandatasw);	  	
-console.log('emitter has been called');							
+//console.log('emitter has been called');							
 /*
 						var cleandatakey= Object.keys(cleandatasw);
 
@@ -504,20 +528,20 @@ console.log('start of couch save');
 							});
 								
 							responsec.on('end', function() {
-console.log('any response data from couch??');	
+//console.log('any response data from couch??');	
 //console.log(rec_data);
 							});
 						
 						});
 					
 						reqc.on('error', function(e) {
-		console.log(e);
-		console.log("Got error: " + e.message);
+	//	console.log(e);
+	console.log("Got error: " + e.message);
 						});
 
 						// write the data
 						if (opts.method == 'PUT') {
-	console.log('post has been sent');	
+//console.log('post has been sent');	
 							reqc.write(data);
 							
 						}
@@ -559,7 +583,7 @@ console.log("pouchdb couchdb synup started");
 		// next make a PUT call to couchdb API
 		
 			if(cleandata['name'] ) {
-console.log('this will be sync new master swimmer');		
+//console.log('this will be sync new master swimmer');		
 
 				function syncUIDcall(callback) {  
 					couchlive.getUIDfromcouch(callback);
@@ -568,8 +592,8 @@ console.log('this will be sync new master swimmer');
 			
 			//syncUIDcall();
 				syncUIDcall(function(responseuid) {  
-console.log('stared callback name');
-console.log(responseuid);
+//console.log('stared callback name');
+//console.log(responseuid);
 					//cleandata = {"name":"oner lane one"};
 					couchlive.syncsave(cleandata, responseuid);
 					response.end();
@@ -586,8 +610,8 @@ console.log(responseuid);
 			
 			//syncUIDcall();
 				syncUIDcall(function(responseuid) {  
-console.log('stared callback splits');
-console.log(responseuid);
+//console.log('stared callback splits');
+//console.log(responseuid);
 					//cleandata = {"split":"1334.34"};
 					couchlive.syncsave(cleandata, responseuid);
 					response.end();
@@ -624,8 +648,8 @@ console.log("pouchdb couchdb synup started");
 
 			
 				cleanstartdata =  JSON.parse(datain);
-console.log(cleandata);					
-console.log('reply');									
+//console.log(cleandata);					
+//console.log('reply');									
 			
 				// get UUID for new save and perform save to couchdb
 				function startUIDcall(callback) {  
@@ -635,8 +659,8 @@ console.log('reply');
 			
 			//syncUIDcall();
 				startUIDcall(function(responseuid) {  
-console.log('stared callback splits');
-console.log(responseuid);
+//console.log('stared callback splits');
+//console.log(responseuid);
 					//cleandata = {"split":"1334.34"};
 					couchlive.syncsave(cleanstartdata, responseuid);
 					startreply = {"startbackupreply":"An email will be sent to confirm the activation of the backup service along with a password within 24 hours. Thank you."};
@@ -644,19 +668,7 @@ console.log(responseuid);
 					response.writeHead(200, {"Content-Type": "json"});
 					response.end(bakupstartjson);
 					
-					// generate a password and hash it
-					hashCode = function(str){
-												var hash = 0;
-												if (str.length == 0) return hash;
-												for (i = 0; i < str.length; i++) {
-														char = str.charCodeAt(i);
-														hash = ((hash<<5)-hash)+char;
-														hash = hash & hash; // Convert to 32bit integer
-												}
-												return hash;
-										}
-						backuppassword = hashCode(cleanstartdata['email']);
-console.log('backup passowrd' + backuppassword);
+
 						// next step to save traintimer entry into couchdb
 							// get UUID for new save and perform save to couchdb
 				function trainerUIDcall(callback) {  
@@ -667,32 +679,57 @@ console.log('backup passowrd' + backuppassword);
 			//syncUIDcall();
 				trainerUIDcall(function(responseuid) {  
 				newcoachstart = {};
+
+					
+										// generate a password and hash it
+					hashCode = function(str){
+												var hash = 0;
+												if (str.length == 0) return hash;
+												for (i = 0; i < str.length; i++) {
+														char = str.charCodeAt(i);
+														hash = ((hash<<5)-hash)+char;
+														hash = hash & hash; // Convert to 32bit integer
+												}
+												return hash;
+										}
+										sethaston = cleanstartdata['inpassword'] + responseuid;
+//console.log(sethaston);										
+						backuppassword = hashCode(sethaston);
+//console.log('backup passowrd' + backuppassword);
+			// save signup details to couchdb							
 				newcoachstart['trainername'] = cleanstartdata['email'];
 				newcoachstart['trainerpassword'] = backuppassword;
 				newcoachtimerdata =  JSON.stringify(newcoachstart );
 				couchlive.syncsave(newcoachstart, responseuid);
+										
+														// setup a new couchdb for this trainer
+				couchlive.createnewcouchdb('swimclub' + backuppassword);
 					
 				});
 				
+
+				
+				
 				// next send an email message with password
+console.log('what settings coming in' + couchin.account['smtpemail'] + couchin.account['smtppassword'] );
 				var smtpTransport = nodemailer.createTransport("SMTP",{
    service: "Gmail",
    auth: {
-       user: "aboynejames@gmail.com",
-       pass: "ivytree222"
+       user: couchin.account['smtpemail'],
+       pass: couchin.account['smtppassword'] 
    }
 });
 
-emailnewcoach = "james@aboynejames.co.uk";
-newcoachpassword = '111222111222';
-toaddress = "New coach <james@aboynejames.co.uk>";
+emailnewcoach = cleanstartdata['email'];
+newcoachpassword = cleanstartdata['email'];
+toaddress = 'New coach <' + emailnewcoach + '>';
 
-backupthankyou = "Thank you for signing up to the mepath backup service for the swim train timer.  Your username is " + emailnewcoach + ' Password ' + newcoachpassword;
+backupthankyou = "Thank you for signing up to the mepath backup service for the swim train timer.  Your username is " + emailnewcoach + ' Password <private>';
 
 smtpTransport.sendMail({
-   from: "My Name <swimtraintimer@mepath.co.uk>", // sender address
+   from: "Swim Train Timer<swimtraintimer@mepath.co.uk>", // sender address
    to: toaddress, // comma separated list of receivers
-   subject: "mepath  backup service started", // Subject line
+   subject: "mepath backup service started", // Subject line
    text: backupthankyou // plaintext body
 }, function(error, response){
    if(error)
@@ -708,7 +745,7 @@ smtpTransport.sendMail({
 				});
 			
 
-console.log('after reply');					
+//console.log('after reply');					
 				});
 		
 	}

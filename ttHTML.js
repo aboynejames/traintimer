@@ -43,6 +43,8 @@ ttHTML.prototype.fromswimmers = function(swname, swid) {
 	
 				swimstarters += '<a href="" id="peranalysisid" class="peranalysisid'+ swid + '" title="' + swid + '" data-statusanalysis="on">Now</a>';
 				swimstarters += '<a href="" id="perchartid" class="perchartid'+ swid + '" title="' + swid + '" data-statusanalysis="on"> Chart</a>';
+				swimstarters += '<a href="" id="persummaryid" class="persummaryid'+ swid + '" title="' + swid + '" data-statusanalysis="on"> Summary</a>';
+				swimstarters += '<a href="" id="perbioid" class="perbioid'+ swid + '" title="' + swid + '" data-statusanalysis="on"> Bio-stats</a>';
 				swimstarters += '</div>';
 	
 				swimstarters += '<div class="peredit">';
@@ -50,7 +52,7 @@ ttHTML.prototype.fromswimmers = function(swname, swid) {
 				
 				swimstarters +=	'<div class="perdetails" >';
 				swimstarters += '<a href="" id="pereditidremove" title="' + swid + '" class="pereditidremove'+ swid + '">Remove</a>';
-swimstarters += '<a href="" id="pereditiddelete" title="' + swid + '" class="pereditiddelete'+ swid + '">Delete</a>';
+//swimstarters += '<a href="" id="pereditiddelete" title="' + swid + '" class="pereditiddelete'+ swid + '">Delete</a>';
 				
 				swimstarters +=	'</div>';
 				
@@ -61,7 +63,10 @@ swimstarters += '<a href="" id="pereditiddelete" title="' + swid + '" class="per
 
 				swimstarters +=	'<div id="historicalchart' + swid + '" class="historicalchart" >';
 				swimstarters +=	 '</div>';
-				
+				swimstarters +=	'<div id="historicalsummary' + swid + '" class="historicalsummary" >';
+				swimstarters +=	 '</div>';
+				swimstarters +=	'<div id="historicalbio' + swid + '" class="historicalbio" >';				
+				swimstarters +=	 '</div>';
 				swimstarters += '<div style="clear:both;"></div></li> ';
 				
 				return swimstarters;
@@ -260,8 +265,8 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 */	
 ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 //console.log(swimidin);
-console.log('per sswimmier ananlysis data historical');	
-console.log(historicaldata);	
+//console.log('per sswimmier ananlysis data historical');	
+//console.log(historicaldata);	
 	var lastdataid = {};
 	var perswimmerdata = {};
 	perswimmersort = {};
@@ -274,7 +279,7 @@ console.log(historicaldata);
 	repcounter = 0;
 	
 	perswimmersort.forEach(function(perswimmersp) {
-console.log(perswimmersp);		
+//console.log(perswimmersp);		
 		repcounter ++;
 		// setout new divs
 		visualnewdiv = '';
@@ -379,37 +384,37 @@ console.log(perswimmersp);
 */	
 ttHTML.prototype.visualisechart = function(livepouch, swimidin, historicaldata) {
 //console.log(swimidin);
-console.log('per data for CHART');	
-console.log(historicaldata);	
+//console.log('per data for CHART');	
+//console.log(historicaldata);	
 	
 	// need to form x and y axis data array
 	var d1 = [];
 	var  d22 = [ [0, 3], [4, 8], [8, 5], [9, 44]];
-console.log(d22);
+//console.log(d22);
 	var lastdataid = {};
 	var perswimmerdata = {};
 	perswimmersort = {};
 	// give back all data capture locally for now
 	var perswimmerdata = Object.keys(historicaldata);
 	perswimmersort = perswimmerdata.sort(function(a,b){return a-b});
-console.log('the order of time data???order right');
-console.log(perswimmersort);	
+//console.log('the order of time data???order right');
+//console.log(perswimmersort);	
 	var repcounter = '';
 	repcounter = 0;
 	
 	perswimmersort.forEach(function(perswimmersp) {
-console.log('chart analysis');
-console.log(perswimmersp);		
+//console.log('chart analysis');
+//console.log(perswimmersp);		
 		// extract last time from each split object
-console.log(historicaldata[perswimmersp].splittimes);		
+//console.log(historicaldata[perswimmersp].splittimes);		
 		lasttimetotal = '';
 		lasttimetotal = historicaldata[perswimmersp].splittimes.pop();
 //console.log(lasttimetotal);		
 		d1[repcounter] = [perswimmersp, (lasttimetotal/1000)];
 		repcounter++;
 	});
-console.log('new d1 array');
-console.log(d1);
+//console.log('new d1 array');
+//console.log(d1);
 	
 				(function basic(container, d1) {
 
@@ -430,8 +435,76 @@ console.log(d1);
 								title: 'Current Times',
 						});
 						
-console.log(graph);		
+//console.log(graph);		
 		
 				})(document.getElementById(container), d1);
 	
 }
+
+/*
+* Display summary stats
+*/	
+ttHTML.prototype.summaryme = function(livepouch, swimidin, historicaldata) {
+//console.log(swimidin);
+//console.log('per data for SUMMARY');	
+//console.log(historicaldata);	
+	
+	totaltimearray = [];
+
+	var repcounter = '';
+	repcounter = 0;
+	// get data info array and sort from there
+		var perswimmerdata = Object.keys(historicaldata);
+		perswimmerdata.forEach(function(perswimmertime) {
+//console.log(repcounter);			
+//console.log(historicaldata[perswimmertime].splittimes.pop());
+				lasttimein = '';
+			lasttimein = historicaldata[perswimmertime].splittimes.pop();	
+//console.log(lasttimein);			
+			totaltimearray.push(lasttimein);
+			repcounter++;
+		});
+
+//console.log('list of last time array');	
+//console.log(totaltimearray);
+		
+	fasttraining = '';
+	slowtraining = '';
+	avgtraining = '';
+	notimesin = totaltimearray.length;
+	sumoftimes = eval(totaltimearray.join('+'));
+		
+	// find fast time
+	fastlist = totaltimearray.sort(function(a,b){return b-a});
+	fasttraining = fastlist.pop();
+	
+	//find slowest time
+	slowlist = totaltimearray.sort(function(a,b){return a-b});;
+	slowtraining = slowlist.pop();
+	
+	// work out average
+//console.log('lenghtarray==' + notimesin + 'sumvalueis==' + sumoftimes);
+	avgtraining = sumoftimes/notimesin;
+	
+	summaryhtml = '';
+	
+	summaryhtml += '<div class="trainingstats">Training';
+	summaryhtml += '	<div class="beststat">Best ' + starttiming.activetimeclock.startclock.format(fasttraining).slice(4,11) +'</div>';
+	summaryhtml += '	<div class="slowstat">Slowest ' + starttiming.activetimeclock.startclock.format(slowtraining).slice(4,11) +'</div>';
+	summaryhtml += '	<div class="avgstat">Average ' + starttiming.activetimeclock.startclock.format(avgtraining).slice(4,11) +'</div>';
+	summaryhtml += '	</div>';
+	summaryhtml += '	<div class="seasonbeststats">Current Season';
+	summaryhtml += '	<div class="beststat">Best</div>';
+	summaryhtml += '	<div class="slowstat">Slowest</div>';
+	summaryhtml += '	<div class="avgstat">Average</div>';
+	summaryhtml += '	</div>';
+	summaryhtml += '	<div class="personalbeststats">Personal Bests';
+	summaryhtml += '	<div class="beststat">Best</div>';
+	summaryhtml += '	<div class="slowstat">Slowest</div>';
+	summaryhtml += '	<div class="avgstat">Average</div>';
+	summaryhtml += '	</div>';
+
+	$("#historicalsummary" + swimidin).html(summaryhtml);
+	
+	
+}  //closes function	

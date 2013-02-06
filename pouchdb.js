@@ -224,7 +224,7 @@ pouchdbSettings.prototype.deletePouch = function() {
 };
 
 pouchdbSettings.prototype.returndatacallback = function(swimidin, datatypein) {
-
+//console.log(datatypein + 'what id going to pouchclass');
 historicalswimdata = {};
 	// need to query pouch for the data
 	// test splits data recall						
@@ -244,7 +244,7 @@ historicalswimdata = {};
 						swimsetlive["swimstroke"] = $("#swimstroke").val();
 						swimsetlive["swimtechnique"] = $("#swimtechnique").val();
 						swimsetlive["swimdistance"] = $("#swimdistance").val();
-console.log(spmap);							
+//console.log(spmap);							
 					// itterate over results and pick out the one required	
 						spmap['rows'].forEach(function(rowswimrs){
 //console.log(rowswimrs['key']);
@@ -253,7 +253,16 @@ console.log(spmap);
 								// need to set time interval to retrieve
 								var timerightnow = new Date();
 								startswimdate = Date.parse(timerightnow); // current time/date
-								endswimdateperiod = startswimdate - 10800000;  //go back 3 hours
+								
+								// change length goe back in time depending on chart or summary context (plus need to sync with online couchdb for all data history)
+								if(datatypein == "splitdatain")
+								{
+									endswimdateperiod = startswimdate - 10800000;  //go back 3 hours
+								}
+								else if(datatypein == "persummaryid")
+								{
+									endswimdateperiod = startswimdate - 315360000000;  // go back 10 years from todays date
+								}	
 //console.log(endswimdateperiod + 'go back three hours' + startswimdate + 'current time' + 'saveactual time' + rowswimrs['value']['sessionid']);								
 								if( rowswimrs['value']['sessionid'] < startswimdate && rowswimrs['value']['sessionid'] > endswimdateperiod)
 								{
@@ -274,6 +283,14 @@ console.log(spmap);
 							{
 							//return historicalswimdata;
 								visthedata = liveHTML.visualiseme(livepouch, swimidin, historicalswimdata);
+								swimidin = '';
+								historicalswimdata = '';
+
+							}
+							else if(datatypein == "persummaryid")
+							{
+							//return historicalswimdata;
+								visthedata = liveHTML.summaryme(livepouch, swimidin, historicalswimdata);
 								swimidin = '';
 								historicalswimdata = '';
 

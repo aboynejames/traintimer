@@ -8,6 +8,8 @@
     "url": "git://github.com/aboynejames/traintimer.git"
   },
   "dependencies": {
-    "socket.io": "0.9.10"
+    "socket.io": "0.9.10",
+		"nodemailer": "0.3.41",
+		"serialport": "1.0.8"
   }
 }

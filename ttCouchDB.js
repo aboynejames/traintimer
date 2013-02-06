@@ -134,4 +134,39 @@ console.log('after put write');
 }
 
 
+/**
+* create a new couchdb
+*
+*/
+coudchdbSettings.prototype.createnewcouchdb = function (newnamecouch) {
+	
+console.log('start of create new couch');		
+
+	var options = {
+  hostname: 'localhost',
+  port: 5984,
+  path: '/' + newnamecouch,
+  method: 'PUT',
+	auth: this.couch + ':' + this.couchpwd,
+};
+
+var req = http.request(options, function(res) {
+//console.log('STATUS: ' + res.statusCode);
+//console.log('HEADERS: ' + JSON.stringify(res.headers));
+  res.setEncoding('utf8');
+  res.on('data', function (chunk) {
+console.log('BODY: ' + chunk);
+  });
+});
+
+	req.on('error', function(e) {
+//console.log('problem with request: ' + e.message);
+	});
+
+// write data to request body
+
+	req.end();
+
+}
+
 module.exports = coudchdbSettings;

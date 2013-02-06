@@ -654,6 +654,96 @@ margin-top: 20px;
 	
 }
 
+	
+/*
+* summary analysis
+*/
+.historicalsummary {
+	border:2px solid black;
+	margin-top: 10px;
+	height:600px;
+	width:80%;
+}
+
+#persummaryid {
+	margin-left:20px;
+	font-size:1.6em;
+	
+}
+
+.trainingstats {
+	border:1px solid blue;
+	float:left;
+	margin: 10px;
+	height:400px;
+	width:30%;
+	font-size:1.4em;
+}
+
+.seasonbeststats {
+	border:1px solid green;
+	float:left;
+	margin: 10px;
+	height:400px;
+	width:30%;
+	font-size:1.4em;
+}
+
+.personalbeststats {
+	border:1px solid red;
+	float:left;
+	margin: 10px;
+	height:400px;
+	width:30%;
+	font-size:1.4em;
+}
+
+.beststat {
+	border:1px solid green;
+	margin: 10px;
+	height:60px;
+	width:90%;
+	color: green;
+	padding:8px;
+}
+
+.slowstat {
+	border:1px solid red;
+	margin: 10px;
+	height:60px;
+	width:90%;
+	color: red;
+	padding:8px;
+}
+
+.avgstat {
+	border:1px solid blue;
+	margin: 10px;
+	height:60px;
+	width:90%;
+	color: blue;
+	padding:8px;
+}
+
+	
+/*
+* bio stats
+*/
+.historicalbio {
+	border:2px solid black;
+	margin-top: 10px;
+	height:600px;
+	width:80%;
+}
+
+#perbioid {
+	margin-left:20px;
+	font-size:1.6em;
+	
+}
+
+
+
 /*
 *  signup form
 */

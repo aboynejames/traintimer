@@ -179,6 +179,12 @@ console.log('title = ' + this.identifer);
 						$("#controloptions").show();
 						$(".ui-state-default").css("width", "100%");
 						$("#loadlane").attr('class', 'control-textpressed');
+						
+						$("#startsort").attr("title", "on");
+						$("#viewdata").attr("title", "on");
+						$("#viewdata").attr('class', 'control-text');
+						$("#startsort").attr('class', 'control-text');
+
 					}
 					else
 					{
@@ -209,12 +215,23 @@ console.log('title = ' + this.identifer);
 											
 						$("#analysistype").hide();
 						$(".historicalplace").hide();
+						$(".historicalchart").hide();						
+						$(".historicalsummary").hide();
+						$(".historicalbio").hide();
 						$("#viewdatalive").empty();
 						$("#visualisedata").empty();
 						$(".splitviewrep").remove();
 						$(".splitview").remove();
 						$(".splitviewcompare").remove();
-						$("[class^='peranalysisid']").attr("data-statusanalysis", "on");
+							$("[class^='peranalysisid']").attr("data-statusanalysis", "on");
+							$("[class^='peranalysisid']").css("color", "#1c94c4");
+							$("[class^='pereditidremove']").attr("data-statusanalysis", "on");
+							$("[class^='perchartid']").attr("data-statusanalysis", "on");
+							$("[class^='perchartid']").css("color", "#1c94c4");
+							$("[class^='persummaryid']").attr("data-statusanalysis", "on");
+							$("[class^='persummaryid']").css("color", "#1c94c4");
+							$("[class^='perbioid']").attr("data-statusanalysis", "on");
+							$("[class^='perbioid']").css("color", "#1c94c4");
 						$(".ui-state-default").css("width", "50%");
 						$("#startsort").attr('class', 'control-textpressed');
 						$("#viewdata").attr('class', 'control-text');
@@ -222,8 +239,24 @@ console.log('title = ' + this.identifer);
 					else
 					{
 						$(".peredit").hide();
+							$(".peranalysis").hide();
+							$(".analysislabel").hide();
+							$(".historicalplace").hide();
+							$(".historicalchart").hide();						
+							$(".historicalsummary").hide();
+							$(".historicalbio").hide();
+
+						
 						$("#startsort").attr("title", "on");
-						$("[class^='peranalysisid']").attr("data-statusanalysis", "on");
+							$("[class^='peranalysisid']").attr("data-statusanalysis", "on");
+							$("[class^='peranalysisid']").css("color", "#1c94c4");
+							$("[class^='pereditidremove']").attr("data-statusanalysis", "on");
+							$("[class^='perchartid']").attr("data-statusanalysis", "on");
+							$("[class^='perchartid']").css("color", "#1c94c4");
+							$("[class^='persummaryid']").attr("data-statusanalysis", "on");
+							$("[class^='persummaryid']").css("color", "#1c94c4");
+							$("[class^='perbioid']").attr("data-statusanalysis", "on");
+							$("[class^='perbioid']").css("color", "#1c94c4");
 						$("#sortable1").sortable( "option", "disabled", true );
 						$(".ui-state-default").css("width", "100%");						
 						$("#startsort").attr('class', 'control-text');
@@ -256,7 +289,9 @@ console.log('title = ' + this.identifer);
 							$(".peranalysis").hide();
 							$(".analysislabel").hide();
 							$(".historicalplace").hide();
-							$(".historicalchart").hide();
+							$(".historicalchart").hide();						
+							$(".historicalsummary").hide();
+							$(".historicalbio").hide();
 							$("#viewdatalive").empty();
 							$("#visualisedata").empty();
 							$(".splitviewrep").remove();
@@ -265,8 +300,14 @@ console.log('title = ' + this.identifer);
 						
 							$("#viewdata").attr("title", "on");
 							$("[class^='peranalysisid']").attr("data-statusanalysis", "on");
+							$("[class^='peranalysisid']").css("color", "#1c94c4");
 							$("[class^='pereditidremove']").attr("data-statusanalysis", "on");
 							$("[class^='perchartid']").attr("data-statusanalysis", "on");
+							$("[class^='perchartid']").css("color", "#1c94c4");
+							$("[class^='persummaryid']").attr("data-statusanalysis", "on");
+							$("[class^='persummaryid']").css("color", "#1c94c4");
+							$("[class^='perbioid']").attr("data-statusanalysis", "on");
+							$("[class^='perbioid']").css("color", "#1c94c4");
 							$("#viewdata").attr('class', 'control-text');
 					}
 
@@ -320,6 +361,54 @@ console.log('title = ' + this.identifer);
 
 			break;
 
+			case "persummaryid":
+				// gather data per swimmer to build chart from
+				container = 'historicalsummary' + this.identifer;
+				chartstatus = $(".persummaryid"+ this.identifer).attr("data-statusanalysis");
+//console.log('ananlysis status caught' + analysisstatus);		
+					
+					if(chartstatus == 'on')
+					{
+						
+						livepouch.returndatacallback(this.identifer, "persummaryid");
+						$("#historicalsummary" + this.identifer).show();			
+						$(".persummaryid" + this.identifer ).attr("data-statusanalysis", "off");
+						$(".persummaryid" + this.identifer ).css("color", "#090");
+	
+					}
+					else
+					{
+						$("#historicalsummary" + this.identifer).hide();
+						$(".persummaryid" + this.identifer).attr("data-statusanalysis", "on");
+						$(".persummaryid" + this.identifer).css("color", "#1C94C4");
+					}
+
+			break;					
+
+			case "perbioid":
+				// gather data per swimmer to build chart from
+				container = 'historicalbio' + this.identifer;
+				chartstatus = $(".perbioid"+ this.identifer).attr("data-statusanalysis");
+//console.log('ananlysis status caught' + analysisstatus);		
+					
+					if(chartstatus == 'on')
+					{
+						
+						//livepouch.returndatacallback(this.identifer, "chartdatain");
+						$("#historicalbio" + this.identifer).show();			
+						$(".perbioid" + this.identifer ).attr("data-statusanalysis", "off");
+						$(".perbioid" + this.identifer ).css("color", "#090");
+						$("#historicalbio" + this.identifer).html('Age Height Weight Genome');
+					
+					}
+					else
+					{
+						$("#historicalbio" + this.identifer).hide();
+						$(".perbioid" + this.identifer).attr("data-statusanalysis", "on");
+						$(".perbioid" + this.identifer).css("color", "#1C94C4");
+					}
+
+			break;										
 					
 			case "pereditidremove":
 					// remove swimmer from active list
@@ -460,13 +549,14 @@ $("#liveswimset").text('live: ' + currentsetset);
 
 			break;
 					
-								case "contactin":
+			case "contactin":
 //console.log("internal click contactin");
 				// collect the form data
 				incontact = {};
 				incontact['name'] = $("#namein").val();
 				incontact['email'] = $("#emailin").val();
 				incontact['website'] = $("#websitein").val();
+				incontact['inpassword'] = $("#inpassword").val();
 				incontact['message'] = $("#messagein").val();
 //console.log(incontact);
 //console.log('post inconact');
@@ -714,12 +804,15 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		// need to identify active swimmers from UI
 		// what order did the swimmers go off 
 		this.activeswimmers = [];
-		var noswimmerlive = $("a#stop").length;
+		//var noswimmerlive = $("a#stop").length;
 
 		var listactives = [];
-		var listactives = $('#sortable1').sortable('toArray');
 
+		var listactives = $('#sortable1').sortable('toArray');
+//console.log(listactives);
 		countswimmers = listactives.length;
+//console.log(countswimmers + 'the count of swiimm');	
+		
 		this.activeswimmers = listactives;
 //console.log('the starting list');
 //console.log(this.activeswimmers);		
@@ -1080,7 +1173,7 @@ $(document).ready(function(){
 										this.acceptdetails = '';
 		
 										//$.get("/signin/", function(resultback){
-										$.get("/signin/" + usernamein + '/' + cookieidhash + '/' + passwordhash, function(resultback){
+										$.get("/signin/" + usernamein + '/' + cookieidhash + '/' + passwordin, function(resultback){
 										// put a message back to UI to tell of a successful save TODO
 											this.acceptdetails = resultback;
 							
@@ -1088,10 +1181,11 @@ $(document).ready(function(){
 												//passedsigntest("one");
 												$.cookie("traintimer", cookieidhash,  { expires: 7 });
 												$("#ifsignedin").show();	
-												$("#ifsignedin").html('<a class="menu-text" text="SignOut" title="signout" href="#"  id="signincloser" >Sign-out</a> ' + usernamein );
+												$("#ifsignedin").html('<a class="control-text" text="SignOut" title="signout" href="#"  id="signincloser" >Sign-out</a> ' + usernamein );
 												$("#siginformarea").dialog( "close" );
 												$("#signinopener").hide();
 												$("#sortable1").empty();
+												$("#signupstart").hide();
 												$("#syncdata").show();
 												$("#clearpouchdb").show();
 										
@@ -1224,6 +1318,7 @@ console.log('callback from sync to couchdb via node is complete');
 					$("#clearpouchdb").hide();
 					$("#sortable1").empty();
 					$("#signinopener").show();
+					$("#signupstart").show();
 	
 					// need to tell the server of the log out too
 						$.get("/signout/" + $.cookie("traintimer"), function(resultout){
@@ -1309,6 +1404,8 @@ console.log('callback from sync to couchdb via node is complete');
 				$("#controloptions").hide();
 				$(".peredit").hide();
 				$(".historicalchart").hide();
+				$(".historicalsummary").hide();
+				$(".historicalbio").hide();
 				$("#viewdata").attr("title", "on");
 				$("#startsort").attr("title", "on");
 				$("#loadlane").attr("title", "on");
@@ -1352,7 +1449,7 @@ console.log('callback from sync to couchdb via node is complete');
 					localDatacall(selectedlanenow, function(rtmap) {  
 
 						presentswimmer = '';
-								
+	
 					rtmap["rows"].forEach(function(rowswimrs){
 
 							if(rowswimrs['key'] == selectedlanenow )
@@ -1367,7 +1464,9 @@ console.log('callback from sync to couchdb via node is complete');
 				$(".peredit").hide();
 				$(".peranalysis").hide();
 				$(".historicalplace").hide();
-				$(".historicalchart").hide();						
+				$(".historicalchart").hide();
+				$(".historicalsummary").hide();
+				$(".historicalbio").hide();						
 				$("#analysistype").hide();
 				$("#viewdata").attr("title", "on");
 				$("#loadlane").attr('class', 'control-text');
@@ -1405,7 +1504,7 @@ console.log('callback from sync to couchdb via node is complete');
 		 if ($swtgt.is("a")) {
 			idclick = $swtgt.attr("id");
 			idname =$swtgt.attr("title");
-console.log('first time start' + idclick + idname);			 
+//console.log('first time start' + idclick + idname);			 
 			// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
 			starttiming.identifyswimmer(idname, idclick);
 		 }
@@ -1492,6 +1591,8 @@ console.log('first time start' + idclick + idname);
 		$(".peredit").hide();
 		$(".peranalysis").hide();
 		$(".historicalchart").hide();
+		$(".historicalsummary").hide();
+		$(".historicalbio").hide();
 		$("#viewdata").attr("title", "on");
 		$("#startsort").attr("title", "on");
 		
@@ -1565,7 +1666,7 @@ console.log('first time start' + idclick + idname);
 			var resultord = $('#sortable1').sortable('toArray');
 			idclick = $(this).attr("id");
 			idtitle = $(this).attr("title");	
-console.log('a link capture' + idclick + idtitle);		
+//console.log('a link capture' + idclick + idtitle);		
 			// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
 			starttiming.identifyswimmer(idtitle, idclick);
 		
