@@ -25,8 +25,8 @@
 			
 		this.identifer = swimtitle;
 		this.clicktype = clickid;
-console.log('clickid= ' + this.clicktype);
-console.log('title = ' + this.identifer);		
+//console.log('clickid= ' + this.clicktype);
+//console.log('title = ' + this.identifer);		
 		this.activetimeclock.startclock.load();	
 			
 		//if(clickid != "start" || clickid != "reset" || clickid != "save" ){
@@ -1550,7 +1550,8 @@ console.log('callback from sync to couchdb via node is complete');
 					});
 				presentswimmer += '</form>';
 					//presentswimmer += '<a href="" id="aaselectswimmer" >add alpha</a>';
-					
+//console.log('list checkboxes');
+//console.log(presentswimmer);					
 				$("#addalpha").html(presentswimmer);					
 				
 					presentclose = '<br /><br /><a href="" id="closealphalist" class="control-text" >Close</a>';

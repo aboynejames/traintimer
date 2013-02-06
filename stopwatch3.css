@@ -633,7 +633,7 @@ margin-top: 20px;
 .selectswimmer {
 	font-size: 0.8em;	
 	width:100px;
-	margin-top:4px;	
+	margin-top:14px;	
 	margin-left:20px;	
 }
 
@@ -977,7 +977,7 @@ button.submit:active {
 	
 	label {
 	float: left;
-	padding-top:0.4em;
+	padding-top:1.0em;
 	/*font-size:18px;*/
 	width:130px;
 	margin-right:6px;
