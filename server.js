@@ -75,24 +75,24 @@ console.log(splitsdata);
 
 		// serial port listener for touchpad mode  (will be WIFI)
 		// open the serial port. Change the name to the name of your port, just like in Processing and Arduino:
-		var serialData = {};	// object to hold what goes out to the client
+	/*	var serialData = {};	// object to hold what goes out to the client
 		var myPort = new SerialPort("/dev/ttyACM0", {
 			// look for return and newline at the end of each data packet:
 			parser: serialport.parsers.readline("\r\n")
-		});
+		});*/
 				
 			
 		io.sockets.on('connection', function (socket) {
         socket.emit('news', {hello: 'world'});
 
-			myPort.on('data', function (data) {
+			/*myPort.on('data', function (data) {
 				// set the value property of scores to the serial string:
 				serialData.value = data;
 				// for debugging, you should see this in Terminal:
 console.log(data);
 				// send a serial event to the web client with the data:
 				socket.emit('serialEvent', serialData);
-			});
+			});*/
 		
     });
 

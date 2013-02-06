@@ -17,8 +17,10 @@ Requirements:  Node.js  NPM  Couchdb (for online sync back)
 
 1.  Download code from github
 2.  On console type:   install npm   (installation directory)
-3.  On console start node application file:    node index.js
-4.  Go to "yourdomaindirectoryofinstall.com:8822    (port can be changed by editing the server.js file)
+3.  Make copy of ttSettings-sample.js  and name it  ttSettings.js
+4.  Add couchdb details and SMTP mail server account details
+5.  On console start node application file:    node index.js
+6.  Go to "yourdomaindirectoryofinstall.com:8822    (port can be changed by editing the server.js file)
 
 Non-Node.js install
 
