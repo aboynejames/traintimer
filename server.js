@@ -85,14 +85,14 @@ console.log(splitsdata);
 		io.sockets.on('connection', function (socket) {
         socket.emit('news', {hello: 'world'});
 
-			/*myPort.on('data', function (data) {
+		/*	myPort.on('data', function (data) {
 				// set the value property of scores to the serial string:
 				serialData.value = data;
 				// for debugging, you should see this in Terminal:
 console.log(data);
 				// send a serial event to the web client with the data:
 				socket.emit('serialEvent', serialData);
-			});*/
+			});  */
 		
     });
 

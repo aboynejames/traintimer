@@ -475,6 +475,15 @@ label {
 	font: bold;
 }
 
+	.swimsettingslabel label {
+	float: left;
+	padding-top:0.4em;
+	/*font-size:18px;*/
+	width:130px;
+	margin-right:6px;
+	vertical-align: bottom;
+	}
+
 .rightselect {
 	font-size: 1em;
 	width:60%;
@@ -978,6 +987,15 @@ button.submit:active {
 	label {
 	float: left;
 	padding-top:1.0em;
+	/*font-size:18px;*/
+	width:130px;
+	margin-right:6px;
+	vertical-align: bottom;
+	}
+	
+	.swimsettingslabel label {
+	float: left;
+	padding-top:0.4em;
 	/*font-size:18px;*/
 	width:130px;
 	margin-right:6px;
