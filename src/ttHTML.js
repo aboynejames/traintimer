@@ -86,7 +86,7 @@ ttHTML.prototype.checkboxswimmers = function(swname, swid) {
 				return swimliststarters;
 			}			
 
-/*
+/**
 * Display analysis data
 * @method checkboxswimmers		
 *
@@ -109,7 +109,7 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 	return viewdatahead;
 }
 
-/*
+/**
 * Display of splilt and diffence color coded
 * @method realtimesplitsdiff
 *
@@ -182,7 +182,7 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 
 }
 
-/*
+/**
 * Display of splilt and diffence color coded FROM STOP BUTTON
 * @method realtimestop		
 *
@@ -270,7 +270,7 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 	}
 	
 	
-/*
+/**
 * Display of Analysis post real time
 * @method visualiseme		
 *
@@ -391,7 +391,7 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 
 
 
-/*
+/**
 * Display of chart data
 * @method visualisechart		
 *
@@ -455,7 +455,7 @@ ttHTML.prototype.visualisechart = function(livepouch, swimidin, historicaldata) 
 	
 }
 
-/*
+/**
 * Display summary stats
 * @method summaryme		
 *

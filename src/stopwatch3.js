@@ -1111,8 +1111,9 @@ $(document).ready(function(){
 	var today = new Date();
 		
 	// connect to socket.io
-  var socket = io.connect('http://localhost');		
-
+  var socketpi = io.connect('http://localhost:8822');		
+		socketpi.emit('swimmerclient', { swimmerdevice: 'localhitchup' });
+		
 	// welcome summary  call pouch get no. active swimmers
 					function welcomeDatacall(callback) {  
 						livepouch.mapQueryswimmers(callback);
@@ -1697,7 +1698,7 @@ console.log('callback from sync to couchdb via node is complete');
 * Touchpad listening socket
 */
  // when you get a serialdata event, do this:
-socket.on('serialEvent', function (data) {
+socketpi.on('serialEvent', function (data) {
 
 // whatever the 'value' property of the received data is:
 	if(data.value == 1)
@@ -1717,7 +1718,34 @@ socket.on('serialEvent', function (data) {
 //console.log('after split class called');
 	
 });	
+
+
+// listen to server for DUP call over local network data.
+socketpi.on('DUPinfo', function (dataDUP) {
+console.log(dataDUP);
+// whatever the 'value' property of the received data is:
+	if(dataDUP == 'stop')
+	{		
+console.log('stop emit from dup');		
+		// call the split function
+console.log('start emit from dup');		
+		starttiming.activetimeclock.splitswimmerid(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
+		starttiming.activetimeclock.split(starttiming.activetimeclock.startclock.totalsplitarray[starttiming.activetimeclock.startclock.itp]);
+		starttiming.activetimeclock.startclock.itp++; 
 		
+	}
+	else
+	{
+		// start button pressed
+		starttiming.activetimeclock.startclock.startStop();
+
+	}
+	
+//console.log('after split class called');
+	
+});	
+
+
 currentsetset = 'int-' + $("#swiminterval").val() + 'sec ' + $("#swimstyle").val() + ' ' + $("#swimstroke").val() + ' ' + $("#swimtechnique").val() + ' ' + $("#swimdistance").val() + ' ' + $("#swimsplit").val();
 $("#liveswimset").text('live: ' + currentsetset);
 

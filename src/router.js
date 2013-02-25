@@ -3,7 +3,7 @@
 *
 * routes to request
 
-* @method route
+* @method router
 *
 * @package    Train Timer part of open sport project
 * @copyright  Copyright (c) 2012 James Littlejohn
@@ -13,6 +13,9 @@
 
 var util = require('util');
 
+/**
+* @method route
+*/
 function route(handle, pathname, response, request, emitter, couchin, couchlive) {
   console.log("About to route a request for " + pathname);
 

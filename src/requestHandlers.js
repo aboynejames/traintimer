@@ -2,7 +2,7 @@
 * Train TImer
 *
 * deals with site requests
-*
+* @class requestHandler
 * @package    Train Timer part of open sport project
 * @copyright  Copyright (c) 2012 James Littlejohn
 * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -353,7 +353,7 @@ function signoutcheck (fullpath, response, request, emitter, couchin, couchlive)
 	
 /**
 * logic to produce list of swimmers
-* @method flotr2chart
+* @method buildswimmers
 *
 */
 function buildswimmers(firstpath, response, request, emitter, couchin) {
@@ -705,7 +705,7 @@ console.log("pouchdb couchdb synup started");
 
 /**
 * controls sign up of backup service registration
-* @method flotr2chart
+* @method startbackup
 *
 */
 function startbackup(fullpath, response, request, emitter, couchin, couchlive) {
