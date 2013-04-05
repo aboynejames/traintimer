@@ -34,7 +34,7 @@ function start(route, handle) {
 	var	couchin = new ttSettings();
 	var couchlive = new ttCouchDB(couchin);
 	
-	var app = http.createServer(onRequest).listen(8822);
+	var app = http.createServer(onRequest).listen(8835);
 	  
 	function onRequest(request, response) {
 	
@@ -81,12 +81,12 @@ console.log("Request for " + pathname + " received.");
 
 		// serial port listener for touchpad mode  (will be WIFI)
 		// open the serial port. Change the name to the name of your port, just like in Processing and Arduino:
-		var serialData = {};	// object to hold what goes out to the client
+/*		var serialData = {};	// object to hold what goes out to the client
 		var myPort = new SerialPort("/dev/ttyACM0", {
 			// look for return and newline at the end of each data packet:
 			parser: serialport.parsers.readline("\r\n")
 		});
-				
+*/
 			
 
 			
@@ -135,7 +135,8 @@ console.log(data);
 					
 		// dgram DUP  setup listeners
 		var PORT = 33333;
-		var HOST = '192.168.1.50';
+		var HOST = '127.0.0.1';
+		//var HOST = '192.168.1.44';
 
 		var server = dgram.createSocket('udp4');	
 

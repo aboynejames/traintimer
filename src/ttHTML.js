@@ -299,6 +299,8 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 		visualnewdiv += '<div class="splitviewrep" id="lastrep' + perswimmersp + swimidin + '">' + repcounter +'</div>';
 		visualnewdiv += '<div class="splitview" id="splittimeshistorical' + perswimmersp + swimidin + '"></div>';
 //console.log('swimmer id coming through' + perswimmersp);		
+
+		
 		$("#historicalanalysis" + swimidin).prepend(visualnewdiv);
 		
 		var visualdata = '';

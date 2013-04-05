@@ -127,7 +127,7 @@
 //console.log(addswimmerstatus);
 					if(addswimmerstatus == 'on') {
 										
-						lanelist = '<select id="thelaneoptionsnew" class="lanewidthnew">';
+						lanelist = '<select id="thelaneoptionsnew" class="lanewidthnew" name="lanegroupnew" >';
 						lanelist +=	'<option  selected="-" value="-1">-</option>';
 						lanelist +=	'<option value="1">1</option>';
 						lanelist +=	'<option value="2">2</option>';
@@ -143,7 +143,7 @@
 							
 						addswimform = '<form class="addswimmer-form" method="post" action="#" id="newmasteradd" >';
 						addswimform += '<ul><li>Enter name and allocate to a lane</li>';
-						addswimform += '<li><label for="name">Name:</label><input type="text"  id="newmastid" title="swimmername" required /><span class="form_hint">Please enter a name</span></li>';
+						addswimform += '<li><label for="name">Name:</label><input type="text"  id="newmastid" title="swimmername"  name="newmastid"  /><span class="form_hint">Please enter a name</span></li>';
 
 						addswimform += '<li><label for="lane">Lane:</label>' + lanelist + '<span class="form_hint">Set a lane number</span></li>';
 						addswimform += '<li><button class="submit" type="submit"  id="newmasteradd" >Add swimmer</button></li></ul></form>';
@@ -814,9 +814,9 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		var listactives = [];
 
 		var listactives = $('#sortable1').sortable('toArray');
-//console.log(listactives);
+console.log(listactives);
 		countswimmers = listactives.length;
-//console.log(countswimmers + 'the count of swiimm');	
+console.log(countswimmers + 'the count of swiimm');	
 		
 		this.activeswimmers = listactives;
 //console.log('the starting list');
@@ -1438,23 +1438,26 @@ console.log('callback from sync to couchdb via node is complete');
 			
 	});
 		
-				/*
-				*  load swimmer by lane number
-				*/
-			$("#thelaneoptions").change(function () {
+/*
+*  load swimmer by lane number
+*/
+$("select#thelaneoptions").change(function () {
 	//livepouch.deletePouch();
 				$("#viewdatalive").empty();
 				$("#visualisedata").empty();
 				$("#splittimeshistorical").empty();
 				$("#loadlane").attr("title", "on");
-				selectedlanenow = $("#thelaneoptions").val();
+				selectedlanenow = $("select#thelaneoptions").val();
+	
+			//$("#changeplace").text(selectedlanenow);
+	
 //console.log('yes lane' + selectedlanenow );
 				//first check local
 					function localDatacall(selectedlanenow, callback) {  
 						livepouch.mapQueryname(selectedlanenow, callback);
 					}  
       
-					localDatacall(selectedlanenow, function(rtmap) {  
+			localDatacall(selectedlanenow, function(rtmap) {  
 
 						presentswimmer = '';
 	
@@ -1479,8 +1482,8 @@ console.log('callback from sync to couchdb via node is complete');
 				$("#viewdata").attr("title", "on");
 				$("#loadlane").attr('class', 'control-text');
 						
-	// test splits data recall						
-	function localDataSPcall(dataspin, callback) {  
+				// test splits data recall						
+				function localDataSPcall(dataspin, callback) {  
 						livepouch.mapQuerySplits(dataspin, callback);
 
 					}  
@@ -1488,10 +1491,9 @@ console.log('callback from sync to couchdb via node is complete');
 					localDataSPcall('1', function(spmap) {  
 //console.log('how splits data look after save');
 //console.log(spmap);						
-						});						
+					});						
 						
-
-    });  
+			});  
 							
 				// make post request to get swimmer for this lane and dispaly
 				//$("#sortable1").load("/buildswimmers/lane/" + selectedlanenow + '/' + setsaveallowed);
@@ -1500,8 +1502,21 @@ console.log('callback from sync to couchdb via node is complete');
 				//$("#loadclearswimmers").hide();
 				$("#controloptions").hide();
 
-			});	
+			})
+			.change();	
 
+/*
+	$("select#thelaneoptions").change(function () {
+	//livepouch.deletePouch();
+	
+		valuesel = $("select#thelaneoptions").val();
+console.log(valuesel);		
+		
+		$("#changeplace").text(valuesel);
+		$("#sortable1").text(valuesel);
+		})
+.change();
+*/		
 /*
 * first time start
 */
@@ -1577,7 +1592,7 @@ console.log('callback from sync to couchdb via node is complete');
 
 
 
-			});	
+			}).change();	
 
 /*
 *
@@ -1670,7 +1685,7 @@ console.log('callback from sync to couchdb via node is complete');
 			}
 			
 // need to identify which swimmers css markup has been clicked
-	$("a, #contactin").click(function(e){
+	$("a").click(function(e){
 			e.preventDefault(e);
 			var resultord = $('#sortable1').sortable('toArray');
 			idclick = $(this).attr("id");
@@ -1681,6 +1696,19 @@ console.log('callback from sync to couchdb via node is complete');
 		
 	});	
 
+	// need to identify which swimmers css markup has been clicked
+	$("#contactin").click(function(e){
+			e.preventDefault(e);
+
+			idclick = $(this).attr("id");
+			idtitle = $(this).attr("title");	
+//console.log('a link capture' + idclick + idtitle);		
+			// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
+			starttiming.identifyswimmer(idtitle, idclick);
+		
+	});	
+	
+	
 	
 	$("#sortable1").on("click", function (e) {
   //  $("a").click(function(e){

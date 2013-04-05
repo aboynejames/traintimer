@@ -326,7 +326,23 @@ historicalswimdata = {};
 								}
 							}	
 						});
-						
+console.log( historicalswimdata);		
+/*						
+console.log('test object');
+		alivepouch = {"1":"1"};
+		aswimidin = '3865253--554494698';
+		ahistoricalswimdata = {};
+		ahistoricalswimdata['sessionid'] = 1364553195000;
+		ahistoricalswimdata['splittimes'] = [1074, 2399];	
+		ahistoricalswimdata['swiminfo'] = {"swimdate":"2013-03-29T10:33:15.109Z", "swimdistance":"100", "swimsplit":"50", "swimstroke":"freestyle", "swimstyle":"training", "swimtechnique":"swim"};
+
+console.log(alivepouch);
+console.log(aswimidin);
+console.log(ahistoricalswimdata);
+newobjecttes = {};
+newobjecttes['1364553195000'] = ahistoricalswimdata;
+console.log(newobjecttes);
+*/		
 							// what is data for
 							if(datatypein == "splitdatain")
 							{
