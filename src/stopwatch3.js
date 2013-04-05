@@ -17,22 +17,21 @@
 */
  function SwimtimeController () {
 //console.log('the swimmer controller');	 
-
-		this.activetimeclock = new PerSwimmer();
+	this.activetimeclock = new PerSwimmer();
 	 
 // need to set id of the swimmer thats split or stop has been click on the UI
-	 	this.identifyswimmer = function(swimtitle, clickid) {
+	this.identifyswimmer = function(swimtitle, clickid) {
 			
-		this.identifer = swimtitle;
-		this.clicktype = clickid;
+	this.identifer = swimtitle;
+	this.clicktype = clickid;
 //console.log('clickid= ' + this.clicktype);
 //console.log('title = ' + this.identifer);		
-		this.activetimeclock.startclock.load();	
+	this.activetimeclock.startclock.load();	
 			
 		//if(clickid != "start" || clickid != "reset" || clickid != "save" ){
-		if(clickid == "split" || clickid == "stop" || clickid == "peranalysisid" || clickid =="pereditidremove" ){
-			this.activetimeclock.splitswimmerid(this.identifer);
-		}
+	if(clickid == "split" || clickid == "stop" || clickid == "peranalysisid" || clickid =="pereditidremove" ){
+		this.activetimeclock.splitswimmerid(this.identifer);
+	}
 						
 			switch(this.clicktype){
 
@@ -98,7 +97,7 @@
 									newjsonswim["swimmerid"] = '';
 									newjsonswim["session"] = {};
 									activesplitsb  = [];	
-									activesplitsb = stxt['splitdata'][bulkkey]
+									activesplitsb = stxt['splitdata'][bulkkey];
 									newjsonswim["swimmerid"] = bulkkey;
 									newjsonswim["session"]["sessionid"] = datesplitnumber;	
 									newjsonswim["session"]["swiminfo"] = stxt['swimstatus'];	
@@ -106,7 +105,7 @@
 									
 									//livepouch.singleSave(newjsonswim);
 									bulksplits[i] = newjsonswim;
-									i++
+									i++;
 									}		
 									// collect array and then do bulk save as single saving timing out.
 
@@ -438,99 +437,7 @@ $("#liveswimset").text('live: ' + currentsetset);
 						
 	
 			break;
-				/*
-				case "signinopener":
-				
-					// sigin modal
-	loginhtml = '';
-	loginhtml += '<div>Welcome, to Train Timer </div>';
-	loginhtml += '<form method="post" action="#" id="siginform" >';
-	loginhtml += '<div><label for="name">Username</label><input id="name" class="text ui-widget-content ui-corner-all" type="text" name="name" size="16" ></div>';
-	loginhtml += '<div><label for="password">Password</label><input id="password" class="text ui-widget-content ui-corner-all" type="password" value="" name="password" size="16" ></div></form>';
-	loginhtml += '<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix"> <div class="ui-dialog-buttonset"><button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button" role="button" aria-disabled="false"><span class="ui-button-text">Sign me in</span></button></div></div><div id="responsemessage"></div>';
 
-	var $dialog = $('<div id="siginform" ></div>')
-		.html(loginhtml)
-		.dialog({
-			autoOpen: false,
-			height: 340,
-			width: 260, 
-			title: 'Signin to Train Timer',
-			buttons: {
-										"Sign me in": function() {
-											// need to make couchdb call to accept user details
-//console.log('validation of the form signin');
-									
-										usernamein = '';
-										passwordin = '';
-										usernamein = $("#name").val();
-										passwordin = $("#password").val();											
-								//		signtxt = {};
-									//	signtxt['username'] = usernamein;
-										//signtxt['password'] = passwordin;		
-									//	signstring =  JSON.stringify(signtxt);	
-										// make has string
-										hashCode = function(str){
-												var hash = 0;
-												if (str.length == 0) return hash;
-												for (i = 0; i < str.length; i++) {
-														char = str.charCodeAt(i);
-														hash = ((hash<<5)-hash)+char;
-														hash = hash & hash; // Convert to 32bit integer
-												}
-												return hash;
-										}
-										passwordhash = hashCode(passwordin);
-										cookieidhash = hashCode((usernamein + passwordin));									
-											
-										acceptdetails = '';
-		
-										$.get("/signin/" + usernamein + '/' + cookieidhash + '/' + passwordhash, function(resultback){
-										// put a message back to UI to tell of a successful save TODO
-											/*acceptdetails = resultback;
-							
-												var jsomesata = '';											
-												if(acceptdetails['signin'] == 'passed') {		
-												//passedsigntest("one");
-												$.cookie("traintimer", cookieidhash,  { expires: 7 });
-												$("#ifsignedin").show();	
-												$("#ifsignedin").html('<a class="menu-text" text="SignOut" title="signout" href="#"  id="signincloser" >Sign-out</a>');
-												$dialog.dialog( "close" );
-												$("#signinopener").hide();
-												$("#sortable1").empty();
-												
-												usernamein = '';
-												passwordin = '';
-												passwordhash = '';
-										    cookieidhash = '';
-												setsavedallowed = '';
-												setsaveallowed = '';
-												signtxt = '';		
-												signstring =  '';
-												
-//console.log('all reset???' + usernamein + passwordin + passwordhash + cookieidhash + setsavedallowed + setsaveallowed + signtxt + signstring);												
-												}
-												else {
-//console.log('failed');
-													$("#responsemessage").html('Signin Failed, try again');
-												}
-											});	
-															
-										},
-										Cancel: function() {
-										$( this ).dialog( "close" );
-										},
-
-			}
-
-		});
-
-		$dialog.dialog('open');
-		// prevent the default action, e.g., following a link
-		return false;
-				
-				break;
-		*/
 			case "signupstart":
 				// signup to data services
 					signupstatus = $("#signupstart").attr("title");
@@ -588,15 +495,15 @@ console.log(resultb);
 				else
 				{
 					formfeedback = "Please enter ";
-					if(incontact['name'].length == 0)
+					if(incontact['name'].length === 0)
 					{
 						formfeedback += " a Name ";
 					}
-					if(incontact['email'].length == 0)
+					if(incontact['email'].length === 0)
 					{
 							formfeedback += " Email ";
 					}
-					if(incontact['message'].length == 0)
+					if(incontact['message'].length === 0)
 					{
 						formfeedback += " Swim Club";
 					}
@@ -625,7 +532,7 @@ console.log(resultb);
 						
 			} // closes switch		
 			
- } // closes id function
+ }; // closes id function
 			
 }  // closes controller class
 
@@ -747,7 +654,7 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 			this.delaymaster[1] = (new Date()).valueOf();
 		}
 		
-		 starttiming.activetimeclock.startclock.$timer.text(starttiming.activetimeclock.startclock.format(this.delaymaster[3] + this.delaymaster[1] - this.delaymaster[0]));
+		starttiming.activetimeclock.startclock.$timer.text(starttiming.activetimeclock.startclock.format(this.delaymaster[3] + this.delaymaster[1] - this.delaymaster[0]));
 	},
 	
 	this.load = function() {
@@ -770,7 +677,7 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 
 		this.t[2] = 1 - this.t[2];
 //console.log(this.t);
-			if (this.t[2] == 0)
+			if (this.t[2] === 0)
 			{
 	// a split time being set
 				clearInterval(this.t[4]);
@@ -813,7 +720,7 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 
 		var listactives = [];
 
-		var listactives = $('#sortable1').sortable('toArray');
+		listactives = $('#sortable1').sortable('toArray');
 console.log(listactives);
 		countswimmers = listactives.length;
 console.log(countswimmers + 'the count of swiimm');	
@@ -845,7 +752,7 @@ console.log(countswimmers + 'the count of swiimm');
 			{
 //console.log(si + 'the info');
 				this.totalsplitarray[si] = this.activeswimmers[countswi];
-				countswi++
+				countswi++;
 				
 				if(countswi == (this.activeswimmers.length ))
 				{
@@ -878,9 +785,9 @@ var PerSwimmer = function() {
 /*
 * need to identify swimmer split or stop that has been clicked on the UI
 */	
-	 	this.splitswimmerid = function(splitid) {
-		this.splitidlive = splitid;			
-  	
+	this.splitswimmerid = function(splitid) {
+	this.splitidlive = splitid;			
+
 // keep track of the live split swimmers that are active
 			if(!this.activesplitter)
 			{
@@ -920,7 +827,7 @@ var PerSwimmer = function() {
 	 * 2 = the stop/split number local to each swimmer
 	*/		
 		}	
-	}	
+};	
 
 	/**
 	* the last split ie the per stop button 
@@ -928,7 +835,7 @@ var PerSwimmer = function() {
 	*/
 	this.stop = function(stoploc) {
 // contorl logic, has the main timer been started? If you proceed if not do nothing.		
-	if(this.startclock.t[1] == 0) {
+	if(this.startclock.t[1] === 0) {
 		// nothing start do nothing.
 	}
 	else
@@ -945,7 +852,7 @@ var PerSwimmer = function() {
 	// need to make this stop logic local to this swimmer
 			this.spid[stoploc][0] = 1 - this.spid[this.splitidlive][0];
 			
-				if (this.spid[stoploc][0] == 0)
+				if (this.spid[stoploc][0] === 0)
 				{
 					liveHTML.realtimestop(this, stoploc);
 
@@ -971,7 +878,7 @@ var PerSwimmer = function() {
 //console.log('split clicked');	
 //console.log(spidin + 'incoming splitid');
 	// contorl logic, has the main timer been started? If yes proceed if not do nothing.		
-	if(this.startclock.t[1] == 0) {
+	if(this.startclock.t[1] === 0) {
 		// nothing start do nothing.
 	}
 	else
@@ -997,7 +904,7 @@ var PerSwimmer = function() {
 		{
 			$(".splitbutton" + spidin).text("STOP");
 		}
-		else if(stopsplitstatuslast == 0)
+		else if(stopsplitstatuslast === 0)
 		{
 			$(".splitbutton" + spidin).text("Finished");
 			this.stoppedlist.push(spidin);		
@@ -1057,7 +964,7 @@ var PerSwimmer = function() {
 
 		}
 
-	}
+	};
 
 	
 }; // closes Per Swimmer
@@ -1106,8 +1013,8 @@ $(document).ready(function(){
 
 	//fire up the classes
 	starttiming = new SwimtimeController();
-	livepouch = new pouchdbSettings;	
-	liveHTML = new ttHTML;	
+	livepouch = new pouchdbSettings();	
+	liveHTML = new ttHTML();	
 	var today = new Date();
 		
 	// connect to socket.io
@@ -1167,14 +1074,14 @@ $(document).ready(function(){
 
 											hashCode = function(str){
 												var hash = 0;
-												if (str.length == 0) return hash;
+												if (str.length === 0) return hash;
 												for (i = 0; i < str.length; i++) {
 														char = str.charCodeAt(i);
 														hash = ((hash<<5)-hash)+char;
 														hash = hash & hash; // Convert to 32bit integer
 												}
 												return hash;
-										}
+										};
 										passwordhash = hashCode(passwordin);
 										cookieidhash = hashCode((usernamein + passwordin));									
 											
@@ -1209,7 +1116,7 @@ $(document).ready(function(){
 
 										Cancel: function() {
 										$( this ).dialog( "close" );
-										},
+										}
 
 			},
 			close: function() {
@@ -1218,7 +1125,7 @@ $(document).ready(function(){
 			cookieidhash = '';
 			passwordhash= '';
 				
-			},
+			}
 
 		});
 	$("#siginformarea").show();
@@ -1349,7 +1256,7 @@ console.log('callback from sync to couchdb via node is complete');
 					setsaveallowed = $.cookie("traintimer");
 //console.log('has cookie been set?' + setsaveallowed);		
 				
-				 var $tgt = $(e.target);
+				var $tgt = $(e.target);
 //console.log('what tgt look like?');
 //console.log($tgt.attr("name"));				
         if ($tgt.is("#newmasteradd")) {
@@ -1364,7 +1271,7 @@ console.log('callback from sync to couchdb via node is complete');
 					//newmastidis = $("#newmasteradd input#newmidid ").val();
 												hashCode = function(str){
 												var hash = 0;
-												if (str.length == 0) return hash;
+												if (str.length === 0) return hash;
 												for (i = 0; i < str.length; i++) {
 														char = str.charCodeAt(i);
 														hash = ((hash<<5)-hash)+char;
@@ -1372,7 +1279,7 @@ console.log('callback from sync to couchdb via node is complete');
 												}
 //console.log(hash + 'new hasnumber');
 												return hash;
-												}
+												};
 												var newidnumberstart = new Date();
 												newswimmerguid = Date.parse(newidnumberstart);
 //console.log('date string' + newswimmerguid)	;									
@@ -1424,7 +1331,7 @@ console.log('callback from sync to couchdb via node is complete');
 				{
 					// need to prompt to add name or select lane number
 					adderrormessage = 'Please ';
-					if(newmastnameis.length == 0 )
+					if(newmastnameis.length === 0 )
 					{ 
 						adderrormessage += 'add a name ';
 					}
@@ -1522,15 +1429,15 @@ console.log(valuesel);
 */
 	$("#welcomesummary").on("click", function (e) {
   //  $("a").click(function(e){
-	   e.preventDefault(e);
-		 var $swtgt = $(e.target);
-		 if ($swtgt.is("a")) {
+		e.preventDefault(e);
+		var $swtgt = $(e.target);
+		if ($swtgt.is("a")) {
 			idclick = $swtgt.attr("id");
 			idname =$swtgt.attr("title");
 //console.log('first time start' + idclick + idname);			 
-			// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
+// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
 			starttiming.identifyswimmer(idname, idclick);
-		 }
+		}
 	});
 
 			
@@ -1712,14 +1619,14 @@ console.log(valuesel);
 	
 	$("#sortable1").on("click", function (e) {
   //  $("a").click(function(e){
-	   e.preventDefault(e);
-		 var $swtgt = $(e.target);
-		 if ($swtgt.is("a")) {
+		e.preventDefault(e);
+		var $swtgt = $(e.target);
+		if ($swtgt.is("a")) {
 			idclick = $swtgt.attr("id");
 			idname =$swtgt.attr("title");	
-			// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
+// pass on the id of the swimmer  2 pass on the type of click,  start, reset, split, stop	
 			starttiming.identifyswimmer(idname, idclick);
-		 }
+		}
 	});
 	
 /*

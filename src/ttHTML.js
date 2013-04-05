@@ -21,58 +21,58 @@ var ttHTML = function() {
 */	
 ttHTML.prototype.fromswimmers = function(swname, swid) {
 				
-				var swimstarters = '<li class="ui-state-default"  id="' + swid + '">';
+	var swimstarters = '<li class="ui-state-default"  id="' + swid + '">';
 
-				swimstarters +=	'<div id="perswimmerset" >';
-				swimstarters +=	'<ul id="percontrols">';
-				//swimstarters +=	'<li><a href="#" id="stop" title="' + swid + '" >Stop</a></li>';
-				swimstarters +=	'<li><a href="#" id="split" title="' + swid + '" class="splitbutton' + swid +'" >Split</a></li>';
-				swimstarters +=	'</ul>';
-				swimstarters +=  '<div id="pername" >' + swname + '</div>';
-				swimstarters +=	'</div>';
-				swimstarters +=	'<div id="perrealtime" >';
-				swimstarters +=	'<ul id="splits' + swid + '" class="splits" >';
-				swimstarters +=	'<li></li>';
-				swimstarters +=	'</ul>';
-				swimstarters +=	'<ul id="analysis' + swid + '" class="analysis" >';
-				swimstarters +=	'<li></li>';
-				swimstarters +=	'</ul>'; 
-				swimstarters +=	'</div>';
+	swimstarters +=	'<div id="perswimmerset" >';
+	swimstarters +=	'<ul id="percontrols">';
+	//swimstarters +=	'<li><a href="#" id="stop" title="' + swid + '" >Stop</a></li>';
+	swimstarters +=	'<li><a href="#" id="split" title="' + swid + '" class="splitbutton' + swid +'" >Split</a></li>';
+	swimstarters +=	'</ul>';
+	swimstarters +=  '<div id="pername" >' + swname + '</div>';
+	swimstarters +=	'</div>';
+	swimstarters +=	'<div id="perrealtime" >';
+	swimstarters +=	'<ul id="splits' + swid + '" class="splits" >';
+	swimstarters +=	'<li></li>';
+	swimstarters +=	'</ul>';
+	swimstarters +=	'<ul id="analysis' + swid + '" class="analysis" >';
+	swimstarters +=	'<li></li>';
+	swimstarters +=	'</ul>'; 
+	swimstarters +=	'</div>';
 
-				swimstarters += '<div class="peranalysis">';
-				// call function to prepare all links now to 30 days and chart icon
-				
+	swimstarters += '<div class="peranalysis">';
+	// call function to prepare all links now to 30 days and chart icon
 	
-				swimstarters += '<a href="" id="peranalysisid" class="peranalysisid'+ swid + '" title="' + swid + '" data-statusanalysis="on">Now</a>';
-				swimstarters += '<a href="" id="perchartid" class="perchartid'+ swid + '" title="' + swid + '" data-statusanalysis="on"> Chart</a>';
-				swimstarters += '<a href="" id="persummaryid" class="persummaryid'+ swid + '" title="' + swid + '" data-statusanalysis="on"> Summary</a>';
-				swimstarters += '<a href="" id="perbioid" class="perbioid'+ swid + '" title="' + swid + '" data-statusanalysis="on"> Bio-stats</a>';
-				swimstarters += '</div>';
+
+	swimstarters += '<a href="" id="peranalysisid" class="peranalysisid'+ swid + '" title="' + swid + '" data-statusanalysis="on">Now</a>';
+	swimstarters += '<a href="" id="perchartid" class="perchartid'+ swid + '" title="' + swid + '" data-statusanalysis="on"> Chart</a>';
+	swimstarters += '<a href="" id="persummaryid" class="persummaryid'+ swid + '" title="' + swid + '" data-statusanalysis="on"> Summary</a>';
+	swimstarters += '<a href="" id="perbioid" class="perbioid'+ swid + '" title="' + swid + '" data-statusanalysis="on"> Bio-stats</a>';
+	swimstarters += '</div>';
+
+	swimstarters += '<div class="peredit">';
+	swimstarters += '<form class="biostats-form" id="' + swid + '" ><label>HR</label><input id="hrin' + swid + '" type="number" title="heartrate"  size="4" /><label>SC</label><input id="scin' + swid + '" type="number" title="strokecount"  size="4" /><label>Lane</label><input id="lanein' + swid + '" type="number" title="changelane"  size="4" /></form>';
 	
-				swimstarters += '<div class="peredit">';
-				swimstarters += '<form class="biostats-form" id="' + swid + '" ><label>HR</label><input id="hrin' + swid + '" type="number" title="heartrate"  size="4" /><label>SC</label><input id="scin' + swid + '" type="number" title="strokecount"  size="4" /><label>Lane</label><input id="lanein' + swid + '" type="number" title="changelane"  size="4" /></form>';
-				
-				swimstarters +=	'<div class="perdetails" >';
-				swimstarters += '<a href="" id="pereditidremove" title="' + swid + '" class="pereditidremove'+ swid + '">Remove</a>';
+	swimstarters +=	'<div class="perdetails" >';
+	swimstarters += '<a href="" id="pereditidremove" title="' + swid + '" class="pereditidremove'+ swid + '">Remove</a>';
 //swimstarters += '<a href="" id="pereditiddelete" title="' + swid + '" class="pereditiddelete'+ swid + '">Delete</a>';
-				
-				swimstarters +=	'</div>';
-				
-				swimstarters += '</div><div style="clear:both;"></div>';
 	
-				swimstarters +=	'<div id="historicalanalysis' + swid + '" class="historicalplace" >';
-				swimstarters +=	 '</div>';
+	swimstarters +=	'</div>';
 
-				swimstarters +=	'<div id="historicalchart' + swid + '" class="historicalchart" >';
-				swimstarters +=	 '</div>';
-				swimstarters +=	'<div id="historicalsummary' + swid + '" class="historicalsummary" >';
-				swimstarters +=	 '</div>';
-				swimstarters +=	'<div id="historicalbio' + swid + '" class="historicalbio" >';				
-				swimstarters +=	 '</div>';
-				swimstarters += '<div style="clear:both;"></div></li> ';
-				
-				return swimstarters;
-			}
+	swimstarters += '</div><div style="clear:both;"></div>';
+
+	swimstarters +=	'<div id="historicalanalysis' + swid + '" class="historicalplace" >';
+	swimstarters +=	'</div>';
+
+	swimstarters +=	'<div id="historicalchart' + swid + '" class="historicalchart" >';
+	swimstarters +=	'</div>';
+	swimstarters +=	'<div id="historicalsummary' + swid + '" class="historicalsummary" >';
+	swimstarters +=	'</div>';
+	swimstarters +=	'<div id="historicalbio' + swid + '" class="historicalbio" >';				
+	swimstarters +=	'</div>';
+	swimstarters += '<div style="clear:both;"></div></li> ';
+		
+	return swimstarters;
+};
 
 /**
 * Display checkbox of swimmer
@@ -84,7 +84,7 @@ ttHTML.prototype.checkboxswimmers = function(swname, swid) {
 				var swimliststarters =  '<input type = "checkbox"   id = "'+swid+'"  class="check-style" value = "'+swname+'"  />'+swname + ' <br >';
 	
 				return swimliststarters;
-			}			
+};			
 
 /**
 * Display analysis data
@@ -107,7 +107,7 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 	viewdatahead += '</select>';
 
 	return viewdatahead;
-}
+};
 
 /**
 * Display of splilt and diffence color coded
@@ -131,7 +131,7 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 				thisin.spid[thisin.splitidlive][1] = splittimelive;
 				
 				lastsplitpers = thisin.sparray[thisin.splitidlive].slice(-1)[0];
-				if(lastsplitpers == undefined)
+				if(lastsplitpers === undefined)
 				{
 	//console.log('if bein called');				
 					lastsplitpers = splittimelive;
@@ -152,9 +152,8 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 //console.log('current split time');				
 //console.log(lastsplitper);				
 
-					lastdifftocompare = thisin.spdiffarray[thisin.splitidlive].slice(-1)[0];
-//console.log('last diff what are we seeing' + 	lastdifftocompare);				
-				if(lastdifftocompare == undefined)
+				lastdifftocompare = thisin.spdiffarray[thisin.splitidlive].slice(-1)[0];				
+				if(lastdifftocompare === undefined)
 				{
 //console.log('yes if passed');					
 					lastsplitpers = 0;
@@ -172,7 +171,7 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 				else {
 						thecolourdiff = 'green'; }
 						
-					var shortsplitreal = thisin.startclock.format(thedifflive).slice(3,11);
+					shortsplitreal = thisin.startclock.format(thedifflive).slice(3,11);
 					$($analysislive).show();
 					$('<li><span>' + thisin.startclock.zero(thisin.spid[spidint][2]) + '</span> ' + shortsplitreal + '</li>').appendTo($($analysislive)).css("color", thecolourdiff).slideDown('fast');
 					$($analysislive).find('li').removeClass('first last');
@@ -180,7 +179,7 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 					//.css("color", thecolourdiff)
 						
 
-}
+};
 
 /**
 * Display of splilt and diffence color coded FROM STOP BUTTON
@@ -214,7 +213,7 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 		
 		// for splits
 
-				if(lastsplitpers == undefined)
+				if(lastsplitpers === undefined)
 				{
 	//console.log('if bein called');				
 					lastsplitpers = stoptimelive;
@@ -240,14 +239,14 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 
 
 					lastdifftocompare = thisin.spdiffarray[stoploc].slice(-1)[0];
-				if(lastdifftocompare == undefined)
+				if(lastdifftocompare === undefined)
 				{
 					lastdifftocompare = stoptimelive;
 				}
 //console.log('last live diff');
 //console.log(lastdifftocompare);
 
-				 thedifflive = stoptimelive - lastsplitpers;
+				thedifflive = stoptimelive - lastsplitpers;
 //console.log('now diff');
 //console.log(thedifflive);
 //console.log(thedifflive - lastdifftocompare);				
@@ -260,14 +259,14 @@ ttHTML.prototype.viewdataHeader = function(swimmerlist) {
 					{
 						thedifflive = stoptimelive;
 					}
-					var shortsplitreal = thisin.startclock.format(thedifflive).slice(3,11);
+					shortsplitreal = thisin.startclock.format(thedifflive).slice(3,11);
 					$($analysislive).show();
 					$('<li><span>' + thisin.startclock.zero(thisin.spid[stoploc][2]) + '</span> ' + shortsplitreal + '</li>').appendTo($($analysislive)).css("color", thecolourdiff).slideDown('fast');
 					$($analysislive).find('li').removeClass('first last');
 					$($analysislive).find('li:first').addClass('first').end().find('li:last').addClass('last');
 					//.css("color", thecolourdiff)
 		
-	}
+};
 	
 	
 /**
@@ -283,7 +282,7 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 	var perswimmerdata = {};
 	perswimmersort = {};
 	// give back all data capture locally for now
-	var perswimmerdata = Object.keys(historicaldata);
+	perswimmerdata = Object.keys(historicaldata);
 	perswimmersort = perswimmerdata.sort(function(a,b){return a-b});
 //console.log('the order of time data???order right');
 //console.log(perswimmersort);	
@@ -304,7 +303,7 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 		$("#historicalanalysis" + swimidin).prepend(visualnewdiv);
 		
 		var visualdata = '';
-		var visualdata = 'Date:' ;
+		visualdata = 'Date:' ;
 		visualdata += historicaldata[perswimmersp]['swiminfo']['swimdate'];
 		visualdata += ' '; 
 		visualdata += historicaldata[perswimmersp]['swiminfo']['swimstroke'];
@@ -355,7 +354,7 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 			});
 			
 			$("#splittimeshistorical" + perswimmersp + swimidin).prepend(visualdata);
-			
+			var compareshortsplit = '';
 				// visualise the stats between different sessions
 			if(lastdataid['datasessionid'])
 			{
@@ -364,12 +363,12 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 				if(netsetcompare > 0 ) {
 					lasttimegetting = 'slower';
 					comparecolor = 'red';					
-					var compareshortsplit = starttiming.activetimeclock.startclock.format(netsetcompare).slice(3,11);	
+					compareshortsplit = starttiming.activetimeclock.startclock.format(netsetcompare).slice(3,11);	
 					}
 				else {
 					lasttimegetting = 'faster';
 					comparecolor = 'green';
-					var compareshortsplit = (netsetcompare/1000) + ' seconds';
+					compareshortsplit = (netsetcompare/1000) + ' seconds';
 					}
 				
 				
@@ -389,7 +388,7 @@ ttHTML.prototype.visualiseme = function(livepouch, swimidin, historicaldata) {
 	//console.log(lastdataid);
 							
 	});  // closes perswimmer data
-}
+};
 
 
 
@@ -411,7 +410,7 @@ ttHTML.prototype.visualisechart = function(livepouch, swimidin, historicaldata) 
 	var perswimmerdata = {};
 	perswimmersort = {};
 	// give back all data capture locally for now
-	var perswimmerdata = Object.keys(historicaldata);
+	perswimmerdata = Object.keys(historicaldata);
 	perswimmersort = perswimmerdata.sort(function(a,b){return a-b});
 //console.log('the order of time data???order right');
 //console.log(perswimmersort);	
@@ -446,9 +445,9 @@ ttHTML.prototype.visualisechart = function(livepouch, swimidin, historicaldata) 
 										//minorVerticalLines: true
 								},
 								yaxis: {
-									min: 0,
+									min: 0
 								},
-								title: 'Current Times',
+								title: 'Current Times'
 						});
 						
 //console.log(graph);		
@@ -497,7 +496,7 @@ ttHTML.prototype.summaryme = function(livepouch, swimidin, historicaldata) {
 	fasttraining = fastlist.pop();
 	
 	//find slowest time
-	slowlist = totaltimearray.sort(function(a,b){return a-b});;
+	slowlist = totaltimearray.sort(function(a,b){return a-b});
 	slowtraining = slowlist.pop();
 	
 	// work out average
@@ -525,4 +524,4 @@ ttHTML.prototype.summaryme = function(livepouch, swimidin, historicaldata) {
 	$("#historicalsummary" + swimidin).html(summaryhtml);
 	
 	
-}  //closes function	
+};  //closes function	

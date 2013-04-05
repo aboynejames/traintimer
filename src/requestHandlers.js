@@ -32,10 +32,10 @@ function start(fullpath, response) {
   fs.readFile('./sortexample5.html', function(err, data) {
 		response.setHeader('Access-Control-Allow-Origin', '*');
 		response.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+		response.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 		response.writeHead(200, {"Content-Type": "text/html"});
 
-	  response.end(data);
+		response.end(data);
 	});	
      
 }
@@ -50,8 +50,8 @@ function stopwatch3(fullpath, response) {
 	var data  = '';
 	
   fs.readFile('./stopwatch3.js', function(err, data) {
-			response.writeHead(200, {"Content-Type": "text/javascript"});
-	  	  response.end(data);
+		response.writeHead(200, {"Content-Type": "text/javascript"});
+		response.end(data);
 	});
       
 }
@@ -66,8 +66,8 @@ function dragdrop3(fullpath, response) {
 	var data  = '';
 
   fs.readFile('./css/dragdrop3.css', function(err, data) {
-			  response.writeHead(200, {"Content-Type": "text/css"});
-	  	  response.end(data);
+		response.writeHead(200, {"Content-Type": "text/css"});
+		response.end(data);
 	});
       
 }
@@ -82,8 +82,8 @@ function jquery172(fullpath, response) {
 	var data  = '';
 	
   fs.readFile('./jquery-1.7.2.min.js', function(err, data) {
-			  response.writeHead(200, {"Content-Type": "text/javascript"});
-	  	  response.end(data);
+		response.writeHead(200, {"Content-Type": "text/javascript"});
+		response.end(data);
 	});
       
 }
@@ -98,8 +98,8 @@ function flotr2chart(fullpath, response) {
 	var data  = '';
 	
   fs.readFile('./flotr2.min.js', function(err, data) {
-			  response.writeHead(200, {"Content-Type": "text/javascript"});
-	  	  response.end(data);
+		response.writeHead(200, {"Content-Type": "text/javascript"});
+		response.end(data);
 	});
       
 }
@@ -158,9 +158,9 @@ function pouchalpha(fullpath, response) {
   console.log("Request handler 'pouchdb' was called.");	
 
   fs.readFile('./pouchdb.alpha.js', function(err, data) {
-			  response.writeHead(200, {"Content-Type": "text/javascript"});
-	  	  response.end(data);
-	  });
+		response.writeHead(200, {"Content-Type": "text/javascript"});
+		response.end(data);
+	});
       
 }
 
@@ -173,9 +173,9 @@ function ttHTML(fullpath, response) {
   console.log("Request handler 'pouchdb' was called.");	
 
   fs.readFile('./ttHTML.js', function(err, data) {
-			  response.writeHead(200, {"Content-Type": "text/javascript"});
-	  	  response.end(data);
-	  });
+		response.writeHead(200, {"Content-Type": "text/javascript"});
+		response.end(data);
+	});
       
 }
 
@@ -191,9 +191,9 @@ function stopwatchcss(fullpath, response) {
 	
 
   fs.readFile('./stopwatch3.css', function(err, data) {
-			  response.writeHead(200, {"Content-Type": "text/css"});
-	  	  response.end(data);
-	  });
+		response.writeHead(200, {"Content-Type": "text/css"});
+		response.end(data);
+	});
       
 }
 
@@ -215,16 +215,16 @@ console.log("Request handler 'images load' was called.");
 	}
 	else if(fullpath[2] == 'invalid.png')
 	{
-	  fs.readFile('./css/images/invalid.png', function(err, data) {
-		response.writeHead(200, {"Content-Type": "image/png"});
-		response.end(data);
+		fs.readFile('./css/images/invalid.png', function(err, data) {
+			response.writeHead(200, {"Content-Type": "image/png"});
+			response.end(data);
 		});
 	}
-	else(fullpath[2] == 'valid.png')
+	else if(fullpath[2] == 'valid.png')
 	{
-	  fs.readFile('./css/images/valid.png', function(err, data) {
-		response.writeHead(200, {"Content-Type": "image/png"});
-		response.end(data);
+		fs.readFile('./css/images/valid.png', function(err, data) {
+			response.writeHead(200, {"Content-Type": "image/png"});
+			response.end(data);
 		});
 	}
 }
@@ -250,7 +250,7 @@ function signincheck (fullpath, response, request, emitter, couchin, couchlive) 
 		host: 'localhost',
 		port: 5984,
 		path: '/' + couchin.account['couchdbname'] + '/_design/trainers/_view/by_trainers?key="' + fullpath[2] + '"',
-		auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd'],
+		auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd']
 		};
 
 		var requu = http.get(opts, function(checkinres) {
@@ -276,14 +276,14 @@ function signincheck (fullpath, response, request, emitter, couchin, couchlive) 
 				// need to form back hash using salt and userdetails
 									hashCode = function(str){
 												var hash = 0;
-												if (str.length == 0) return hash;
+												if (str.length === 0) return hash;
 												for (i = 0; i < str.length; i++) {
 														char = str.charCodeAt(i);
 														hash = ((hash<<5)-hash)+char;
 														hash = hash & hash; // Convert to 32bit integer
 												}
 												return hash;
-										}
+										};
 										runhashin = fullpath[4] + checktpassdata['id'];
 //console.log(runhashin);										
 						inbackuppassword = hashCode(runhashin);
@@ -341,10 +341,10 @@ function signincheck (fullpath, response, request, emitter, couchin, couchlive) 
 */
 function signoutcheck (fullpath, response, request, emitter, couchin, couchlive) {
 
-	if((couchin.account['cookieset'] == fullpath[2]) && (fullpath[2] != null)) {
+	if((couchin.account['cookieset'] == fullpath[2]) && (fullpath[2] !== null)) {
 		
 		couchin.account['cookieset'] = '';
-		couchlive.couchdbname = couchin.account['couchdbname'];;
+		couchlive.couchdbname = couchin.account['couchdbname'];
 		response.end();
 	}
 
@@ -360,7 +360,7 @@ function buildswimmers(firstpath, response, request, emitter, couchin) {
 //console.log("build the swimmer for this lane");
 //console.log('at hander filelllllllleelle' + util.inspect(couchin));
 	// only allow lane load if signedin ie cookie set
-	if((couchin.account['cookieset'] == firstpath[4]) && (firstpath[4] != null))  {
+	if((couchin.account['cookieset'] == firstpath[4]) && (firstpath[4] !== null))  {
 // which lane, view, map for couchdb?
 		laneforcouch = '';
 		laneforcouch = firstpath[3]	;
@@ -385,15 +385,14 @@ function buildswimmers(firstpath, response, request, emitter, couchin) {
 				host: 'localhost',
 				port: 5984,
 				path: buildpathurl,
-				auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd'],
+				auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd']
 			};
 
-   		var requu = http.get(opts, function(resw) {
-				var swlivenew = '';
+		var requu = http.get(opts, function(resw) {
+		var swlivenew = '';
 					//return testreturn;	
 				resw.setEncoding('utf8');
 				resw.on('data', function(data) {
-	        //var swlivenew = {};
 					swlivenew += data;	
 //console.log(swlivenew);								
 				});
@@ -454,10 +453,9 @@ function viewswimtimes(fullpath, response) {
 		var timedata  = '';
 	
   fs.readFile('./viewdata.html', function(err, timedata) {
-	  response.writeHead(200, {"Content-Type": "text/html"});
-	//response.write(data);
-	  response.end(timedata);
-		
+		response.writeHead(200, {"Content-Type": "text/html"});
+//response.write(data);
+		response.end(timedata);
 		});	
 
 			
@@ -544,7 +542,7 @@ console.log("Request handler 'saveswimtimes' was called" );
 						path: '/_uuids',
 						auth: couchin.account['couchuser'] + ':' + couchin.account['couchpwd'],
 					};
-
+					
 					var requu = http.get(opts, function(resuu) {
 // console.log(res);
 							//return testreturn;	
@@ -552,7 +550,7 @@ console.log("Request handler 'saveswimtimes' was called" );
 						resuu.on('data', function(data) {
 			
 							var  uuidnew = data;	
-							jsonuud =  JSON.parse(uuidnew)
+							jsonuud =  JSON.parse(uuidnew);
 
 							jsonuud["uuids"].forEach(function(udata){
 								reudata = udata;	
@@ -560,7 +558,7 @@ console.log("Request handler 'saveswimtimes' was called" );
 			
 							resuu.on('end', function() {
 		//console.log(' after end function what I am trying to return');			
-								saveswimcouch(newjsonswimin, reudata)					
+								saveswimcouch(newjsonswimin, reudata);			
 							
 							});
 						
@@ -766,9 +764,9 @@ console.log("pouchdb couchdb synup started");
 														hash = hash & hash; // Convert to 32bit integer
 												}
 												return hash;
-										}
+										};
 										sethaston = cleanstartdata['inpassword'] + responseuid;
-//console.log(sethaston);										
+							
 						backuppassword = hashCode(sethaston);
 //console.log('backup passowrd' + backuppassword);
 			// save signup details to couchdb							
@@ -810,11 +808,11 @@ smtpTransport.sendMail({
    if(error)
 	{
        console.log(error);
-   }
-	 else
-	 {
-       console.log("Message sent: " + response.message);
-   }
+	}
+	else
+	{
+console.log("Message sent: " + response.message);
+	}
 });
 										
 				});

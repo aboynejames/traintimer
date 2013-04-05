@@ -30,10 +30,10 @@ coudchdbSettings.prototype.setoptions = function() {
 				host: 'localhost',
 				port: 5984,
 				path: '/' + this.couchdbname ,
-				auth: this.couch + ':' + this.couchpwd,
+				auth: this.couch + ':' + this.couchpwd
 	};
 
-}
+};
 
 /**
 * get a UUID from couchdb
@@ -47,7 +47,7 @@ coudchdbSettings.prototype.getUIDfromcouch = function(callbackin) {
 	host: 'localhost',
 	port: 5984,
 	path: '/_uuids',
-	auth: this.couch + ':' + this.couchpwd,
+	auth: this.couch + ':' + this.couchpwd
 	};
 
 	var requu = http.get(opts, function(resuu) {
@@ -74,7 +74,7 @@ console.log(reudata);
 	});
 });
 
-}  // getuuid close
+};  // getuuid close
 
 
 /**
@@ -131,7 +131,7 @@ console.log('after put write');
 		}
 		reqc.end();		
 
-}
+};
 
 
 /**
@@ -147,7 +147,7 @@ console.log('start of create new couch');
   port: 5984,
   path: '/' + newnamecouch,
   method: 'PUT',
-	auth: this.couch + ':' + this.couchpwd,
+	auth: this.couch + ':' + this.couchpwd
 };
 
 var req = http.request(options, function(res) {
@@ -167,6 +167,6 @@ console.log('BODY: ' + chunk);
 
 	req.end();
 
-}
+};
 
 module.exports = coudchdbSettings;

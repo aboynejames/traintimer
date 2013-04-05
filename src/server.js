@@ -31,11 +31,11 @@ function start(route, handle) {
 
 	var couchin = {};
 	var couchlive = {};
-	var	couchin = new ttSettings();
-	var couchlive = new ttCouchDB(couchin);
+	couchin = new ttSettings();
+	couchlive = new ttCouchDB(couchin);
 	
 	var app = http.createServer(onRequest).listen(8836);
-	  
+		
 	function onRequest(request, response) {
 	
     var pathname = url.parse(request.url).pathname;
@@ -46,7 +46,7 @@ console.log("Request for " + pathname + " received.");
 	
 		// event listening
 		splitsdata = '';
-		var emitter = new EventEmitter;
+		var emitter = new EventEmitter();
 
 		emitter.on('splitscall', function(splitsdata){
 //console.log('save data from splits emitter has been evented ');
@@ -55,14 +55,14 @@ console.log("Request for " + pathname + " received.");
 //console.log(io);					
 					io.sockets.on('connection', function (socket) {
 //console.log('connect socketstart');						
-//		      socketdata.on('splitsdatalive', function (splitsdata) {
-						// need to route to logic and present html code via the socket
+					//socketdata.on('splitsdatalive', function (splitsdata) {
+// need to route to logic and present html code via the socket
 //console.log('from within message on socket listener');
 //console.log(splitsdata);
-						stringswimdatalive = JSON.stringify(splitsdata);
-						socket.emit('splitsdatalive', stringswimdatalive);
-					  socket.emit('newswim', {hello: 'worldofswimmin'});
-						//socket.broadcast.emit('splitsdatalive', splitsdata);
+					stringswimdatalive = JSON.stringify(splitsdata);
+					socket.emit('splitsdatalive', stringswimdatalive);
+					socket.emit('newswim', {hello: 'worldofswimmin'});
+					//socket.broadcast.emit('splitsdatalive', splitsdata);
 						});
 
 				
