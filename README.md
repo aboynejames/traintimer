@@ -20,7 +20,7 @@ Requirements:  Node.js  NPM  Couchdb (for online sync back)
 3.  Make copy of ttSettings-sample.js  and name it  ttSettings.js
 4.  Add couchdb details and SMTP mail server account details
 5.  On console start node application file:    node index.js
-6.  Go to "yourdomaindirectoryofinstall.com:8822    (port can be changed by editing the server.js file)
+6.  Go to "yourdomaindirectoryofinstall.com:8835    (port can be changed by editing the server.js file)
 
 Non-Node.js install
 
@@ -67,3 +67,9 @@ PouchDB <http://pouchdb.com/>
 jQuery <http://jquery.com/>
 HTML5
 NodeJS <http://nodejs.org/>
+CouchDB
+
+Testing
+===========
+/test  uses CasperJS functional JS test suit on top of PhantomJS
+/spec  JS unit tests using busterJS 
