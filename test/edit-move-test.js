@@ -1,7 +1,7 @@
 /**
 * Test the edit button to allow moving of swimmers order
 */
-var baseUrl = "http://localhost:8835";
+var baseUrl = "http://localhost:8836";
 
 casper.test.comment("Test the edit button and ability to move swimmers");
 

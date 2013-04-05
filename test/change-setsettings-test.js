@@ -1,7 +1,7 @@
 /**
 * Change the settings of set
 */
-var baseUrl = "http://localhost:8822";
+var baseUrl = "http://localhost:8836";
 	var swimstyle;
 
 casper.test.comment("Open the set settings link");

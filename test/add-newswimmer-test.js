@@ -1,15 +1,13 @@
 /**
 * swimmers active area div placement, need to set context by adding a swimmer TODO
 */
-
-
-var baseUrl = "http://localhost:8835";
-var sp;
+var baseUrl = "http://localhost:8836";
+var sp = '';
 
 casper.test.comment("Add a new swimmer");
 
 casper.start(baseUrl, function() {
-
+	this.test.comment('start test of adding a new swimmer');
 	
 });
 
@@ -35,8 +33,8 @@ casper.then(function() {
 	
     this.fill('form#newmasteradd', { newmastid: "aboynejames" }, false);
 
-		this.echo('before new swimmer add form');
-		this.echo(this.getFormValues('form#newmasteradd').newmastid); // 'aboynejames'
+//this.echo('before new swimmer add form');
+//this.echo(this.getFormValues('form#newmasteradd').newmastid); // 'aboynejames'
 		this.test.assert("aboynejames" === this.getFormValues('form#newmasteradd').newmastid, 'the value as expected');
 		
 });
@@ -73,8 +71,8 @@ casper.then(function() {
 
 
 	this.sp = this.getElementAttribute('#split', 'title');
-	this.echo(this.sp);
-	this.echo('afert attrib');
+//this.echo(this.sp);
+//this.echo('afert attrib');
 	
 	this.test.comment('check perrealtime div is there but not visable');
 	this.test.assertNotVisible('#perrealtime');
@@ -118,13 +116,13 @@ casper.then(function() {
 			this.mouseEvent('click', '#start');	
 			
 			this.wait(1000, function() {
-        this.echo("I've waited for a second.");
+//this.echo("I've waited for a second.");
 			});
 	
 			this.mouseEvent('click', '.splitbutton' + this.sp);	
 			
 			this.wait(1000, function() {
-        this.echo("I've waited for a second.");
+//this.echo("I've waited for a second.");
 			});
 });
 
@@ -155,7 +153,7 @@ casper.then(function() {
 	this.test.comment('press the split button');
 	
 			this.wait(1000, function() {
-        this.echo("I've waited for a second.");
+//this.echo("I've waited for a second.");
 			});
 	
 			this.mouseEvent('click', '.splitbutton' + this.sp);	
@@ -169,7 +167,7 @@ casper.then(function() {
 	
 	var stg3 = this.fetchText('#splits' + this.sp + '.splits li.last');
 	sptime3 = stg3.length;
-this.echo(stg3);	
+//this.echo(stg3);	
 	casper.test.assertTruthy(stg3 > this.stg1 );
 	//require('utils').dump(this.getElementInfo('#splits' + sp5));
 	
@@ -187,7 +185,7 @@ casper.then(function() {
 	this.test.comment('press the reset button');
 	
 			this.wait(1000, function() {
-        this.echo("I've waited for a second.");
+//this.echo("I've waited for a second.");
 			});
 	
 			this.mouseEvent('click', '#reset');	
@@ -206,13 +204,8 @@ casper.then(function() {
 
 });
 
-
-
-
-
 casper.run(function() {
-// need for exporting xml xunit/junit style
-  //this.test.renderResults(true, 0, 'reports/test-casper.xml');
+
   this.test.done();
-	//this.exit(); 
+
 });

@@ -1,7 +1,7 @@
 /**
 * Analysis biostats layout checks
 */
-var baseUrl = "http://localhost:8835";
+var baseUrl = "http://localhost:8836";
 
 casper.test.comment("View summary analaysis");
 

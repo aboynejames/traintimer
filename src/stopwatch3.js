@@ -1085,7 +1085,7 @@ $(document).ready(function(){
 			$.get("/signout/" + $.cookie("traintimer"), function(resultout){
 						});
 			$.cookie("traintimer", null);
-      alert("You haved signed out of TrainTimer");
+      //alert("You haved signed out of TrainTimer");
 
 		});
 	
@@ -1111,7 +1111,7 @@ $(document).ready(function(){
 	var today = new Date();
 		
 	// connect to socket.io
-  var socketpi = io.connect('http://localhost:8822');		
+  var socketpi = io.connect('http://localhost:8836');		
 		socketpi.emit('swimmerclient', { swimmerdevice: 'localhitchup' });
 		
 	// welcome summary  call pouch get no. active swimmers

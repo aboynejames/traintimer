@@ -1,7 +1,7 @@
 /**
 * Analysis chart layout
 */
-var baseUrl = "http://localhost:8835";
+var baseUrl = "http://localhost:8836";
 
 casper.test.comment("View chart analysis");
 

@@ -1,7 +1,7 @@
 /*
 * check the homepage index.html webpage has been displayed
 */
-var baseUrl = "http://localhost:8822/";
+var baseUrl = "http://localhost:8836/";
 
 casper.test.comment("Scenario: A user can view the home page");
 
@@ -13,4 +13,5 @@ casper.start(baseUrl, function() {
 
 casper.run(function() {
     this.test.done(); // I must be called once all the async stuff has been executed
+
 });
