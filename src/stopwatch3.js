@@ -721,9 +721,9 @@ $("#sortable1").sortable( "option", "revert", true );//sortable( "option", "disa
 		var listactives = [];
 
 		listactives = $('#sortable1').sortable('toArray');
-console.log(listactives);
+//console.log(listactives);
 		countswimmers = listactives.length;
-console.log(countswimmers + 'the count of swiimm');	
+//console.log(countswimmers + 'the count of swiimm');	
 		
 		this.activeswimmers = listactives;
 //console.log('the starting list');
@@ -1010,6 +1010,7 @@ $(document).ready(function(){
 	$(".peredit").hide();
 	$(".historicalplace").hide();
 	$("#signupspace").hide();		
+	$("#welcomesummary").show();		
 
 	//fire up the classes
 	starttiming = new SwimtimeController();
@@ -1018,7 +1019,7 @@ $(document).ready(function(){
 	var today = new Date();
 		
 	// connect to socket.io
-  var socketpi = io.connect('http://localhost:8836');		
+  var socketpi = io.connect('http://localhost:8842');		
 		socketpi.emit('swimmerclient', { swimmerdevice: 'localhitchup' });
 		
 	// welcome summary  call pouch get no. active swimmers

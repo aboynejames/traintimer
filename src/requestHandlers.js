@@ -89,6 +89,54 @@ function jquery172(fullpath, response) {
 }
 
 /**
+* loads jQuery  UI 1. 8.21
+* @method jquery1821
+*
+*/
+function jqueryui1821(fullpath, response) {
+  console.log("Request handler 'jquery' was called.");
+	var dataj  = '';
+	
+  fs.readFile('./jquery-ui.min.js', function(err, dataj) {
+			  response.writeHead(200, {"Content-Type": "text/javascript"});
+	  	  response.end(dataj);
+	});
+      
+}
+
+/**
+* loads jQuery  cookie
+* @method jquerycookie
+*
+*/
+function jquerycookie(fullpath, response) {
+  console.log("Request handler 'jquery' was called.");
+	var data  = '';
+	
+  fs.readFile('./jquerycookie.js', function(err, data) {
+			  response.writeHead(200, {"Content-Type": "text/javascript"});
+	  	  response.end(data);
+	});
+      
+}
+
+/**
+* loads  punch allow drag drop mobile devices
+* @method punch
+*
+*/
+function punch(fullpath, response) {
+  console.log("Request handler 'jquery' was called.");
+	var data  = '';
+	
+  fs.readFile('./punch.js', function(err, data) {
+			  response.writeHead(200, {"Content-Type": "text/javascript"});
+	  	  response.end(data);
+	});
+      
+}
+
+/**
 * loads flotr2 chartJS
 * @method flotr2chart
 *
@@ -830,6 +878,9 @@ exports.start = start;
 exports.stopwatch3 = stopwatch3;
 exports.pouchalpha = pouchalpha;		
 exports.jquery172 = jquery172;
+exports.jqueryui1821 = jqueryui1821;
+exports.punch = punch;
+exports.jquerycookie = jquerycookie;
 exports.flotr2chart = flotr2chart;
 exports.indexedDB = indexedDB;
 exports.pouchdb = pouchdb;		

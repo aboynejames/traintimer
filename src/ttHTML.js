@@ -433,7 +433,7 @@ ttHTML.prototype.visualisechart = function(livepouch, swimidin, historicaldata) 
 	
 				(function basic(container, d1) {
 
-				console.log(container);
+//console.log(container);
 						// Draw Graph
 						graph = Flotr.draw(container, [d1], {
 								xaxis: {

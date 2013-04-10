@@ -326,7 +326,7 @@ historicalswimdata = {};
 								}
 							}	
 						});
-console.log( historicalswimdata);		
+//console.log( historicalswimdata);		
 /*						
 console.log('test object');
 		alivepouch = {"1":"1"};

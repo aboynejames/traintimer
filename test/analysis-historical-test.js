@@ -1,7 +1,7 @@
 /**
 * Analysis historial campare splits/times layout checks
 */
-var baseUrl = "http://localhost:8836";
+var baseUrl = "http://localhost:8842";
 
 casper.test.comment("View analysis historical times/splites compare data section");
 

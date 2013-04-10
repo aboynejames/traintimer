@@ -1,7 +1,7 @@
 /**
 * swimmers active area div placement, need to set context by adding a swimmer TODO
 */
-var baseUrl = "http://localhost:8836";
+var baseUrl = "http://localhost:8842";
 var sp = '';
 
 casper.test.comment("Add a new swimmer");

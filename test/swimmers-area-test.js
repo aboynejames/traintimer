@@ -2,7 +2,7 @@
 * swimmers active area div placement, need to set context by adding a swimmer TODO
 */
 var utils = require('utils');
-var baseUrl = "http://localhost:8836";
+var baseUrl = "http://localhost:8842";
 
 casper.test.comment("Add a new swimmer and then test they are loaded back again after a clear");
 casper.start(baseUrl, function() {

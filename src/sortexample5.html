@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" manifest="traintimer.appcache" > <!--manifest="traintimer.appcache"--> 
+<html lang="en" > <!--manifest="traintimer.appcache"--> 
 <head>
 <meta charset="utf-8">
 <title>Train Timer - an open sport project</title>
@@ -13,17 +13,15 @@
 	<script type="text/javascript" src="pouchdb.alpha.js"></script>
 	<script type="text/javascript" src="IndexedDBShim.min.js"></script>
 	<script type="text/javascript" src="jquery-1.7.2.min.js"></script>
-	<script type="text/javascript" src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
-	<!--<script type="text/javascript" src="http://code.jquery.com/ui/1.10.0/jquery-ui.min.js">-->
-	<script type="text/javascript" src="http://www.aboynejames.co.uk/jquery/jquerycookie.js"></script>
-	<script type="text/javascript" src="http://www.aboynejames.co.uk/jquery/punch.js"></script>
+	<script type="text/javascript" src="jquery-ui.min.js"></script>
+	<script type="text/javascript" src="jquerycookie.js"></script>
+	<script type="text/javascript" src="punch.js"></script>
 	<script type="text/javascript" src="flotr2.min.js"></script>
 
 	<script type="text/javascript" src="pouchdb.js"></script>
-	<!--<script type="text/javascript" src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script>-->
 	<script type="text/javascript" src="stopwatch3.js"></script>
 	<script type="text/javascript" src="ttHTML.js"></script>
-		<script src="/socket.io/socket.io.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
 	</head>
 	
 	<body>
@@ -146,11 +144,11 @@
 			</li>
 		</ul>
 			<div style="clear:both;"></div>
-		<div id="welcomesummary"></div>
+
 		<div id="addalpha"></div>
 		<div id="addalphatwo"></div>
 	</div>   <!--closes control panel div-->
-	
+			<div id="welcomesummary"></div>
 	<div id="changeplace"></div>
 	
 			<ul id="sortable1" class='droptrue'>

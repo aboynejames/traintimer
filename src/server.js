@@ -34,7 +34,7 @@ function start(route, handle) {
 	couchin = new ttSettings();
 	couchlive = new ttCouchDB(couchin);
 	
-	var app = http.createServer(onRequest).listen(8836);
+	var app = http.createServer(onRequest).listen(8842);
 		
 	function onRequest(request, response) {
 	

@@ -1,7 +1,7 @@
 /*
 * check the homepage index.html webpage has been displayed
 */
-var baseUrl = "http://localhost:8836";
+var baseUrl = "http://localhost:8842";
 
 casper.test.comment("Scenario: A base layout of the first html page sections");
 
